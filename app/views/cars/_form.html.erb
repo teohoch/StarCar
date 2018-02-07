@@ -1,0 +1,20 @@
+<%= simple_form_for(@car) do |f| %>
+  <%= f.error_notification %>
+
+  <div class="form-inputs">
+    <%= f.association :brand %>
+    <%= f.input :model %>
+    <%= f.input :license_plate %>
+    <%= f.input :year %>
+    <%= f.input :color %>
+    <%= f.input :milage %>
+    <%= f.input :maintenances %>
+    <%= f.association :Fuel %>
+    <%= f.association :Transmission %>
+    <%= f.input :prepaid %>
+  </div>
+
+  <div class="form-actions">
+    <%= f.button :submit %>
+  </div>
+<% end %>

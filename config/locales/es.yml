@@ -1,0 +1,20 @@
+es:
+  hello: "Hola Mundo"
+  sign_in: "Iniciar Sesion"
+  home: "Inicio"
+
+  time:
+   formats:
+     long: "%H:%M:%S %d-%m-%Y"
+
+  activerecord:
+    models:
+      car:
+        one: Auto
+        other: Autos
+      comments:
+        one: Comentario
+        other: Comentarios
+      employee:
+        one: Empleado
+        other: Empleados
