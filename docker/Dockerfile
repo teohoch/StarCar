@@ -13,20 +13,23 @@ RUN apt-get install -y libqt4-webkit libqt4-dev xvfb
 
 # for a JS runtime
 RUN apt-get install -y nodejs
+COPY id_rsa ~/.ssh/id_rsa
+COPY id_rsa.pub ~/.ssh/id_rsa.pub
+RUN eval $(ssh-agent -s) && ssh-add ~/.ssh/id_rsa
 
-RUN git clone -b prerelease https://github.com/teohoch/neargass.git
+RUN git clone ssh://git@gitlab.hochfarber.com:10022/teohoch/StarCar.git
 
-ENV APP_HOME /neargass
+ENV APP_HOME /StarCar
 WORKDIR $APP_HOME
 
-RUN cd /neargass
+RUN cd /StarCar
 
 RUN bundle install --jobs 3 --quiet
 
 RUN bundle update --jobs 3 --quiet
 
 COPY docker-entrypoint.sh /usr/local/bin/
-COPY database.yml /database.yml
+COPY database.yml /StarCar/database.yml
 COPY docker-entrypoint.sh /
 RUN chmod +x /docker-entrypoint.sh
 ENTRYPOINT ["docker-entrypoint.sh"]

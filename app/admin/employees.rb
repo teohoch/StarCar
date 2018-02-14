@@ -11,6 +11,22 @@ ActiveAdmin.register Employee do
     actions
   end
 
+  show do
+    attributes_table do
+      row :rut
+      row :email
+      row :name
+      row :surname
+      row :address
+      row :phone
+      row :created_at
+      row :roles do |user|
+        user.roles.collect {|r| r.name.capitalize }.join(", ")
+      end
+    end
+    active_admin_comments
+  end
+
   filter :email
   filter :name
   filter :surname
@@ -23,10 +39,20 @@ ActiveAdmin.register Employee do
       f.input :rut
       f.input :address
       f.input :phone
-      f.input :password
-      f.input :password_confirmation
+      f.input :roles, collection: Role.global, as: :check_boxes,
+                      label_method: ->(el) { t "simple_form.options.user.roles.#{el.name}" }
     end
     f.actions
   end
 
+  controller do
+    def update
+      params[:employee].each{|k,v| resource.send("#{k}=",v)}
+      super
+    end
+
+    def permitted_params
+      params.permit user: [:username, :email, :password, :password_confirmation, :role_ids]
+    end
+  end
 end

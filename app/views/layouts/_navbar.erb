@@ -13,14 +13,23 @@
             <%= link_to t('home'),root_path %>
           </span>
         </li>
+        <% if employee_signed_in? %>
+          <% if current_employee.has_role? :administrator %>
+            <li class="nav-item">
+              <span class="navbar-text" style="padding-right: 12px">
+                <%= link_to t('admin'), admin_root_path %>
+              </span>
+            </li>
+          <% end %>
+        <% end %>
       </ul>
       <% if employee_signed_in? %>
           <span class="navbar-text" style="padding-right: 12px">
             <%= "#{t('sign_as')} #{current_employee.name}" %>
           </span>
           <span class="navbar-text">
-            <%= image_tag current_employee.image, html_options = {style: 'max-height:40px; border-radius: 25px;'} %>
-            <%= link_to(t('logout'), destroy_user_session_path, method: :delete) %>
+            <%= image_tag 'useravatar.svg', html_options = {style: 'max-height:40px; border-radius: 25px;'} %>
+            <%= link_to(t('logout'), destroy_employee_session_path, method: :delete) %>
           </span>
       <% else %>
         <%= link_to(t('sign_in'), new_employee_session_path, html_options = {class: 'btn btn-primary'} ) %>

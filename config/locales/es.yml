@@ -10,11 +10,36 @@ es:
   activerecord:
     models:
       car:
-        one: Auto
-        other: Autos
-      comments:
-        one: Comentario
-        other: Comentarios
+        one: "Auto"
+        other: "Autos"
+      comment:
+        one: "Comentario"
+        other: "Comentarios"
       employee:
-        one: Empleado
-        other: Empleados
+        one: "Empleado"
+        other: "Empleados"
+      client:
+        one: "Cliente"
+        other: "Clientes"
+  attributes:
+    rut: "RUT"
+    email: "Correo Electrónico"
+    name: "Nombre"
+    surname: "Apellido"
+    address: "Dirección"
+    phone: "Teléfono"
+
+  logout: "Cerrar Sesion"
+  sign_as: "Sesion iniciada como"
+  admin: "Administración"
+
+  support:
+    array:
+      words_connector: " o "
+      two_words_connector: " y "
+      last_word_connector: " o al menos "
+
+    roles:
+      administrator: "Administrador"
+      employee: "Empleado"
+      secretary: "Secretario"
