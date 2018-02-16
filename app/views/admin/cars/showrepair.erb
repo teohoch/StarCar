@@ -1,0 +1,16 @@
+<%= content_tag :h1, "Enviar Vehiculo a Taller" %>
+
+<%= semantic_form_for  @repair, builder: ActiveAdmin::FormBuilder, url: repair_admin_car_path do |f| %>
+  <%= f.semantic_errors :state %>
+
+  <%= f.inputs do %>
+
+    <%= f.input :workshop %>
+    <%= f.input :reason %>
+    <%= f.input :quote %>
+
+  <% end %>
+
+  <%= f.actions  %>
+
+<% end %>

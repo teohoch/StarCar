@@ -50,6 +50,11 @@ gem 'rut_validation'
 gem 'intl-tel-input-rails'
 
 gem 'activeadmin'
+# gem 'formadmin'
+# gem 'responsive_active_admin'
+
+gem 'arctic_admin'
+gem 'haml'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

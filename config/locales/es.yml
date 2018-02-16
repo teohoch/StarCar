@@ -6,6 +6,7 @@ es:
   time:
    formats:
      long: "%H:%M:%S %d-%m-%Y"
+     short: "%d-%m-%Y"
 
   activerecord:
     models:
@@ -21,6 +22,30 @@ es:
       client:
         one: "Cliente"
         other: "Clientes"
+      brand:
+        one: "Marca"
+        other: "Marcas"
+      repair:
+        one: "Reparacion"
+        other: "Reparaciones"
+    attributes:
+      car:
+        model: "Modelo"
+        brand: "Marca"
+        license_plate: "Patente"
+        year: "Año"
+        milage: "Kilometraje"
+        maintenances: "N° de Mantenciones"
+        fuel: "Tipo de Combustible"
+        transmission: "Tipo de transmisión"
+        reservation_price: "Precio de reserva"
+        state: "Estado"
+        branch: "Sucursal"
+      repair:
+        quote: "Costo"
+        reason: "Razon de reparacion"
+        workshop: "Taller"
+        created_at: "Fecha de Ingreso"
   attributes:
     rut: "RUT"
     email: "Correo Electrónico"
@@ -28,6 +53,9 @@ es:
     surname: "Apellido"
     address: "Dirección"
     phone: "Teléfono"
+    created_at: "Fecha de creación"
+    brand: "Marca"
+    status: "Estatus"
 
   logout: "Cerrar Sesion"
   sign_as: "Sesion iniciada como"
@@ -43,3 +71,18 @@ es:
       administrator: "Administrador"
       employee: "Empleado"
       secretary: "Secretario"
+    car_states:
+      a0: "No disponible"
+      a1: "Disponible"
+      a2: "En reparaciones"
+    fuel:
+      gas: "Bencinero"
+      petrol: "Petrolero"
+    transmission:
+      manual: "Manual"
+      automatic: "Automatica"
+
+  number:
+      currency:
+        format:
+          precision: 0

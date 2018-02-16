@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180214050721) do
+ActiveRecord::Schema.define(version: 20180216054346) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -33,8 +33,10 @@ ActiveRecord::Schema.define(version: 20180214050721) do
     t.string "title"
     t.string "location"
     t.integer "phone"
+    t.bigint "manager_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["manager_id"], name: "index_branches_on_manager_id"
   end
 
   create_table "brands", force: :cascade do |t|
@@ -51,9 +53,8 @@ ActiveRecord::Schema.define(version: 20180214050721) do
     t.integer "maintenances"
     t.bigint "fuel_id", null: false
     t.bigint "transmission_id", null: false
-    t.integer "prepaid"
     t.integer "reservation_price"
-    t.string "state"
+    t.integer "state", default: 1, null: false
     t.bigint "branch_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -108,6 +109,20 @@ ActiveRecord::Schema.define(version: 20180214050721) do
     t.string "name"
   end
 
+  create_table "repairs", force: :cascade do |t|
+    t.string "workshop"
+    t.bigint "employee_id"
+    t.bigint "car_id"
+    t.text "reason"
+    t.integer "quote"
+    t.integer "status"
+    t.date "return_date"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["car_id"], name: "index_repairs_on_car_id"
+    t.index ["employee_id"], name: "index_repairs_on_employee_id"
+  end
+
   create_table "roles", force: :cascade do |t|
     t.string "name"
     t.string "resource_type"
@@ -122,8 +137,11 @@ ActiveRecord::Schema.define(version: 20180214050721) do
     t.string "name"
   end
 
+  add_foreign_key "branches", "employees", column: "manager_id"
   add_foreign_key "cars", "branches"
   add_foreign_key "cars", "brands"
   add_foreign_key "cars", "fuels"
   add_foreign_key "cars", "transmissions"
+  add_foreign_key "repairs", "cars"
+  add_foreign_key "repairs", "employees"
 end

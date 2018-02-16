@@ -7,6 +7,8 @@ class Employee < ApplicationRecord
   validates :rut, rut: true
 
   after_create :assign_default_role
+  has_many :branches
+  has_many :repairs
 
   def assign_default_role
     add_role(:employee) if roles.blank?

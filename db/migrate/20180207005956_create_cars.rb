@@ -10,9 +10,8 @@ class CreateCars < ActiveRecord::Migration[5.1]
       t.integer :maintenances
       t.references :fuel, foreign_key: true, null: false
       t.references :transmission, foreign_key: true, null: false
-      t.integer :prepaid
       t.integer :reservation_price
-      t.string :state
+      t.integer :state, null: false, default: 1
       t.references :branch, foreign_key: true, null: false
 
       t.timestamps

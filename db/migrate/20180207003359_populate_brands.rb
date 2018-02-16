@@ -7,7 +7,7 @@ class PopulateBrands < ActiveRecord::Migration[5.1]
   end
 
   def down
-    BRANDS.where(name: BRANDS).destroy_all
+    Brand.where(name: BRANDS).destroy_all
   end
 
 end
