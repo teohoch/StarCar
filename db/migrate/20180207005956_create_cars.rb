@@ -7,12 +7,22 @@ class CreateCars < ActiveRecord::Migration[5.1]
       t.integer :year
       t.string :color, null: false
       t.float :milage
-      t.integer :maintenances
       t.references :fuel, foreign_key: true, null: false
       t.references :transmission, foreign_key: true, null: false
-      t.integer :reservation_price
+      t.integer :sell_price
+      t.integer :buy_price
       t.integer :state, null: false, default: 1
       t.references :branch, foreign_key: true, null: false
+      t.date :technical_review_expiration
+      t.string :book
+      t.string :publication
+      t.string :cc
+      t.string :permit
+      t.string :soap
+      t.string :appraisal
+      t.string :property
+
+
 
       t.timestamps
     end

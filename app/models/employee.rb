@@ -13,4 +13,6 @@ class Employee < ApplicationRecord
   def assign_default_role
     add_role(:employee) if roles.blank?
   end
+
+
 end

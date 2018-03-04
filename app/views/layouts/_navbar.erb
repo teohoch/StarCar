@@ -21,6 +21,11 @@
               </span>
             </li>
           <% end %>
+          <li class="nav-item">
+              <span class="navbar-text" style="padding-right: 12px">
+                <%= link_to t('car.show.table_title'), cars_path %>
+              </span>
+          </li>
         <% end %>
       </ul>
       <% if employee_signed_in? %>

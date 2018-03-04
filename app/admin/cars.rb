@@ -1,6 +1,6 @@
 ActiveAdmin.register Car do
   permit_params :brand_id, :model, :license_plate, :year, :color, :milage, :maintenances, :fuel_id,
-                :transmission_id, :reservation_price, :state, :branch_id, repair: %i[workshop reason quote]
+                :transmission_id, :reservation_price, :state,:sell_price, :buy_price, :technical_review_expiration, :book, :publication, :cc, :permit, :soap, :appraisal, :property, :branch_id, repair: %i[workshop reason quote]
   scope 'Todos', :all, default: true
   scope 'En Reparaciones', :in_repairs
   scope 'Disponibles', :available
@@ -36,26 +36,20 @@ ActiveAdmin.register Car do
       row :model
       row :license_plate
       row :year
-      row :color do |car|
-        link_to(car.color, '#',
-                html_options = { class: 'btn',
-                                 style: "background-color: #{car.color}; color: #{car.color};" })
-      end
+      row :color
       row :milage do |car|
         "#{number_with_precision(car.milage, precision: 1, delimiter: ',')} KM"
       end
-      row :maintenances
       row :fuel
       row :transmission
-      row :reservation_price do |car|
-        number_to_currency(car.reservation_price)
+      row :buy_price do |car|
+        number_to_currency(car.buy_price)
       end
       row :status
       row :branch
     end
-    text_node "&nbsp;".html_safe
+    text_node '&nbsp;'.html_safe
     h3 'Reparaciones'
-
 
     table_for car.repairs do
       column :created_at do |repairs|
@@ -67,10 +61,7 @@ ActiveAdmin.register Car do
         number_to_currency(repair.quote)
       end
     end
-
   end
-
-
 
   filter :brand
   filter :model
@@ -82,12 +73,20 @@ ActiveAdmin.register Car do
       f.input :model
       f.input :license_plate
       f.input :year
-      f.input :color
+      f.input :color, as: :string
       f.input :milage
-      f.input :maintenances
       f.input :fuel
       f.input :transmission
-      f.input :reservation_price
+      f.input :sell_price
+      f.input :buy_price
+      f.input :technical_review_expiration, as: :datepicker
+      f.input :book
+      f.input :publication
+      f.input :cc
+      f.input :permit
+      f.input :soap
+      f.input :appraisal
+      f.input :property
       f.input :branch
     end
     f.actions
@@ -99,7 +98,7 @@ ActiveAdmin.register Car do
   end
   member_action :repair, method: :post
 
-  action_item :repair, only: :show, if: proc{ resource.state == 1 } do
+  action_item :repair, only: :show, if: proc { resource.state == 1 } do
     link_to 'Enviar a taller', showrepair_admin_car_path(car)
   end
 

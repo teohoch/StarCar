@@ -31,6 +31,7 @@ es:
     attributes:
       car:
         model: "Modelo"
+        model_safe: "Modelo"
         brand: "Marca"
         license_plate: "Patente"
         year: "Año"
@@ -41,6 +42,17 @@ es:
         reservation_price: "Precio de reserva"
         state: "Estado"
         branch: "Sucursal"
+        sell_price: "Precio de venta"
+        buy_price: "Precio de compra"
+        technical_review_expiration: "Revision Técnica"
+        book: "Libro"
+        publication: "Publicación"
+        cc: "CC."
+        permit: "Permiso de circulacion"
+        soap: "SOAP"
+        appraisal: "Avaluo"
+        property: "Propiedad"
+        
       repair:
         quote: "Costo"
         reason: "Razon de reparacion"
@@ -86,3 +98,42 @@ es:
       currency:
         format:
           precision: 0
+
+  table_text:
+        sProcessing:      "Procesando..."
+        sLengthMenu:      "Mostrar _MENU_ registros"
+        sZeroRecords:    "No se encontraron resultados"
+        sEmptyTable:      "Ningún dato disponible en esta tabla"
+        sInfo:           "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros"
+        sInfoEmpty:      "Mostrando registros del 0 al 0 de un total de 0 registros"
+        sInfoFiltered:   "(filtrado de un total de _MAX_ registros)"
+        sInfoPostFix:    ""
+        sSearch:         "Buscar:"
+        sUrl:            ""
+        sInfoThousands:  ","
+        sLoadingRecords: "Cargando..."
+        sFirst:          "Primero"
+        sLast:           "Último"
+        sNext:           "Siguiente"
+        sPrevious:       "Anterior"
+        sSortAscending:  ": Activar para ordenar la columna de manera ascendente"
+        sSortDescending: ": Activar para ordenar la columna de manera descendente"
+
+  decorator:
+    show: "Mostrar"
+    edit: "Editar"
+    delete: "Eliminar"
+    create: "Crear"
+  are_you_sure:
+      base:  "¿Esta seguro que desea realizar esta accion?"
+      delete: "¿Esta seguro que desea eliminar este %{klass} ?"
+  positive: "Sí"
+  negatory: "No"
+  validate: "Validar"
+  not_asigned: "No Asignado"
+  of: "de"
+  back: "Atras"
+
+  car:
+    show:
+      table_title: "Autos"

@@ -34,6 +34,8 @@ gem 'jbuilder', '~> 2.5'
 # gem 'capistrano-rails', group: :development
 
 gem 'jquery-rails'
+gem 'jquery-ui-rails'
+gem 'jquery-datatables'
 
 gem 'bootstrap', '~> 4.0.0'
 
@@ -55,6 +57,7 @@ gem 'activeadmin'
 
 gem 'arctic_admin'
 gem 'haml'
+gem 'draper'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
@@ -69,7 +72,7 @@ group :development, :test do
   gem "database_cleaner"
   gem 'selenium-webdriver'
   gem 'webmock'
-  gem 'i18n-debug', group: :development
+  #gem 'i18n-debug', group: :development
 
 end
 

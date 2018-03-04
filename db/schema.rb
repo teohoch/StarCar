@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180216054346) do
+ActiveRecord::Schema.define(version: 20180303222726) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -50,12 +50,20 @@ ActiveRecord::Schema.define(version: 20180216054346) do
     t.integer "year"
     t.string "color", null: false
     t.float "milage"
-    t.integer "maintenances"
     t.bigint "fuel_id", null: false
     t.bigint "transmission_id", null: false
-    t.integer "reservation_price"
+    t.integer "sell_price"
+    t.integer "buy_price"
     t.integer "state", default: 1, null: false
     t.bigint "branch_id", null: false
+    t.date "technical_review_expiration"
+    t.string "book"
+    t.string "publication"
+    t.string "cc"
+    t.string "permit"
+    t.string "soap"
+    t.string "appraisal"
+    t.string "property"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["branch_id"], name: "index_cars_on_branch_id"
@@ -133,6 +141,18 @@ ActiveRecord::Schema.define(version: 20180216054346) do
     t.index ["resource_type", "resource_id"], name: "index_roles_on_resource_type_and_resource_id"
   end
 
+  create_table "sales", force: :cascade do |t|
+    t.bigint "employee_id"
+    t.bigint "car_id"
+    t.bigint "client_id"
+    t.integer "price"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["car_id"], name: "index_sales_on_car_id"
+    t.index ["client_id"], name: "index_sales_on_client_id"
+    t.index ["employee_id"], name: "index_sales_on_employee_id"
+  end
+
   create_table "transmissions", force: :cascade do |t|
     t.string "name"
   end
@@ -144,4 +164,7 @@ ActiveRecord::Schema.define(version: 20180216054346) do
   add_foreign_key "cars", "transmissions"
   add_foreign_key "repairs", "cars"
   add_foreign_key "repairs", "employees"
+  add_foreign_key "sales", "cars"
+  add_foreign_key "sales", "clients"
+  add_foreign_key "sales", "employees"
 end

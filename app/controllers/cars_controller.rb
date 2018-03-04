@@ -1,10 +1,20 @@
 class CarsController < InheritedResources::Base
+  def show
+    @car = Car.find(params[:id])
+  end
+
+  def index
+    cars = Car.all
+    if params.key?(:branch_id)
+      cars = cars.where({branch_id: params[:branch_id]})
+    end
+    @cars = cars.decorate
+  end
 
   private
 
-    def car_params
-      params.require(:car).permit(:brand_id, :model, :license_plate, :year, :color,
-                                  :milage, :maintenances, :FuelType_id, :Transmission_id, :prepaid)
-    end
+  def car_params
+    params.require(:car).permit(:brand_id, :model, :license_plate, :year, :color,
+                                :milage, :fuel_id, :transmission_id, :branch_id)
+  end
 end
-

@@ -41,6 +41,8 @@ ActiveAdmin.register Employee do
       f.input :phone
       f.input :roles, collection: Role.global, as: :check_boxes,
                       label_method: ->(el) { t "simple_form.options.user.roles.#{el.name}" }
+      f.input :password
+      f.input :password_confirmation
     end
     f.actions
   end
@@ -52,7 +54,7 @@ ActiveAdmin.register Employee do
     end
 
     def permitted_params
-      params.permit user: [:username, :email, :password, :password_confirmation, :role_ids]
+      params.permit employee: [:username, :email, :password, :password_confirmation, :name, :surname, :rut, :address, :phone, :role_ids]
     end
   end
 end
