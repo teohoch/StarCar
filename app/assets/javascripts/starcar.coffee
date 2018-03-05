@@ -1,4 +1,4 @@
-$(document).on 'turbolinks:load', ->
+$(document).on 'turbolinks:load ready page:load', ->
   app = angular.module("Starcar", ["ngResource", 'ui.bootstrap'])
   host = 'http://localhost:3000'
 
@@ -19,7 +19,8 @@ $(document).on 'turbolinks:load', ->
     @rut = ""
     @clients = []
     $scope.currentClient = null
-    $scope.casa = 'asda'
+    $scope.currentClientID = 0
+
 
 
     @getCars = () ->
@@ -35,10 +36,12 @@ $(document).on 'turbolinks:load', ->
       carSrv.getClient(@rut).then(
         (response) ->
           sc.clients = response.data
-          if sc.clients.length == 1
+          if sc.clients.length > 0
             $scope.currentClient = response.data[0]
+            $scope.currentClientID = $scope.currentClient.id
           else
             $scope.currentClient = null
+            sc.open('lg')
       )
       return
 
@@ -70,6 +73,7 @@ $(document).on 'turbolinks:load', ->
 
       modalInstance.result.then ((data) ->
         $scope.currentClient = data
+        $scope.currentClientID = $scope.currentClient.id
         return
       ), ->
         $log.info 'Modal dismissed at: ' + new Date

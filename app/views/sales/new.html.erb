@@ -6,14 +6,16 @@
 
     <div class="form-inputs">
       <%= f.association :branch, input_html: {
-          'ng-model'=>"sc.currentBranch",
-          'ng-change'=>"sc.getCars()"} %>
+          'ng-change'=>"sc.getCars()",
+          'ng-model'=>"sc.currentBranch"} %>
       <%= f.association :car, input_html: {
           'ng-options'=> 'car.label for car in sc.cars track by car.id',
           'ng-disabled'=> 'sc.enableCar',
           'ng-model'=>"sc.currentCar"
       }%>
-      <%= f.association :client, as: :hidden %>
+      <%= f.association :client, as: :hidden, input_html: {
+          'ng-model'=>"currentClientID",
+          'value'=>'{{currentClientID}}'}%>
       <div class="row">
         <div class="col-sm">
           <%= f.input :rut , input_html: {
@@ -67,8 +69,6 @@
     </div>
   <% end %>
 
-
-  <button type="button" class="btn btn-default" ng-click="sc.open('lg')">Large modal</button>
 
 </div>
 

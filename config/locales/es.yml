@@ -13,6 +13,9 @@ es:
       car:
         one: "Auto"
         other: "Autos"
+      branch:
+        one: "Local"
+        other: "Locales"
       comment:
         one: "Comentario"
         other: "Comentarios"
@@ -28,6 +31,9 @@ es:
       repair:
         one: "Reparacion"
         other: "Reparaciones"
+      sale:
+        one: "Venta"
+        other: "Ventas"
     attributes:
       car:
         model: "Modelo"
@@ -68,6 +74,11 @@ es:
     created_at: "Fecha de creación"
     brand: "Marca"
     status: "Estatus"
+    branch: 'Local'
+    car: 'Vehiculo'
+    price: 'Precio'
+    employee: 'Vendedor'
+    client: 'Cliente'
 
   logout: "Cerrar Sesion"
   sign_as: "Sesion iniciada como"
@@ -138,3 +149,6 @@ es:
     show:
       table_title: "Autos"
   sell: "Vender"
+  sale:
+    show:
+      table_title: "Venta"

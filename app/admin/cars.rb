@@ -22,8 +22,8 @@ ActiveAdmin.register Car do
     column :maintenances
     column :fuel
     column :transmission
-    column :reservation_price do |car|
-      number_to_currency(car.reservation_price)
+    column :buy_price do |car|
+      number_to_currency(car.buy_price)
     end
     column :status
     column :branch

@@ -27,7 +27,6 @@ class ClientsController < InheritedResources::Base
         format.json { render json: @client.errors, status: :unprocessable_entity }
       end
     end
-
   end
 
   private

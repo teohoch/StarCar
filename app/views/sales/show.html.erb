@@ -1,24 +1,12 @@
 <p id="notice"><%= notice %></p>
 
-<p>
-  <strong>Employee:</strong>
-  <%= @sale.employee %>
-</p>
+<%= @sale.decorate.pretty_show %>
 
-<p>
-  <strong>Car:</strong>
-  <%= @sale.car %>
-</p>
-
-<p>
-  <strong>Client:</strong>
-  <%= @sale.client %>
-</p>
-
-<p>
-  <strong>Price:</strong>
-  <%= @sale.price %>
-</p>
-
-<%= link_to 'Edit', edit_sale_path(@sale) %> |
-<%= link_to 'Back', sales_path %>
+<div class="row">
+  <div class="col-sm">
+    <%= link_to (t 'back'), sales_path, class: 'btn btn-danger' %>
+  </div>
+  <div class="col-sm">
+    <%= button_to 'Generar Documento', sale_path(@sale, format: "pdf"), class: "btn", :method => :get   %>
+  </div>
+</div>
