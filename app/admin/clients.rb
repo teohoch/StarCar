@@ -35,6 +35,7 @@ ActiveAdmin.register Client do
       f.input :rut
       f.input :address
       f.input :phone
+
     end
     f.actions
   end

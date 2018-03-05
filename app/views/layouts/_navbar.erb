@@ -33,7 +33,7 @@
             <%= "#{t('sign_as')} #{current_employee.name}" %>
           </span>
           <span class="navbar-text">
-            <%= image_tag 'useravatar.svg', html_options = {style: 'max-height:40px; border-radius: 25px;'} %>
+            <%= image_tag current_employee.avatar, html_options = {style: 'max-height:40px; border-radius: 25px;'} %>
             <%= link_to(t('logout'), destroy_employee_session_path, method: :delete) %>
           </span>
       <% else %>

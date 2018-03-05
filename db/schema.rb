@@ -101,6 +101,7 @@ ActiveRecord::Schema.define(version: 20180303222726) do
     t.string "rut", null: false
     t.string "address", null: false
     t.integer "phone", null: false
+    t.string "avatar"
     t.index ["email"], name: "index_employees_on_email", unique: true
     t.index ["reset_password_token"], name: "index_employees_on_reset_password_token", unique: true
   end

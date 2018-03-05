@@ -1,5 +1,6 @@
 ActiveAdmin.register Employee do
-  permit_params :email, :password, :password_confirmation, :name, :surname, :rut, :address, :phone
+  permit_params :email, :password, :password_confirmation, :name, :surname,
+                :rut, :address, :phone, { avatar: [] }, :role_ids
 
   index do
     selectable_column
@@ -21,7 +22,10 @@ ActiveAdmin.register Employee do
       row :phone
       row :created_at
       row :roles do |user|
-        user.roles.collect {|r| r.name.capitalize }.join(", ")
+        user.roles.collect { |r| r.name.capitalize }.join(', ')
+      end
+      row :avatar do |user|
+        image_tag user.avatar
       end
     end
     active_admin_comments
@@ -41,6 +45,7 @@ ActiveAdmin.register Employee do
       f.input :phone
       f.input :roles, collection: Role.global, as: :check_boxes,
                       label_method: ->(el) { t "simple_form.options.user.roles.#{el.name}" }
+      f.input :avatar, as: :file
       f.input :password
       f.input :password_confirmation
     end
@@ -48,13 +53,8 @@ ActiveAdmin.register Employee do
   end
 
   controller do
-    def update
-      params[:employee].each{|k,v| resource.send("#{k}=",v)}
-      super
-    end
-
     def permitted_params
-      params.permit employee: [:username, :email, :password, :password_confirmation, :name, :surname, :rut, :address, :phone, :role_ids]
+      params.permit employee: %i[username email password password_confirmation name surname rut address phone avatar role_ids[]]
     end
   end
 end

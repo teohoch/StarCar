@@ -39,6 +39,7 @@ class DeviseCreateEmployees < ActiveRecord::Migration[5.1]
       t.string :address, null: false
       t.string :address, null: false
       t.integer :phone, null: false
+      t.string :avatar
     end
 
     add_index :employees, :email,                unique: true

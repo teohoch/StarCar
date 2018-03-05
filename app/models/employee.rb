@@ -5,6 +5,7 @@ class Employee < ApplicationRecord
   devise :database_authenticatable, 
          :recoverable, :rememberable, :trackable, :validatable
   validates :rut, rut: true
+  mount_uploader :avatar, AvatarUploader
 
   after_create :assign_default_role
   has_many :branches
