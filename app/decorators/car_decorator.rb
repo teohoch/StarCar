@@ -10,6 +10,10 @@ class CarDecorator < ApplicationDecorator
     super(title: h.t('car.show.table_title'))
   end
 
+  def label
+    "#{brand} #{model_safe} Patente: #{license_plate}"
+  end
+
   def model_safe
     object.model
   end

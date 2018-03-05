@@ -1,6 +1,7 @@
 class CreateSales < ActiveRecord::Migration[5.1]
   def change
     create_table :sales do |t|
+      t.references :branch, foreign_key: true
       t.references :employee, foreign_key: true
       t.references :car, foreign_key: true
       t.references :client, foreign_key: true

@@ -1,5 +1,76 @@
-<h1>New Sale</h1>
+<h1>Nueva venta</h1>
 
-<%= render 'form', sale: @sale %>
+<div ng-controller="SalesCtrl as sc" class="modal-demo">
+  <%= simple_form_for(@sale) do |f| %>
+    <%= f.error_notification %>
+
+    <div class="form-inputs">
+      <%= f.association :branch, input_html: {
+          'ng-model'=>"sc.currentBranch",
+          'ng-change'=>"sc.getCars()"} %>
+      <%= f.association :car, input_html: {
+          'ng-options'=> 'car.label for car in sc.cars track by car.id',
+          'ng-disabled'=> 'sc.enableCar',
+          'ng-model'=>"sc.currentCar"
+      }%>
+      <%= f.association :client, as: :hidden %>
+      <div class="row">
+        <div class="col-sm">
+          <%= f.input :rut , input_html: {
+              'ng-model'=>"sc.rut"
+              }%>
+        </div>
+        <div class="col-sm align-self-center">
+          <a class="btn btn-info" ng-click="sc.getClient()" href="">Buscar Cliente</a>
+
+        </div>
+
+      </div>
+      <div class="content" ng-show="currentClient!=null">
+        <table class="display table table-condensed table-responsive">
+          <thead>
+          <tr>
+            <th><h3> Cliente </h3></th>
+          </tr>
+
+          </thead>
+          <tbody>
+          <tr>
+            <td> RUT </td>
+            <td> {{currentClient.rut}} </td>
+          </tr>
+          <tr>
+            <td> Nombre </td>
+            <td> {{currentClient.name + " " + currentClient.surname}} </td>
+          </tr>
+          <tr>
+            <td> Correo Electrónico </td>
+            <td> {{currentClient.email}} </td>
+          </tr>
+          <tr>
+            <td> Teléfono </td>
+            <td> {{currentClient.phone}} </td>
+          </tr>
+
+          </tbody>
+        </table>
+
+      </div>
+
+
+      <%= f.input :price %>
+
+    </div>
+
+    <div class="form-actions">
+      <%= f.button :submit %>
+    </div>
+  <% end %>
+
+
+  <button type="button" class="btn btn-default" ng-click="sc.open('lg')">Large modal</button>
+
+</div>
+
 
 <%= link_to 'Back', sales_path %>

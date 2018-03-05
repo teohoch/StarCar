@@ -28,7 +28,7 @@ module ApplicationHelper
       when :show
         css_class= button_class.nil? ? 'btn btn-info' : button_class
         text = (text.nil? ? t('decorator.show') : text )
-        path = object
+        path = (path.nil? ? object : path)
       when :edit
         css_class= button_class.nil? ? 'btn btn-warning' : button_class
         text = (text.nil? ? t('decorator.edit') : text)

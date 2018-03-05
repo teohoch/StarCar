@@ -17,5 +17,8 @@
 //= require bootstrap
 //= require intlTelInput
 //= require libphonenumber/utils
+//= require angular
+//= require angular-resource
 //= require_tree .
+
 

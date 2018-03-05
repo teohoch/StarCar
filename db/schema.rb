@@ -142,12 +142,14 @@ ActiveRecord::Schema.define(version: 20180303222726) do
   end
 
   create_table "sales", force: :cascade do |t|
+    t.bigint "branch_id"
     t.bigint "employee_id"
     t.bigint "car_id"
     t.bigint "client_id"
     t.integer "price"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["branch_id"], name: "index_sales_on_branch_id"
     t.index ["car_id"], name: "index_sales_on_car_id"
     t.index ["client_id"], name: "index_sales_on_client_id"
     t.index ["employee_id"], name: "index_sales_on_employee_id"
@@ -164,6 +166,7 @@ ActiveRecord::Schema.define(version: 20180303222726) do
   add_foreign_key "cars", "transmissions"
   add_foreign_key "repairs", "cars"
   add_foreign_key "repairs", "employees"
+  add_foreign_key "sales", "branches"
   add_foreign_key "sales", "cars"
   add_foreign_key "sales", "clients"
   add_foreign_key "sales", "employees"
