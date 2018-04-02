@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180303222726) do
+ActiveRecord::Schema.define(version: 20180401225918) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -43,6 +43,18 @@ ActiveRecord::Schema.define(version: 20180303222726) do
     t.string "name"
   end
 
+  create_table "card_payments", force: :cascade do |t|
+    t.bigint "amount"
+    t.bigint "sale_id"
+    t.bigint "card_number"
+    t.integer "type"
+    t.integer "status"
+    t.string "bank"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["sale_id"], name: "index_card_payments_on_sale_id"
+  end
+
   create_table "cars", force: :cascade do |t|
     t.bigint "brand_id", null: false
     t.string "model", null: false
@@ -50,26 +62,47 @@ ActiveRecord::Schema.define(version: 20180303222726) do
     t.integer "year"
     t.string "color", null: false
     t.float "milage"
-    t.bigint "fuel_id", null: false
-    t.bigint "transmission_id", null: false
-    t.integer "sell_price"
-    t.integer "buy_price"
-    t.integer "state", default: 1, null: false
+    t.bigint "fuel_id"
+    t.bigint "transmission_id"
+    t.bigint "list_price"
+    t.bigint "buy_price"
+    t.integer "state", default: 0, null: false
     t.bigint "branch_id", null: false
     t.date "technical_review_expiration"
     t.string "book"
-    t.string "publication"
     t.string "cc"
-    t.string "permit"
-    t.string "soap"
-    t.string "appraisal"
+    t.date "permit"
+    t.integer "soap"
     t.string "property"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["branch_id"], name: "index_cars_on_branch_id"
     t.index ["brand_id"], name: "index_cars_on_brand_id"
     t.index ["fuel_id"], name: "index_cars_on_fuel_id"
+    t.index ["license_plate"], name: "index_cars_on_license_plate", unique: true
     t.index ["transmission_id"], name: "index_cars_on_transmission_id"
+  end
+
+  create_table "cash_payments", force: :cascade do |t|
+    t.bigint "amount"
+    t.bigint "sale_id"
+    t.integer "deposit_number"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["sale_id"], name: "index_cash_payments_on_sale_id"
+  end
+
+  create_table "check_payments", force: :cascade do |t|
+    t.bigint "amount"
+    t.bigint "sale_id"
+    t.integer "status"
+    t.bigint "code"
+    t.integer "number"
+    t.date "date"
+    t.string "bank"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["sale_id"], name: "index_check_payments_on_sale_id"
   end
 
   create_table "clients", force: :cascade do |t|
@@ -114,6 +147,25 @@ ActiveRecord::Schema.define(version: 20180303222726) do
     t.index ["role_id"], name: "index_employees_roles_on_role_id"
   end
 
+  create_table "financier_payments", force: :cascade do |t|
+    t.bigint "amount"
+    t.bigint "sale_id"
+    t.integer "status"
+    t.bigint "financier_id"
+    t.bigint "discount"
+    t.bigint "down_payment"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["financier_id"], name: "index_financier_payments_on_financier_id"
+    t.index ["sale_id"], name: "index_financier_payments_on_sale_id"
+  end
+
+  create_table "financiers", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "fuels", force: :cascade do |t|
     t.string "name"
   end
@@ -147,7 +199,17 @@ ActiveRecord::Schema.define(version: 20180303222726) do
     t.bigint "employee_id"
     t.bigint "car_id"
     t.bigint "client_id"
-    t.integer "price"
+    t.bigint "final_price"
+    t.bigint "appraisal"
+    t.bigint "tax"
+    t.bigint "transfer_cost"
+    t.bigint "discount"
+    t.bigint "earnings"
+    t.bigint "pva"
+    t.bigint "list_price"
+    t.bigint "buy_price"
+    t.text "comment"
+    t.integer "status", default: 0
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["branch_id"], name: "index_sales_on_branch_id"
@@ -160,15 +222,34 @@ ActiveRecord::Schema.define(version: 20180303222726) do
     t.string "name"
   end
 
+  create_table "vehicle_payments", force: :cascade do |t|
+    t.bigint "amount"
+    t.bigint "sale_id"
+    t.integer "status"
+    t.bigint "car_id"
+    t.boolean "mock"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["car_id"], name: "index_vehicle_payments_on_car_id"
+    t.index ["sale_id"], name: "index_vehicle_payments_on_sale_id"
+  end
+
   add_foreign_key "branches", "employees", column: "manager_id"
+  add_foreign_key "card_payments", "sales"
   add_foreign_key "cars", "branches"
   add_foreign_key "cars", "brands"
   add_foreign_key "cars", "fuels"
   add_foreign_key "cars", "transmissions"
+  add_foreign_key "cash_payments", "sales"
+  add_foreign_key "check_payments", "sales"
+  add_foreign_key "financier_payments", "financiers"
+  add_foreign_key "financier_payments", "sales"
   add_foreign_key "repairs", "cars"
   add_foreign_key "repairs", "employees"
   add_foreign_key "sales", "branches"
   add_foreign_key "sales", "cars"
   add_foreign_key "sales", "clients"
   add_foreign_key "sales", "employees"
+  add_foreign_key "vehicle_payments", "cars"
+  add_foreign_key "vehicle_payments", "sales"
 end

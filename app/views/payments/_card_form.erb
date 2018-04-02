@@ -1,0 +1,32 @@
+<div class="container">
+  <h3>Tarjeta</h3>
+  <div class="row form-inputs">
+
+    <div class="col-sm">
+      <%= f.input :amount %>
+    </div>
+
+    <div class="col-sm">
+      <%= f.input :type, as: :select,
+                  collection:
+                      [[0, 'Debito'],
+                       [1, 'Credito']],
+                  label_method: :second, value_method: :first %>
+    </div>
+
+    <div class="col-sm align-self-end form-group">
+    </div>
+  </div>
+  <div class="row form-inputs">
+    <div class="col-sm">
+      <%= f.input :card_number %>
+    </div>
+
+    <div class="col-sm">
+      <%= f.input :bank %>
+    </div>
+
+    <div class="col-sm">
+    </div>
+  </div>
+</div>

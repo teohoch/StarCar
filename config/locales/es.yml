@@ -7,12 +7,111 @@ es:
    formats:
      long: "%H:%M:%S %d-%m-%Y"
      short: "%d-%m-%Y"
+  date:
+    abbr_day_names:
+    - Dom
+    - Lun
+    - Mar
+    - Mié
+    - Jue
+    - Vie
+    - Sáb
+    abbr_month_names:
+    -
+    - Ene
+    - Feb
+    - Mar
+    - Abr
+    - May
+    - Jun
+    - Jul
+    - Ago
+    - Sep
+    - Oct
+    - Nov
+    - Dic
+    day_names:
+    - Domingo
+    - Lunes
+    - Martes
+    - Miércoles
+    - Jueves
+    - Viernes
+    - Sábado
+    formats:
+      default: "%d/%m/%Y"
+      long: "%A %d de %B de %Y"
+      short: "%d de %b"
+    month_names:
+    -
+    - Enero
+    - Febrero
+    - Marzo
+    - Abril
+    - Mayo
+    - Junio
+    - Julio
+    - Agosto
+    - Septiembre
+    - Octubre
+    - Noviembre
+    - Diciembre
+    order:
+    - :day
+    - :month
+    - :year
+  datetime:
+    distance_in_words:
+      about_x_hours:
+        one: alrededor de 1 hora
+        other: alrededor de %{count} horas
+      about_x_months:
+        one: alrededor de 1 mes
+        other: alrededor de %{count} meses
+      about_x_years:
+        one: alrededor de 1 año
+        other: alrededor de %{count} años
+      almost_x_years:
+        one: casi 1 año
+        other: casi %{count} años
+      half_a_minute: medio minuto
+      less_than_x_minutes:
+        one: menos de 1 minuto
+        other: menos de %{count} minutos
+      less_than_x_seconds:
+        one: menos de 1 segundo
+        other: menos de %{count} segundos
+      over_x_years:
+        one: más de 1 año
+        other: más de %{count} años
+      x_days:
+        one: 1 día
+        other: "%{count} días"
+      x_minutes:
+        one: 1 minuto
+        other: "%{count} minutos"
+      x_months:
+        one: 1 mes
+        other: "%{count} meses"
+      x_years:
+        one: 1 año
+        other: "%{count} años"
+      x_seconds:
+        one: 1 segundo
+        other: "%{count} segundos"
+    prompts:
+      day: Día
+      hour: Hora
+      minute: Minutos
+      month: Mes
+      second: Segundos
+      year: Año
 
   activerecord:
     models:
       car:
-        one: "Auto"
-        other: "Autos"
+        one: "Vehiculo"
+        other: "Vehiculos"
       branch:
         one: "Local"
         other: "Locales"
@@ -34,6 +133,9 @@ es:
       sale:
         one: "Venta"
         other: "Ventas"
+      financier:
+        one: 'Financiera'
+        other: 'Financieras'
     attributes:
       car:
         model: "Modelo"
@@ -48,15 +150,15 @@ es:
         reservation_price: "Precio de reserva"
         state: "Estado"
         branch: "Sucursal"
-        sell_price: "Precio de venta"
-        buy_price: "Precio de compra"
+        list_price: "Precio de lista"
+        buy_price: "Precio de Adquisición"
         technical_review_expiration: "Revision Técnica"
         book: "Libro"
         publication: "Publicación"
         cc: "CC."
         permit: "Permiso de circulacion"
         soap: "SOAP"
-        appraisal: "Avaluo"
+        appraisal: "Avaluo Fiscal"
         property: "Propiedad"
         
       repair:
@@ -64,6 +166,26 @@ es:
         reason: "Razon de reparacion"
         workshop: "Taller"
         created_at: "Fecha de Ingreso"
+
+      sale:
+        final_price: 'Precio Final'
+        appraisal: 'Avaluo Fiscal'
+        tax: 'impuesto'
+        transfer_cost: 'Costo de Transferencia'
+        earnings: 'Ganancias'
+        discount: 'Descuento'
+        pva: 'PVA'
+        list_price: 'Precio de Lista'
+        buy_price: 'Precio de Compra'
+        comment: 'Comentario'
+
+    errors:
+      messages:
+        record_invalid: "La validación falló: %{errors}"
+        restrict_dependent_destroy:
+          has_one: No se puede eliminar el registro porque existe un %{record} dependiente
+          has_many: No se puede eliminar el registro porque existen %{record} dependientes
+
   attributes:
     rut: "RUT"
     email: "Correo Electrónico"
@@ -79,6 +201,42 @@ es:
     price: 'Precio'
     employee: 'Vendedor'
     client: 'Cliente'
+    bank: 'Banco'
+    amount: 'Monto'
+    deposit_number: 'Numero de Deposito'
+    payment_selector: 'Metodo de Pago'
+    card_number: 'Numero de Tarjeta'
+    type: 'Tipo de tarjeta'
+    code: 'Codigo'
+    discount: 'Descuento'
+    down_payment: 'Pie'
+    model: "Modelo"
+    model_safe: "Modelo"
+    brand: "Marca"
+    brand_id: "Marca"
+    license_plate: "Patente"
+    year: "Año"
+    milage: "Kilometraje"
+    maintenances: "N° de Mantenciones"
+    fuel: "Tipo de Combustible"
+    fuel_id: "Tipo de Combustible"
+    transmission: "Tipo de transmisión"
+    transmission_id: "Tipo de transmisión"
+    reservation_price: "Precio de reserva"
+    state: "Estado"
+    branch: "Sucursal"
+    branch_id: "Sucursal"
+    list_price: "Precio de lista"
+    buy_price: "Precio de Adquisición"
+    technical_review_expiration: "Revision Técnica"
+    book: "Libro"
+    publication: "Publicación"
+    cc: "CC."
+    permit: "Permiso de circulacion"
+    soap: "SOAP"
+    appraisal: "Avaluo Fiscal"
+    property: "Propiedad"
+    financier: 'Financiera'
 
   logout: "Cerrar Sesion"
   sign_as: "Sesion iniciada como"
@@ -95,15 +253,18 @@ es:
       employee: "Empleado"
       secretary: "Secretario"
     car_states:
-      a0: "No disponible"
-      a1: "Disponible"
-      a2: "En reparaciones"
+      not_available: "No disponible"
+      available: "Disponible"
+      in_repairs: "En reparaciones"
+      sold: "Vendido"
     fuel:
       gas: "Bencinero"
-      petrol: "Petrolero"
+      petrol: "Diesel"
     transmission:
       manual: "Manual"
       automatic: "Automatica"
+      electric: 'Electrica'
+      CMP: 'CMP'
 
   number:
       currency:
@@ -152,3 +313,4 @@ es:
   sale:
     show:
       table_title: "Venta"
+  send_to_repairs: "Enviar a taller"

@@ -1,10 +1,10 @@
 class CarsController < InheritedResources::Base
   def show
-    @car = Car.find(params[:id])
+    @car = Car.find(params[:id]).decorate
   end
 
   def index
-    cars = Car.all
+    cars = Car.all.available
     if params.key?(:branch_id)
       cars = cars.where({branch_id: params[:branch_id]})
     end

@@ -1,9 +1,10 @@
 ActiveAdmin.register Car do
   permit_params :brand_id, :model, :license_plate, :year, :color, :milage, :maintenances, :fuel_id,
-                :transmission_id, :reservation_price, :state,:sell_price, :buy_price, :technical_review_expiration, :book, :publication, :cc, :permit, :soap, :appraisal, :property, :branch_id, repair: %i[workshop reason quote]
+                :transmission_id, :reservation_price, :state, :list_price, :buy_price, :technical_review_expiration, :book, :publication, :cc, :permit, :soap, :property, :branch_id, repair: %i[workshop reason quote]
   scope 'Todos', :all, default: true
   scope 'En Reparaciones', :in_repairs
   scope 'Disponibles', :available
+  scope 'No Disponibles', :not_available
 
   index do
     selectable_column
@@ -45,6 +46,9 @@ ActiveAdmin.register Car do
       row :buy_price do |car|
         number_to_currency(car.buy_price)
       end
+      row :soap
+      row :permit
+      row :technical_review_expiration
       row :status
       row :branch
     end
@@ -63,6 +67,7 @@ ActiveAdmin.register Car do
     end
   end
 
+  filter :license_plate
   filter :brand
   filter :model
   filter :year
@@ -77,15 +82,19 @@ ActiveAdmin.register Car do
       f.input :milage
       f.input :fuel
       f.input :transmission
-      f.input :sell_price
+      f.input :list_price
       f.input :buy_price
       f.input :technical_review_expiration, as: :datepicker
       f.input :book
-      f.input :publication
       f.input :cc
-      f.input :permit
+      f.input :permit, as: :datepicker, datepicker_options:
+          {
+              changeMonth: true,
+              changeYear: true,
+              showButtonPanel: true,
+              dateFormat: 'mm-yy'}
+
       f.input :soap
-      f.input :appraisal
       f.input :property
       f.input :branch
     end
@@ -93,13 +102,23 @@ ActiveAdmin.register Car do
   end
 
   member_action :showrepair, method: :get do
-    @page_title = 'Enviar a taller'
+    @page_title = t('send_to_repairs')
     @repair ||= Repair.new
   end
   member_action :repair, method: :post
+  member_action :end_repair, method: :get
+  member_action :publish, method: :get
 
-  action_item :repair, only: :show, if: proc { resource.state == 1 } do
+  action_item :repair, only: :show, if: proc { resource.may_send_for_repairs?  } do
     link_to 'Enviar a taller', showrepair_admin_car_path(car)
+  end
+
+  action_item :end_repair, only: :show, if: proc { resource.may_end_repairs?  } do
+    link_to 'Finalizar reparacion', end_repair_admin_car_path(car)
+  end
+
+  action_item :publish, only: :show, if: proc { resource.may_publish?  } do
+    link_to 'Poner a la Venta', publish_admin_car_path(car)
   end
 
   controller do
@@ -112,10 +131,29 @@ ActiveAdmin.register Car do
 
       respond_to do |format|
         if @repair.save
-          resource.update(state: 2)
+          resource.send_for_repairs!
           format.html { redirect_to admin_car_path(resource), notice: 'Reparacion agregada al vehiculo' }
         else
           format.html { render :showrepair, alert: @repair.errors }
+        end
+      end
+
+
+    end
+
+    def end_repair
+      respond_to do |format|
+        resource.end_repairs!
+        format.html { redirect_to admin_car_path(resource), notice: 'Reparacion finalizada.' }
+      end
+    end
+
+    def publish
+      respond_to do |format|
+        if resource.publish!
+          format.html { redirect_to admin_car_path(resource), notice: 'El Vehiculo se ha puesto a la venta' }
+        else
+          format.html { redirect_to admin_car_path(resource), error: 'El Vehiculo no se puede poner a la venta. Verifique que los campos nesesarios estan llenos.' }
         end
       end
     end

@@ -1,6 +1,13 @@
 $(document).on 'turbolinks:load ready page:load', ->
   app = angular.module("Starcar", ["ngResource", 'ui.bootstrap'])
-  host = 'http://localhost:3000'
+
+  $('form').on 'click', '.remove_fields', (event) ->
+    $(this).prev('input[type=hidden]').val('1')
+    $(this).closest('.container').hide()
+    event.preventDefault()
+
+
+
 
   app.service 'carSrv', ($http) ->
     @getCars = (id) ->
@@ -9,17 +16,31 @@ $(document).on 'turbolinks:load ready page:load', ->
     @getClient = (rut) ->
       $http.get('/clients.json', params: { rut: rut})
 
+    @getCar = (id) ->
+      $http.get('/cars/'+id+'.json')
+
     return
 
   app.controller 'SalesCtrl', ($scope, $uibModal,$document, $log, carSrv) ->
     sc = this
     @currentBranch = null
+    @currentCar = null
+    @currentCarID = null
     @enableCar = true
     @cars = []
     @rut = ""
     @clients = []
+    @sale = {
+      transfer_cost:  101330,
+      appraisal:      0,
+      pva:            0,
+      total_transfer: 0,
+      discount:       0,
+      sell_price:     0
+        }
     $scope.currentClient = null
     $scope.currentClientID = 0
+    $scope.payments = ''
 
 
 
@@ -45,9 +66,38 @@ $(document).on 'turbolinks:load ready page:load', ->
       )
       return
 
+    @updateFields = () ->
+      sc.sale.sale_price = sc.currentCar.list_price - sc.sale.discount
+      sc.sale.tax = Math.ceil(Math.max(sc.sale.pva, sc.sale.appraisal, sc.sale.sale_price) * 0.015)
+      sc.sale.total_transfer = sc.sale.tax + sc.sale.transfer_cost - sc.sale.discount
+      sc.sale.final_price = sc.sale.sale_price + sc.sale.total_transfer
+      return
 
+    @add_payment_method = (event) ->
+      event.preventDefault()
+      if $scope.payment_selector
+        id = JSON.parse(event.currentTarget.dataset.ids)[parseInt($scope.payment_selector)]
+        html = JSON.parse(event.currentTarget.dataset.fields)[parseInt($scope.payment_selector)]
 
-    @alert = () ->
+        time = new Date().getTime()
+        regexp = new RegExp(id, 'g')
+        data_field = html.replace(regexp, time)
+
+        template = document.createElement('template')
+        template.innerHTML = data_field.trim()
+        event.currentTarget.parentNode.parentNode.before(template.content.firstChild)
+      return
+
+    @remove_payment_method = (event) ->
+      event.preventDefault()
+      event.currentTarget.prev('input[type=hidden]').val('1')
+
+      event.currentTarget.closest('.container').hide()
+
+      return
+
+    @show_alert = (event) ->
+      event.preventDefault()
       alert('Hola')
       return
 
@@ -85,6 +135,9 @@ $(document).on 'turbolinks:load ready page:load', ->
       @animationsEnabled = !@animationsEnabled
       return
     return
+
+
+
 
 
 

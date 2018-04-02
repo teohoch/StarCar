@@ -1,5 +1,5 @@
 class PopulateTransmission < ActiveRecord::Migration[5.1]
-  TRANSMISSIONS = ['manual', 'automatic']
+  TRANSMISSIONS = ['manual', 'automatic', 'electric', 'CMP']
   def up
     TRANSMISSIONS.each do |transmission_name|
       Transmission.create! name: transmission_name

@@ -1,6 +1,6 @@
 class SalesDecorator < ApplicationCollectionDecorator
   def presentable_attributes
-    %w[employee car client price]
+    %w[folio employee car client final_price created_at]
   end
 
 

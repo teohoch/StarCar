@@ -1,0 +1,2 @@
+class Financier < ApplicationRecord
+end

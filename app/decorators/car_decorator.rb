@@ -15,10 +15,14 @@ class CarDecorator < ApplicationDecorator
   end
 
   def model_safe
-    object.model
+    object.model.capitalize
   end
 
   def brand
-    object.brand.name
+    object.brand.name.capitalize
+  end
+
+  def year
+    super.nil? ? '' : super
   end
 end

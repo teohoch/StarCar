@@ -76,6 +76,8 @@ module ApplicationHelper
   alias_method :tp, :translation_pronoun
 
 
+
+
   def datatable_language
     if I18n.exists?('table_text.sInfoFiltered')
       {

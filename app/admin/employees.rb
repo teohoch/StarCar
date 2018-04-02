@@ -14,6 +14,7 @@ ActiveAdmin.register Employee do
 
   show do
     attributes_table do
+      row :folio
       row :rut
       row :email
       row :name
@@ -31,6 +32,7 @@ ActiveAdmin.register Employee do
     active_admin_comments
   end
 
+  filter :rut
   filter :email
   filter :name
   filter :surname

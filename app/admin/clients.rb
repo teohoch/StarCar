@@ -23,6 +23,7 @@ ActiveAdmin.register Client do
     active_admin_comments
   end
 
+  filter :rut
   filter :email
   filter :name
   filter :surname
