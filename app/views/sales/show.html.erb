@@ -1,11 +1,35 @@
 
 <%= @sale.decorate.pretty_show %>
 
-<div class="row">
-  <div class="col-sm">
-    <%= link_to (t 'back'), sales_path, class: 'btn btn-danger' %>
+<h2>Formas de Pago</h2>
+<div class="container">
+
+  <div class="row justify-content-between">
+    <div class="col-xs-6">
+      <%= @sale.decorate.show_cash_payments %>
+    </div>
+
+    <div class="col-xs-6">
+      <%= @sale.decorate.show_check_payments %>
+    </div>
+
+    <div class="col-xs-6">
+      <%= @sale.decorate.show_card_payments %>
+    </div>
+    <div class="col-xs-6">
+      <%= @sale.decorate.financier_payments %>
+    </div>
   </div>
-  <div class="col-sm">
-    <%= button_to 'Generar Documento', sale_path(@sale, format: "pdf"), class: "btn", :method => :get   %>
+
+  <%= @sale.decorate.vehicle_payments_show %>
+
+  <div class="row justify-content-between">
+    <div class="col-sm">
+      <%= link_to (t 'back'), sales_path, class: 'btn btn-danger' %>
+    </div>
+    <div class="col-sm">
+      <%= button_to 'Generar Documento', sale_path(@sale, format: "pdf"), class: "btn", :method => :get   %>
+    </div>
   </div>
+
 </div>

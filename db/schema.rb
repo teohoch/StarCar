@@ -47,7 +47,7 @@ ActiveRecord::Schema.define(version: 20180401225918) do
     t.bigint "amount"
     t.bigint "sale_id"
     t.bigint "card_number"
-    t.integer "type"
+    t.integer "card_type"
     t.integer "status"
     t.string "bank"
     t.datetime "created_at", null: false

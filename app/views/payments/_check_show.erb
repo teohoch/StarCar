@@ -1,0 +1,21 @@
+<br>
+
+<h3>Cheque</h3>
+<table class="display table table-condensed table-responsive">
+  <thead>
+  <tr>
+    <th><%= CheckPayment.human_attribute_name(:amount) %> </th>
+    <th><%= CheckPayment.human_attribute_name(:code) %> </th>
+    <th><%= CheckPayment.human_attribute_name(:bank) %> </th>
+
+  </thead>
+  <tbody>
+  <% check_payments.each do |r| %>
+    <tr>
+      <td>$<%= r.amount %></td>
+      <td align="center"><%= r.code%></td>
+      <td align="center"><%= r.bank%></td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>

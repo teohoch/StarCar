@@ -3,11 +3,41 @@ class SaleDecorator < ApplicationDecorator
   decorates_finders
 
   def attributes
-    %w(folio employee car client final_price).map { |key| [key, send(key)] }
+    %w(folio employee car list_price discount appraisal pva tax total_transfer client final_price).map { |key| [key, send(key)] }
   end
 
   def pretty_show
     super(title: h.t('sale.show.table_title'))
+  end
+
+  def show_cash_payments
+    if model.cash_payments.count >0
+      h.render partial: 'payments/cash_show', locals: {cash_payments: model.cash_payments}
+    end
+  end
+
+  def show_check_payments
+    if model.check_payments.count >0
+      h.render partial: 'payments/check_show', locals: {check_payments: model.check_payments}
+    end
+  end
+
+  def show_card_payments
+    if model.card_payments.count >0
+      h.render partial: 'payments/card_show', locals: { card_payments: model.card_payments }
+    end
+  end
+
+  def financier_payments
+    if model.financier_payments.count >0
+      h.render partial: 'payments/financier_show', locals: { financier_payments: model.financier_payments }
+    end
+  end
+
+  def vehicle_payments_show
+    if model.vehicle_payments.count >0
+      h.render partial: 'payments/vehicle_show', locals: { v_p: model.vehicle_payments }
+    end
   end
 
   def employee
@@ -52,6 +82,10 @@ class SaleDecorator < ApplicationDecorator
 
   def sale_price
     (object.car.nil? ? 0 : object.car.list_price) - (object.discount.nil? ? 0 : object.discount)
+  end
+
+  def list_price
+    object.car.nil? ? 0 : object.car.list_price
   end
 
   def payment_selector

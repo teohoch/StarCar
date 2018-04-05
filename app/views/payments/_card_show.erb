@@ -1,0 +1,23 @@
+<br>
+
+<h3>Tarjeta</h3>
+<table class="display table table-condensed table-responsive">
+  <thead>
+  <tr>
+    <th><%= CardPayment.human_attribute_name(:amount) %> </th>
+    <th><%= CardPayment.human_attribute_name(:card_type) %> </th>
+    <th><%= CardPayment.human_attribute_name(:card_number) %> </th>
+    <th><%= CardPayment.human_attribute_name(:bank) %> </th>
+
+  </thead>
+  <tbody>
+  <% card_payments.each do |r| %>
+    <tr>
+      <td>$<%= r.amount %></td>
+      <td align="center"><%= r.card_type%></td>
+      <td align="center"><%= r.card_number%></td>
+      <td align="center"><%= r.bank%></td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>

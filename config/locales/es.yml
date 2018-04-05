@@ -170,7 +170,7 @@ es:
       sale:
         final_price: 'Precio Final'
         appraisal: 'Avaluo Fiscal'
-        tax: 'impuesto'
+        tax: 'Impuesto'
         transfer_cost: 'Costo de Transferencia'
         earnings: 'Ganancias'
         discount: 'Descuento'
@@ -237,6 +237,7 @@ es:
     appraisal: "Avaluo Fiscal"
     property: "Propiedad"
     financier: 'Financiera'
+    card_type: 'Tipo de Tarjeta'
 
   logout: "Cerrar Sesion"
   sign_as: "Sesion iniciada como"
@@ -265,6 +266,9 @@ es:
       automatic: "Automatica"
       electric: 'Electrica'
       CMP: 'CMP'
+    card_types:
+      c0: 'Debito'
+      c1: 'Credit'
 
   number:
       currency:

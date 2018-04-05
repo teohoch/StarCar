@@ -6,8 +6,8 @@ class CarDecorator < ApplicationDecorator
     %w(brand model_safe license_plate year color milage).map { |key| [key, send(key)] }
   end
 
-  def pretty_show
-    super(title: h.t('car.show.table_title'))
+  def pretty_show(title=h.t('car.show.table_title'), extra_values=[])
+    super(title: title, extra_values: extra_values)
   end
 
   def label
@@ -25,4 +25,5 @@ class CarDecorator < ApplicationDecorator
   def year
     super.nil? ? '' : super
   end
+
 end

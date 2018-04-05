@@ -1,0 +1,20 @@
+<br>
+
+<div class="row">
+  <h3>Vehiculos en parte de pago</h3>
+</div>
+
+
+<div class="container">
+  <div class="row justify-content-between">
+    <% v_p.each_with_index do |vehicle, id| %>
+      <div class="col-xs">
+        <%= vehicle.car.decorate.pretty_show("Vehiculo ##{id+1}", [['amount',"$#{vehicle.amount}"]]) %>
+      </div>
+    <% end %>
+
+  </div>
+</div>
+
+
+

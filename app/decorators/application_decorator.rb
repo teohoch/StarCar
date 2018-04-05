@@ -3,14 +3,17 @@ class ApplicationDecorator < Draper::Decorator
     model.attributes
   end
 
-  def pretty_show(table_class: 'display table table-condensed table-responsive', title: '')
-    h.render partial: 'general_show', locals: { object: attributes, title: title, table_class: table_class, klass: model.class }
+  def pretty_show(table_class: 'display table table-condensed table-responsive', title: '', extra_values: [])
+    show_attributes = extra_values.concat attributes
+    h.render partial: 'general_show',
+             locals: { object: show_attributes, title: title, table_class: table_class, klass: model.class }
   end
 end
 
 class ApplicationCollectionDecorator < Draper::CollectionDecorator
   def show_all
-    h.render partial: 'index_table', locals: { collection: object, attributes: presentable_attributes, klass: object.model }
+    h.render partial: 'index_table',
+             locals: { collection: object, attributes: presentable_attributes, klass: object.model }
   end
 
   def presentable_attributes

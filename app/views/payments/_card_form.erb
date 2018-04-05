@@ -7,10 +7,10 @@
     </div>
 
     <div class="col-sm">
-      <%= f.input :type, as: :select,
+      <%= f.input :card_type, as: :select,
                   collection:
-                      [[0, 'Debito'],
-                       [1, 'Credito']],
+                      [['0', 'Debito'],
+                       ['1', 'Credito']],
                   label_method: :second, value_method: :first %>
     </div>
 

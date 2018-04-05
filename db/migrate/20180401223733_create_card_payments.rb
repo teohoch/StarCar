@@ -4,7 +4,7 @@ class CreateCardPayments < ActiveRecord::Migration[5.1]
       t.bigint :amount
       t.references :sale, foreign_key: true
       t.bigint :card_number
-      t.integer :type
+      t.integer :card_type
       t.integer :status
       t.string :bank
 
