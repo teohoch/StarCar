@@ -28,7 +28,7 @@ class SaleDecorator < ApplicationDecorator
     end
   end
 
-  def financier_payments
+  def show_financier_payments
     if model.financier_payments.count >0
       h.render partial: 'payments/financier_show', locals: { financier_payments: model.financier_payments }
     end
