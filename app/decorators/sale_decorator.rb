@@ -3,11 +3,15 @@ class SaleDecorator < ApplicationDecorator
   decorates_finders
 
   def attributes
-    %w(folio employee car list_price discount appraisal pva tax total_transfer client final_price).map { |key| [key, send(key)] }
+    %w(folio employee car list_price list_discount appraisal pva tax transfer_discount total_transfer client final_price).map { |key| [key, send(key)] }
   end
 
   def pretty_show
     super(title: h.t('sale.show.table_title'))
+  end
+
+  def show_payments
+    h.render partial: 'payments/payments', locals: { decorated: self}
   end
 
   def show_cash_payments
@@ -34,9 +38,15 @@ class SaleDecorator < ApplicationDecorator
     end
   end
 
-  def vehicle_payments_show
+  def show_vehicle_payments
     if model.vehicle_payments.count >0
       h.render partial: 'payments/vehicle_show', locals: { v_p: model.vehicle_payments }
+    end
+  end
+
+  def show_transfer_payments
+    if model.transfer_payments.count >0
+      h.render partial: 'payments/transfer_show', locals: { transfer_payments: model.transfer_payments }
     end
   end
 
@@ -57,7 +67,7 @@ class SaleDecorator < ApplicationDecorator
   end
 
   def final_price
-    super.nil? ? nil : h.number_to_currency(super)
+    super.nil? ? 0 : h.number_to_currency(super)
   end
 
   def folio
@@ -65,23 +75,23 @@ class SaleDecorator < ApplicationDecorator
   end
 
   def transfer_cost
-    super.nil? ? 0 : super
+    super.nil? ? 0 : h.number_to_currency(super)
   end
 
   def tax
-    super.nil? ? 0 : super
+    super.nil? ? 0 : h.number_to_currency(super)
   end
 
-  def discount
-    super.nil? ? 0 : super
+  def transfer_discount
+    super.nil? ? 0 : h.number_to_currency(super)
   end
 
   def total_transfer
-    transfer_cost + tax
+    h.number_to_currency(model.transfer_cost + model.tax)
   end
 
   def sale_price
-    (object.car.nil? ? 0 : object.car.list_price) - (object.discount.nil? ? 0 : object.discount)
+    (object.car.nil? ? 0 : object.car.list_price) - (object.transfer_discount.nil? ? 0 : object.transfer_discount)
   end
 
   def list_price

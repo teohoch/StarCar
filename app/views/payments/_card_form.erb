@@ -3,7 +3,7 @@
   <div class="row form-inputs">
 
     <div class="col-sm">
-      <%= f.input :amount %>
+      <%= f.input :amount, input_html: { min: 0 } %>
     </div>
 
     <div class="col-sm">
@@ -14,8 +14,12 @@
                   label_method: :second, value_method: :first %>
     </div>
 
-    <div class="col-sm align-self-end form-group">
+    <div class="col-sm align-self-end form-group text-right">
+      <%= f.hidden_field :_destroy %>
+      <%= link_to "X", '#', class: "remove_fields btn btn-danger" %>
     </div>
+
+
   </div>
   <div class="row form-inputs">
     <div class="col-sm">
@@ -25,8 +29,6 @@
     <div class="col-sm">
       <%= f.input :bank %>
     </div>
-
-    <div class="col-sm">
-    </div>
+    <div class="col-sm align-self-end form-group"></div>
   </div>
 </div>

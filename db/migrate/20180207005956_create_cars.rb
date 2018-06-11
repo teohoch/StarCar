@@ -2,6 +2,7 @@ class CreateCars < ActiveRecord::Migration[5.1]
   def change
     create_table :cars do |t|
       t.references :brand, foreign_key: true, null: false
+      t.references :car_provider, foreign_key: true, null: false
       t.string :model, null: false
       t.string :license_plate, null: false, index: { unique: true }
       t.integer :year

@@ -1,4 +1,5 @@
 class CarsController < InheritedResources::Base
+  before_action :authenticate_employee!
   def show
     @car = Car.find(params[:id]).decorate
   end

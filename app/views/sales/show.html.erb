@@ -4,24 +4,7 @@
 <h2>Formas de Pago</h2>
 <div class="container">
 
-  <div class="row justify-content-between">
-    <div class="col-xs-6">
-      <%= @sale.decorate.show_cash_payments %>
-    </div>
-
-    <div class="col-xs-6">
-      <%= @sale.decorate.show_check_payments %>
-    </div>
-
-    <div class="col-xs-6">
-      <%= @sale.decorate.show_card_payments %>
-    </div>
-    <div class="col-xs-6">
-      <%= @sale.decorate.financier_payments %>
-    </div>
-  </div>
-
-  <%= @sale.decorate.vehicle_payments_show %>
+  <%= @sale.decorate.show_payments %>
 
   <div class="row justify-content-between">
     <div class="col-sm">

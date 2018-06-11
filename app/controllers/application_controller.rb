@@ -9,4 +9,9 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def flash_message(type, text)
+    flash[type] ||= []
+    flash[type] << text
+  end
+
 end

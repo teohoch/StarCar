@@ -9,7 +9,8 @@ class CreateSales < ActiveRecord::Migration[5.1]
       t.bigint :appraisal
       t.bigint :tax
       t.bigint :transfer_cost
-      t.bigint :discount
+      t.bigint :transfer_discount
+      t.bigint :list_discount
       t.bigint :earnings
       t.bigint :pva
       t.bigint :list_price

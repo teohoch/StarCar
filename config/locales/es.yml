@@ -136,6 +136,15 @@ es:
       financier:
         one: 'Financiera'
         other: 'Financieras'
+      car_provider:
+        one: 'Proveedor'
+        other: 'Proveedores'
+      financier_payment:
+        one: 'Pago por Financiera'
+        other: 'Pagos por Financiera'
+      check_payment:
+        one: 'Pago por Cheque'
+        other: 'Pagos por Cheque'
     attributes:
       car:
         model: "Modelo"
@@ -160,6 +169,7 @@ es:
         soap: "SOAP"
         appraisal: "Avaluo Fiscal"
         property: "Propiedad"
+        car_provider: "Proveedor"
         
       repair:
         quote: "Costo"
@@ -168,16 +178,20 @@ es:
         created_at: "Fecha de Ingreso"
 
       sale:
-        final_price: 'Precio Final'
+        final_price: 'Precio Total Venta'
         appraisal: 'Avaluo Fiscal'
         tax: 'Impuesto'
         transfer_cost: 'Costo de Transferencia'
         earnings: 'Ganancias'
-        discount: 'Descuento'
+        transfer_discount: 'Descuento a la Transferencia'
+        list_discount: 'Descuento Precio Lista'
         pva: 'PVA'
         list_price: 'Precio de Lista'
         buy_price: 'Precio de Compra'
         comment: 'Comentario'
+        total_transfer: 'Total Transferencia'
+        sale_price: 'Precio de venta'
+
 
     errors:
       messages:
@@ -195,7 +209,7 @@ es:
     phone: "Teléfono"
     created_at: "Fecha de creación"
     brand: "Marca"
-    status: "Estatus"
+    status: "Estado"
     branch: 'Local'
     car: 'Vehiculo'
     price: 'Precio'
@@ -238,6 +252,9 @@ es:
     property: "Propiedad"
     financier: 'Financiera'
     card_type: 'Tipo de Tarjeta'
+    sale: 'Venta'
+    id: 'ID'
+    updated_at: 'Actualizado por ultima vez'
 
   logout: "Cerrar Sesion"
   sign_as: "Sesion iniciada como"
@@ -261,6 +278,7 @@ es:
     fuel:
       gas: "Bencinero"
       petrol: "Diesel"
+      electric: "Electrico"
     transmission:
       manual: "Manual"
       automatic: "Automatica"
@@ -318,3 +336,4 @@ es:
     show:
       table_title: "Venta"
   send_to_repairs: "Enviar a taller"
+  create_sale: "Generar Venta"

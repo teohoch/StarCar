@@ -1,0 +1,19 @@
+<div class="col">
+  <h3>Transferencia Electronica</h3>
+  <table class="display table table-condensed table-responsive">
+    <thead>
+    <tr>
+      <th><%= TransferPayment.human_attribute_name(:amount) %> </th>
+      <th><%= TransferPayment.human_attribute_name(:deposit) %> </th>
+
+    </thead>
+    <tbody>
+    <% transfer_payments.each do |r| %>
+      <tr>
+        <td>$<%= r.amount %></td>
+        <td align="center"><%= r.deposit %></td>
+      </tr>
+    <% end %>
+    </tbody>
+  </table>
+</div>

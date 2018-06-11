@@ -1,5 +1,6 @@
 class ClientsController < InheritedResources::Base
   skip_before_action :verify_authenticity_token, only: [:create]
+  before_action :authenticate_employee!
   def index
     clients = Client.all
     clients = clients.where(rut: params[:rut]) if params.key?(:rut)

@@ -1,23 +1,21 @@
-<br>
-
-<h3>Financieras</h3>
-<table class="display table table-condensed table-responsive">
-  <thead>
-  <tr>
-    <th><%= FinancierPayment.human_attribute_name(:amount) %> </th>
-    <th><%= FinancierPayment.human_attribute_name(:financier) %> </th>
-    <th><%= FinancierPayment.human_attribute_name(:discount) %> </th>
-    <th><%= FinancierPayment.human_attribute_name(:down_payment) %> </th>
-
-  </thead>
-  <tbody>
-  <% financier_payments.each do |r| %>
+<div class="col">
+  <h3>Financieras</h3>
+  <table class="display table table-condensed table-responsive">
+    <thead>
     <tr>
-      <td>$<%= r.amount %></td>
-      <td align="center"><%= r.financier.name%></td>
-      <td align="center"><%= r.discount%></td>
-      <td align="center"><%= r.down_payment%></td>
-    </tr>
-  <% end %>
-  </tbody>
-</table>
+      <th><%= FinancierPayment.human_attribute_name(:amount) %> </th>
+      <th><%= FinancierPayment.human_attribute_name(:financier) %> </th>
+      <th><%= FinancierPayment.human_attribute_name(:down_payment) %> </th>
+
+    </thead>
+    <tbody>
+    <% financier_payments.each do |r| %>
+      <tr>
+        <td>$<%= r.amount %></td>
+        <td align="center"><%= r.financier.name %></td>
+        <td align="center"><%= r.down_payment %></td>
+      </tr>
+    <% end %>
+    </tbody>
+  </table>
+</div>

@@ -8,26 +8,19 @@ class Sale < ApplicationRecord
   has_many :check_payments
   has_many :financier_payments
   has_many :vehicle_payments
+  has_many :transfer_payments
 
-  accepts_nested_attributes_for  :cash_payments
-  accepts_nested_attributes_for  :card_payments
-  accepts_nested_attributes_for  :check_payments
-  accepts_nested_attributes_for  :financier_payments
-  accepts_nested_attributes_for  :vehicle_payments
+  accepts_nested_attributes_for  :cash_payments, allow_destroy: true
+  accepts_nested_attributes_for  :card_payments, allow_destroy: true
+  accepts_nested_attributes_for  :check_payments, allow_destroy: true
+  accepts_nested_attributes_for  :financier_payments, allow_destroy: true
+  accepts_nested_attributes_for  :vehicle_payments, allow_destroy: true
+  accepts_nested_attributes_for  :transfer_payments, allow_destroy: true
 
-  validates :discount, :pva, :appraisal, presence: true
+  validates :pva, :appraisal, presence: true
+  attr_accessor :rut
 
   TRANSFER_COST = 101_330
-
-  # attr_reader
-  def rut
-    self[:rut]
-  end
-
-  # attr_writer
-  def rut=(val)
-    self[:rut] = val
-  end
 
   def calculate_save
     calculate
@@ -42,13 +35,13 @@ class Sale < ApplicationRecord
   private
 
   def calculate
-    unless car.nil? || discount.nil? || pva.nil? || appraisal.nil?
-      sale_price = car.list_price - discount
+    unless car.nil? || transfer_discount.nil? || pva.nil? || appraisal.nil? || list_discount.nil?
+      sale_price = car.list_price - list_discount
       self.tax = [sale_price, pva, appraisal].max * 0.015
       self.transfer_cost = TRANSFER_COST
       self.buy_price = car.buy_price
       self.earnings = sale_price - car.buy_price
-      self.final_price = sale_price + tax + transfer_cost
+      self.final_price = sale_price + tax + transfer_cost - transfer_discount
     end
   end
 end

@@ -52,6 +52,10 @@
           </tbody>
         </table>
       </div>
+      <br>
+      <hr>
+      <br>
+      <h2> Vehiculo </h2>
 
       <%= f.association :branch, input_html: {
           'ng-change'=>"sc.getCars()",
@@ -68,12 +72,6 @@
 
       <div class="content" ng-show="sc.currentCar!=null">
         <table class="display table table-condensed table-responsive">
-          <thead>
-          <tr>
-            <th><h3> Vehiculo </h3></th>
-          </tr>
-
-          </thead>
           <tbody>
           <tr>
             <td> Modelo </td>
@@ -89,50 +87,61 @@
           </tr>
           <tr>
             <td> Precio Lista </td>
-            <td> {{sc.currentCar.list_price}} </td>
+            <td> {{ sc.currentCar.list_price | currency }} </td>
           </tr>
 
           </tbody>
         </table>
 
+        <%= f.input :list_discount, input_html: {
+            'ng-model'=>"sc.sale.list_discount",
+            'ng-change'=>'sc.updateFields()',
+            min: 0
+        }%>
+
+        <h3><%= Sale.human_attribute_name('sale_price') %>: {{sc.sale.sale_price | currency }}</h3>
+
+        <br>
+        <hr>
+
         <%= f.input :appraisal, input_html: {
             'ng-model'=>"sc.sale.appraisal",
-            'ng-change'=>'sc.updateFields()'
+            'ng-change'=>'sc.updateFields()',
+            min: 0
         }%>
-        <%= f.input :transfer_cost, input_html: {
-            'ng-model'=>"sc.sale.transfer_cost",
-            'ng-disabled'=>'true'
-        }%>
+
         <%= f.input :pva, input_html: {
             'ng-model'=>"sc.sale.pva",
-            'ng-change'=>'sc.updateFields()'
-        }%>
-        <%= f.input :tax, input_html: {
-            'ng-model'=>"sc.sale.tax",
-            'ng-disabled'=>'true'
+            'ng-change'=>'sc.updateFields()',
+            min: 0
         }%>
 
-        <%= f.input :discount, input_html: {
-            'ng-model'=>"sc.sale.discount",
-            'ng-change'=>'sc.updateFields()'
+        <h4><%= Sale.human_attribute_name('tax') %>: {{sc.sale.tax | currency }}</h4>
+
+
+        <hr>
+
+
+        <%= f.input :transfer_cost, as: :string, input_html: {
+            'ng-model'=>"sc.sale.transfer_cost",
+            'ng-disabled'=>'true',
+            'format'=>'currency'
         }%>
 
-        <%= f.input :total_transfer, input_html: {
-            'ng-model'=>"sc.sale.total_transfer",
-            'ng-disabled'=>'true'
+        <%= f.input :transfer_discount, input_html: {
+            'ng-model'=>"sc.sale.transfer_discount",
+            'ng-change'=>'sc.updateFields()',
+            min: 0
         }%>
 
-        <%= f.input :sale_price, input_html: {
-            'ng-model'=>"sc.sale.sale_price",
-            'ng-disabled'=>'true'
-        }%>
+        <h3><%= Sale.human_attribute_name('total_transfer') %>: {{sc.sale.total_transfer | currency }}</h3>
 
-        <%= f.input :final_price , input_html: {
-            'ng-model'=>"sc.sale.final_price",
-            'ng-disabled'=>"true"
-        }%>
+        <hr>
+        <h2><%= Sale.human_attribute_name('final_price') %>: {{sc.sale.final_price| currency }}</h2>
+
       </div>
-
+      <hr>
+      <br>
 
       <h2>Formas de Pago</h2>
 
@@ -145,7 +154,8 @@
                            [1, 'Tarjeta'],
                            [2, 'Cheque'],
                            [3, 'Financiera'],
-                           [4, 'Auto en parte de Pago']],
+                           [4, 'Auto en parte de Pago'],
+                           [5, 'Transferencia Electronica']],
                       label_method: :second, value_method: :first,
                       input_html: {
                           'ng-model'=>"payment_selector"
@@ -163,19 +173,14 @@
           'ng-model'=>"sc.sale.comment"
       }%>
 
-
-
-
-
-
     </div>
 
     <div class="form-actions row">
       <div class="col-sm">
-        <%= f.button :submit %>
+        <%= f.button :submit, t('create_sale') %>
       </div>
       <div class="col-sm">
-        <%= link_to 'Back', sales_path %>
+        <%= link_to 'Atras', sales_path, class: 'btn btn-primary' %>
       </div>
 
     </div>

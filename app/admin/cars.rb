@@ -1,6 +1,8 @@
 ActiveAdmin.register Car do
   permit_params :brand_id, :model, :license_plate, :year, :color, :milage, :maintenances, :fuel_id,
-                :transmission_id, :reservation_price, :state, :list_price, :buy_price, :technical_review_expiration, :book, :publication, :cc, :permit, :soap, :property, :branch_id, repair: %i[workshop reason quote]
+                :transmission_id, :reservation_price, :state, :list_price, :buy_price, :technical_review_expiration,
+                :book, :publication, :cc, :permit, :soap, :property, :branch_id, :car_provider_id,
+                repair: %i[workshop reason quote]
   scope 'Todos', :all, default: true
   scope 'En Reparaciones', :in_repairs
   scope 'Disponibles', :available
@@ -26,6 +28,7 @@ ActiveAdmin.register Car do
     column :buy_price do |car|
       number_to_currency(car.buy_price)
     end
+    column :car_provider
     column :status
     column :branch
     actions
@@ -46,6 +49,7 @@ ActiveAdmin.register Car do
       row :buy_price do |car|
         number_to_currency(car.buy_price)
       end
+      row :car_provider
       row :soap
       row :permit
       row :technical_review_expiration
@@ -84,6 +88,7 @@ ActiveAdmin.register Car do
       f.input :transmission
       f.input :list_price
       f.input :buy_price
+      f.input :car_provider
       f.input :technical_review_expiration, as: :datepicker
       f.input :book
       f.input :cc

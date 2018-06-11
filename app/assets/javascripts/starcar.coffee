@@ -1,6 +1,26 @@
 $(document).on 'turbolinks:load ready page:load', ->
   app = angular.module("Starcar", ["ngResource", 'ui.bootstrap'])
 
+  app.directive 'format', [
+    '$filter'
+    ($filter) ->
+      {
+        require: '?ngModel'
+        link: (scope, elem, attrs, ctrl) ->
+          if !ctrl
+            return
+          ctrl.$formatters.unshift (a) ->
+            $filter(attrs.format) ctrl.$modelValue
+          elem.bind 'blur', (event) ->
+            plainNumber = elem.val().replace(/[^\d|\-+|\.+]/g, '')
+            elem.val $filter(attrs.format)(plainNumber)
+            return
+          return
+
+      }
+  ]
+
+
   $('form').on 'click', '.remove_fields', (event) ->
     $(this).prev('input[type=hidden]').val('1')
     $(this).closest('.container').hide()
@@ -11,13 +31,29 @@ $(document).on 'turbolinks:load ready page:load', ->
 
   app.service 'carSrv', ($http) ->
     @getCars = (id) ->
-      $http.get('/cars.json', params: { branch_id: id})
+      $http.get('/cars.json', params: { branch_id: id},{
+          withCredentials: true,
+          headers: {
+            'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
+          }
+        }
+      )
 
     @getClient = (rut) ->
-      $http.get('/clients.json', params: { rut: rut})
+      $http.get('/clients.json', params: { rut: rut},{
+        withCredentials: true,
+        headers: {
+          'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
+        }
+      })
 
     @getCar = (id) ->
-      $http.get('/cars/'+id+'.json')
+      $http.get('/cars/'+id+'.json',{
+        withCredentials: true,
+        headers: {
+          'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
+        }
+      })
 
     return
 
@@ -31,13 +67,15 @@ $(document).on 'turbolinks:load ready page:load', ->
     @rut = ""
     @clients = []
     @sale = {
-      transfer_cost:  101330,
-      appraisal:      0,
-      pva:            0,
-      total_transfer: 0,
-      discount:       0,
-      sell_price:     0
-        }
+      transfer_cost:      101330,
+      appraisal:          0,
+      pva:                0,
+      total_transfer:     0,
+      transfer_discount:  0,
+      list_discount:      0,
+      sell_price:         0
+    }
+    @test = 9898
     $scope.currentClient = null
     $scope.currentClientID = 0
     $scope.payments = ''
@@ -67,9 +105,9 @@ $(document).on 'turbolinks:load ready page:load', ->
       return
 
     @updateFields = () ->
-      sc.sale.sale_price = sc.currentCar.list_price - sc.sale.discount
+      sc.sale.sale_price = sc.currentCar.list_price - sc.sale.list_discount
       sc.sale.tax = Math.ceil(Math.max(sc.sale.pva, sc.sale.appraisal, sc.sale.sale_price) * 0.015)
-      sc.sale.total_transfer = sc.sale.tax + sc.sale.transfer_cost - sc.sale.discount
+      sc.sale.total_transfer = sc.sale.tax + sc.sale.transfer_cost - sc.sale.transfer_discount
       sc.sale.final_price = sc.sale.sale_price + sc.sale.total_transfer
       return
 

@@ -226,7 +226,7 @@ ActiveAdmin.setup do |config|
   #
   config.namespace :admin do |admin|
     admin.build_menu :default do |menu|
-      menu.add label: 'Ventas', url: '/sales', html_options: { target: :blank }
+      menu.add label: 'Generar Ventas', url: '/sales', html_options: { target: :blank }
     end
   end
 
@@ -243,7 +243,7 @@ ActiveAdmin.setup do |config|
   #     admin.download_links = false
   #
   #     # Only show XML & PDF options
-  #     admin.download_links = [:xml, :pdf]
+  config.download_links = [:json, :xls]
   #
   #     # Enable/disable the links based on block
   #     #   (for example, with cancan)

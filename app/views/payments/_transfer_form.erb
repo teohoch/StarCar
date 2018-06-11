@@ -1,5 +1,5 @@
 <div class="container">
-  <h3>Cheque</h3>
+  <h3>Transferencia Electronica</h3>
   <div class="row form-inputs">
 
     <div class="col-sm">
@@ -7,7 +7,7 @@
     </div>
 
     <div class="col-sm">
-      <%= f.input :code %>
+      <%= f.input :deposit, input_html: { min: 0 } %>
     </div>
 
     <div class="col-sm align-self-end form-group text-right">
@@ -15,16 +15,7 @@
       <%= link_to "X", '#', class: "remove_fields btn btn-danger" %>
     </div>
   </div>
-  <div class="row form-inputs">
-    <div class="col-sm">
-      <%= f.input :bank %>
-    </div>
-
-    <div class="col-sm">
-    </div>
-
-    <div class="col-sm align-self-end form-group">
-
-    </div>
-  </div>
 </div>
+
+
+

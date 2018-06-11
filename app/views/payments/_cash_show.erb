@@ -1,19 +1,17 @@
-<br>
-
-<h3>Efectivo</h3>
-<table class="display table table-condensed table-responsive">
-  <thead>
-  <tr>
-    <th><%= CashPayment.human_attribute_name(:amount) %> </th>
-    <th><%= CashPayment.human_attribute_name(:deposit_number) %> </th>
-
-  </thead>
-  <tbody>
-  <% cash_payments.each do |r| %>
+<div class="col">
+  <h3>Efectivo</h3>
+  <table class="display table table-condensed table-responsive">
+    <thead>
     <tr>
-      <td>$<%= r.amount %></td>
-      <td align="center"><%= r.deposit_number%></td>
-    </tr>
-  <% end %>
-  </tbody>
-</table>
+      <th><%= CashPayment.human_attribute_name(:amount) %> </th>
+
+    </thead>
+    <tbody>
+    <% cash_payments.each do |r| %>
+      <tr>
+        <td>$<%= r.amount %></td>
+      </tr>
+    <% end %>
+    </tbody>
+  </table>
+</div>

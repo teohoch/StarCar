@@ -3,6 +3,7 @@ class Car < ApplicationRecord
   belongs_to :branch
   belongs_to :fuel, optional: true
   belongs_to :transmission, optional: true
+  belongs_to :car_provider
   has_many :repairs
   has_many :sales
   has_many :vehicle_payments

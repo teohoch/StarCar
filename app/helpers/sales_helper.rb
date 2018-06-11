@@ -1,5 +1,5 @@
 module SalesHelper
-  PAYMENT_METHODS = %w[cash card check financier vehicle].freeze
+  PAYMENT_METHODS = %w[cash card check financier vehicle transfer].freeze
   def add_payment_method(name, f, element_id, hidden = false)
     field_list = []
     ids = []

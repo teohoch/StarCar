@@ -4,7 +4,7 @@ FactoryBot.define do
     sale nil
     status ""
     financier nil
-    discount ""
+    transfer_discount ""
     down_payment ""
   end
 end
