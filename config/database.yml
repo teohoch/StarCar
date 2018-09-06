@@ -80,6 +80,7 @@ test:
 #
 production:
   <<: *default
+  host: postgres
   database: StarCar_production
   username: StarCar
   password: <%= ENV['STARCAR_DATABASE_PASSWORD'] %>

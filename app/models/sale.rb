@@ -22,6 +22,14 @@ class Sale < ApplicationRecord
 
   TRANSFER_COST = 101_330
 
+  def folio
+    "N° %s%03d%03d" % [(self.created_at.year-2000), self.employee_id, self.id]
+  end
+
+  def display_name
+    folio
+  end
+
   def calculate_save
     calculate
     save

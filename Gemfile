@@ -80,7 +80,7 @@ group :development, :test do
   gem "database_cleaner"
   gem 'selenium-webdriver'
   gem 'webmock'
-  #gem 'i18n-debug', group: :development
+  gem 'i18n-debug'
 
 end
 

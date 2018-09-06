@@ -191,6 +191,8 @@ es:
         comment: 'Comentario'
         total_transfer: 'Total Transferencia'
         sale_price: 'Precio de venta'
+      transfer_payment:
+        deposit: N° de Deposito
 
 
     errors:
@@ -280,7 +282,7 @@ es:
       petrol: "Diesel"
       electric: "Electrico"
     transmission:
-      manual: "Manual"
+      manual: "Mecanica"
       automatic: "Automatica"
       electric: 'Electrica'
       CMP: 'CMP'
@@ -337,3 +339,4 @@ es:
       table_title: "Venta"
   send_to_repairs: "Enviar a taller"
   create_sale: "Generar Venta"
+  create_reservation: "Generar Reserva"

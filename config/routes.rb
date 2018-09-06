@@ -2,6 +2,7 @@ Rails.application.routes.draw do
   resources :sales
   resources :clients
   resources :cars
+  resources :reservations
   get 'home/index'
   root to: 'home#index'
 

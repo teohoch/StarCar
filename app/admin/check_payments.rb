@@ -11,5 +11,15 @@ ActiveAdmin.register CheckPayment do
 #   permitted << :other if params[:action] == 'create' && current_user.admin?
 #   permitted
 # end
+ decorate_with CheckPaymentDecorator
  actions :index, :show
+ index do
+   column :folio
+   column :number
+   column :date
+   column :bank
+   column :amount
+   actions
+ end
+
 end

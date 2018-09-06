@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180611063036) do
+ActiveRecord::Schema.define(version: 20180905220903) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -191,6 +191,21 @@ ActiveRecord::Schema.define(version: 20180611063036) do
     t.index ["employee_id"], name: "index_repairs_on_employee_id"
   end
 
+  create_table "reservations", force: :cascade do |t|
+    t.bigint "car_id"
+    t.bigint "client_id"
+    t.bigint "employee_id"
+    t.bigint "branch_id"
+    t.bigint "paid_amount"
+    t.integer "status"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["branch_id"], name: "index_reservations_on_branch_id"
+    t.index ["car_id"], name: "index_reservations_on_car_id"
+    t.index ["client_id"], name: "index_reservations_on_client_id"
+    t.index ["employee_id"], name: "index_reservations_on_employee_id"
+  end
+
   create_table "roles", force: :cascade do |t|
     t.string "name"
     t.string "resource_type"
@@ -265,6 +280,10 @@ ActiveRecord::Schema.define(version: 20180611063036) do
   add_foreign_key "financier_payments", "sales"
   add_foreign_key "repairs", "cars"
   add_foreign_key "repairs", "employees"
+  add_foreign_key "reservations", "branches"
+  add_foreign_key "reservations", "cars"
+  add_foreign_key "reservations", "clients"
+  add_foreign_key "reservations", "employees"
   add_foreign_key "sales", "branches"
   add_foreign_key "sales", "cars"
   add_foreign_key "sales", "clients"

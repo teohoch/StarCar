@@ -39,13 +39,13 @@ class SaleDecorator < ApplicationDecorator
   end
 
   def show_vehicle_payments
-    if model.vehicle_payments.count >0
+    if model.vehicle_payments.count > 0
       h.render partial: 'payments/vehicle_show', locals: { v_p: model.vehicle_payments }
     end
   end
 
   def show_transfer_payments
-    if model.transfer_payments.count >0
+    if model.transfer_payments.count > 0
       h.render partial: 'payments/transfer_show', locals: { transfer_payments: model.transfer_payments }
     end
   end
@@ -67,35 +67,37 @@ class SaleDecorator < ApplicationDecorator
   end
 
   def final_price
-    super.nil? ? 0 : h.number_to_currency(super)
+    super.nil? ? '$0' : h.number_to_currency(super)
   end
 
-  def folio
-    "%s%03d%03d" % [(object.created_at.year-2000), object.employee_id, object.id]
-  end
+  # def folio
+  #   "%s%03d%03d" % [(object.created_at.year-2000), object.employee_id, object.id]
+  # end
 
   def transfer_cost
-    super.nil? ? 0 : h.number_to_currency(super)
+    super.nil? ? '$0' : h.number_to_currency(super)
   end
 
   def tax
-    super.nil? ? 0 : h.number_to_currency(super)
+    super.nil? ? '$0' : h.number_to_currency(super)
   end
 
   def transfer_discount
-    super.nil? ? 0 : h.number_to_currency(super)
+    super.nil? ? '$0' : h.number_to_currency(super)
   end
 
   def total_transfer
-    h.number_to_currency(model.transfer_cost + model.tax)
+    temp = model.transfer_cost + model.tax
+    h.number_to_currency(temp != 0 ? temp : 0)
   end
 
   def sale_price
-    (object.car.nil? ? 0 : object.car.list_price) - (object.transfer_discount.nil? ? 0 : object.transfer_discount)
+    temp = (object.car.nil? ? 0 : object.car.list_price) - (object.transfer_discount.nil? ? 0 : object.transfer_discount)
+    h.number_to_currency(temp)
   end
 
   def list_price
-    object.car.nil? ? 0 : object.car.list_price
+    object.car.nil? ? '$0' : object.car.list_price
   end
 
   def payment_selector

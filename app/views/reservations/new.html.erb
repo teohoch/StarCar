@@ -1,0 +1,120 @@
+<h1>Nueva Reserva</h1>
+
+<div ng-controller="ReservationCtrl as rc">
+  <%= simple_form_for(@reservation) do |f| %>
+    <%= f.error_notification %>
+    <div class="form-inputs">
+      <%= f.association :client, as: :hidden, input_html: {
+          'ng-model'=>"currentClientID",
+          'value'=>'{{currentClientID}}'}%>
+    </div>
+
+    <div class="row">
+      <div class="col-sm">
+        <%= f.input :rut , input_html: {
+            'ng-model'=>"rc.rut"
+        }%>
+      </div>
+      <div class="col-sm align-self-end form-group">
+        <a class="btn btn-info" ng-click="rc.getClient()" href="">Burcar Cliente</a>
+
+      </div>
+
+    </div>
+
+    <div class="content" ng-show="currentClient!=null">
+      <table class="display table table-condensed table-responsive">
+        <thead>
+        <tr>
+          <th><h3> Cliente </h3></th>
+        </tr>
+
+        </thead>
+        <tbody>
+        <tr>
+          <td> RUT </td>
+          <td> {{currentClient.rut}} </td>
+        </tr>
+        <tr>
+          <td> Nombre </td>
+          <td> {{currentClient.name + " " + currentClient.surname}} </td>
+        </tr>
+        <tr>
+          <td> Correo Electrónico </td>
+          <td> {{currentClient.email}} </td>
+        </tr>
+        <tr>
+          <td> Teléfono </td>
+          <td> {{currentClient.phone}} </td>
+        </tr>
+
+        </tbody>
+      </table>
+    </div>
+    <br>
+    <hr>
+    <br>
+    <h2> Vehiculo </h2>
+
+    <%= f.association :branch, input_html: {
+        'ng-change'=>"rc.getCars()",
+        'ng-model'=>"rc.currentBranch"} %>
+
+    <%= f.association :car, input_html: {
+        'ng-options'=> 'car.label for car in rc.cars track by car.id',
+        'ng-disabled'=> 'rc.enableCar',
+        'ng-model'=>"rc.currentCar",
+        'ng-change'=>'rc.updateFields()'
+    }%>
+
+
+
+    <div class="content" ng-show="rc.currentCar!=null">
+      <table class="display table table-condensed table-responsive">
+        <tbody>
+        <tr>
+          <td> Modelo </td>
+          <td> {{rc.currentCar.brand + " " + rc.currentCar.model_safe + " " + rc.currentCar.year}} </td>
+        </tr>
+        <tr>
+          <td> Patente </td>
+          <td> {{rc.currentCar.license_plate}} </td>
+        </tr>
+        <tr>
+          <td> Color </td>
+          <td> {{rc.currentCar.color}} </td>
+        </tr>
+        <tr>
+          <td> Precio Lista </td>
+          <td> {{ rc.currentCar.list_price | currency }} </td>
+        </tr>
+
+        </tbody>
+      </table>
+    </div>
+    <div ng-show="rc.currentCar!=null" class="form-inputs">
+      <div class="row">
+        <div class="col-sm">
+          <%= f.input :paid_amount , input_html: {
+              'ng-model'=>"rc.paid_amount"
+          }%>
+        </div>
+      </div>
+    </div>
+
+    <div ng-show="rc.currentCar!=null" class="form-actions row">
+      <div ng-show="rc.currentCar!=null" class="col-sm">
+        <%= f.button :submit, t('create_reservation'), class: 'btn btn-danger' %>
+      </div>
+      <div class="col-sm">
+        <%= link_to 'Atras', reservations_path, class: 'btn btn-primary' %>
+      </div>
+
+    </div>
+
+  <% end %>
+
+</div>
+
+
+

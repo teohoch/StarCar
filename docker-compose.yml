@@ -1,0 +1,33 @@
+version: '3.2'
+
+services:
+
+  carga-masiva:
+    image: gcr.io/starcar-206910/starcar:latest
+    restart: unless-stopped
+    ports:
+      - 8080:3000
+    depends_on:
+      - postgres
+    networks:
+      - starcar
+    environment:
+      - STARCAR_DATABASE_PASSWORD=mysuperpassword
+
+  postgres:
+    image: postgres
+    restart: unless-stopped|
+    environment:
+      POSTGRES_PASSWORD: "mysuperpassword"
+      POSTGRES_USER: "StarCar"
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+    networks:
+      - starcar
+
+
+networks:
+  starcar:
+    driver: bridge
+volumes:
+  pg_data:

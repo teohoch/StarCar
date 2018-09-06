@@ -16,12 +16,16 @@ class Car < ApplicationRecord
       not_available: 0,
       available: 1,
       in_repairs: 2,
-      sold: 3
+      sold: 3,
+      reserved: 4
   }
 
+  scope :reserved, -> {where(state: 4)}
+  scope :sold, -> {where(state: 3)}
   scope :in_repairs, -> {where(state: 2)}
   scope :available, -> {where(state: 1)}
   scope :not_available, -> {where(state: 0)}
+
   def status
     I18n.t("support.car_states.#{state}")
   end
