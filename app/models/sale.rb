@@ -40,6 +40,10 @@ class Sale < ApplicationRecord
     save!
   end
 
+  def add_payment_car
+    
+  end
+
   private
 
   def calculate

@@ -44,6 +44,7 @@ class Car < ApplicationRecord
     state :available
     state :in_repairs
     state :sold
+    state :reserved
 
     event :send_for_repairs do
       transitions from: [:not_available, :available], to: :in_repairs
@@ -51,6 +52,10 @@ class Car < ApplicationRecord
 
     event :end_repairs do
       transitions from: :in_repairs, to: :not_available
+    end
+
+    event :reserve do
+      transitions from: :available, to: :reserved
     end
 
 

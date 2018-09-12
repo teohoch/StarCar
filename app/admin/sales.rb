@@ -14,6 +14,8 @@ ActiveAdmin.register Sale do
   #
   decorate_with SaleDecorator
   actions :index, :show
+
+  config.xls_builder.delete_columns :id, :created_at, :updated_at
   index do
     selectable_column
     column :folio

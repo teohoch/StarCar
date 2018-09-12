@@ -7,6 +7,10 @@ ActiveAdmin.register Car do
   scope 'En Reparaciones', :in_repairs
   scope 'Disponibles', :available
   scope 'No Disponibles', :not_available
+  scope 'Reservados', :reserved
+  scope 'Vendidos', :sold
+
+  config.xls_builder.delete_columns :id, :created_at, :updated_at
 
   index do
     selectable_column

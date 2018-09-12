@@ -4,7 +4,7 @@ class ReservationsController < ApplicationController
   # GET /reservations
   # GET /reservations.json
   def index
-    @reservations = Reservation.all
+    @reservations = Reservation.all.decorate
   end
 
   # GET /reservations/1
@@ -22,16 +22,19 @@ class ReservationsController < ApplicationController
   # POST /reservations
   # POST /reservations.json
   def create
-    ActiveRecord::Base.transaction do
-      @reservation = Reservation.new(reservation_params)
-    end
+    @reservation = Reservation.new(reservation_params)
+    @reservation.employee = current_employee
+    begin
+      ActiveRecord::Base.transaction do
+        @reservation.reserve!
+        respond_to do |format|
+          format.html { redirect_to @reservation, notice: 'Reserva realizada con exito.' }
+          format.json { render :show, status: :created, location: @reservation }
+        end
 
-
-    respond_to do |format|
-      if @reservation.save
-        format.html { redirect_to @reservation, notice: 'Reservation was successfully created.' }
-        format.json { render :show, status: :created, location: @reservation }
-      else
+      end
+    rescue => e
+      respond_to do |format|
         format.html { render :new }
         format.json { render json: @reservation.errors, status: :unprocessable_entity }
       end
@@ -71,6 +74,6 @@ class ReservationsController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def reservation_params
-    params.require(:reservation).permit(:rut, :branch_id, :car_id, :paid_amount)
+    params.require(:reservation).permit(:rut, :branch_id, :car_id, :paid_amount, :client_id)
   end
 end

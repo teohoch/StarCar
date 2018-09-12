@@ -26,6 +26,16 @@
                 <%= link_to t('car.show.table_title'), cars_path %>
               </span>
           </li>
+          <li class="nav-item">
+              <span class="navbar-text" style="padding-right: 12px">
+                <%= link_to t('sale.show.table_title'), sales_path %>
+              </span>
+          </li>
+          <li class="nav-item">
+              <span class="navbar-text" style="padding-right: 12px">
+                <%= link_to t('reservation.show.table_title'), reservations_path %>
+              </span>
+          </li>
         <% end %>
       </ul>
       <% if employee_signed_in? %>

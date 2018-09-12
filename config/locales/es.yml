@@ -145,6 +145,9 @@ es:
       check_payment:
         one: 'Pago por Cheque'
         other: 'Pagos por Cheque'
+      reservation:
+        one: "Reserva"
+        other: "Reservas"
     attributes:
       car:
         model: "Modelo"
@@ -191,6 +194,9 @@ es:
         comment: 'Comentario'
         total_transfer: 'Total Transferencia'
         sale_price: 'Precio de venta'
+      reservation:
+        client: Cliente
+        employee: Vendedor
       transfer_payment:
         deposit: N° de Deposito
 
@@ -277,6 +283,7 @@ es:
       available: "Disponible"
       in_repairs: "En reparaciones"
       sold: "Vendido"
+      reserved: "Reservado"
     fuel:
       gas: "Bencinero"
       petrol: "Diesel"
@@ -340,3 +347,6 @@ es:
   send_to_repairs: "Enviar a taller"
   create_sale: "Generar Venta"
   create_reservation: "Generar Reserva"
+  reservation:
+    show:
+      table_title: "Reservas"

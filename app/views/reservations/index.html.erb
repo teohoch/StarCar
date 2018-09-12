@@ -1,25 +1,9 @@
 <p id="notice"><%= notice %></p>
 
-<h1>Reservations</h1>
+<h1> <%= Reservation.model_name.human(count: 2) %> </h1>
 
-<table>
-  <thead>
-    <tr>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
+<%= @reservations.show_all %>
 
-  <tbody>
-    <% @reservations.each do |reservation| %>
-      <tr>
-        <td><%= link_to 'Show', reservation %></td>
-        <td><%= link_to 'Edit', edit_reservation_path(reservation) %></td>
-        <td><%= link_to 'Destroy', reservation, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
+<%= action_button(nil, button_class: 'btn btn-warning', text: 'Generar Reserva', path: new_reservation_path) %>
 
-<br>
 
-<%= link_to 'New Reservation', new_reservation_path %>

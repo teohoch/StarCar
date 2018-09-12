@@ -40,8 +40,10 @@ class VehiclePayment < ApplicationRecord
   def save (*)
 
     ActiveRecord::Base.transaction do
+      provider = CarProvider.find_by_name('Clientes')
       car = Car.create!(brand_id: @brand_id, model: @model, year: @year, license_plate: @license_plate, color: @color,
-                        milage: @milage, fuel_id: @fuel_id, transmission_id: @transmission_id, branch_id: @branch_id, buy_price: amount)
+                        milage: @milage, fuel_id: @fuel_id, transmission_id: @transmission_id, branch_id: @branch_id,
+                        buy_price: amount, car_provider: provider)
       VehiclePayment.create!(amount: amount, car: car, sale: sale)
     end
 
