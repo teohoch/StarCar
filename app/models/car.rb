@@ -7,6 +7,7 @@ class Car < ApplicationRecord
   has_many :repairs
   has_many :sales
   has_many :vehicle_payments
+  has_many :quotes
   accepts_nested_attributes_for :repairs
 
   validates :license_plate, :buy_price, :model, presence: true

@@ -1,6 +1,7 @@
 FROM ruby:2.5
 
-RUN apt-get update -qq && apt-get install -y build-essential libpq-dev libxml2-dev libxslt1-dev  libqtwebkit4 libqt4-dev xvfb nodejs mupdf mupdf-tools
+RUN apt-get update -qq && curl -sL https://deb.nodesource.com/setup_8.x | bash - && \
+    apt-get install -y build-essential libpq-dev libxml2-dev libxslt1-dev  libqtwebkit4 libqt4-dev xvfb nodejs mupdf mupdf-tools
 ENV RAILS_ENV production
 ENV RAILS_SERVE_STATIC_FILES true
 ENV RAILS_LOG_TO_STDOUT true

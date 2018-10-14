@@ -1,0 +1,15 @@
+<%= simple_form_for(@quote) do |f| %>
+  <%= f.error_notification %>
+
+  <div class="form-inputs">
+    <%= f.association :car %>
+    <%= f.association :client %>
+    <%= f.association :employee %>
+    <%= f.association :branch %>
+    <%= f.input :quote_price %>
+  </div>
+
+  <div class="form-actions">
+    <%= f.button :submit %>
+  </div>
+<% end %>

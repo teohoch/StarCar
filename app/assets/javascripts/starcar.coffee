@@ -1,5 +1,5 @@
 $(document).on 'turbolinks:load ready page:load', ->
-  app = angular.module("Starcar", ["ngResource", 'ui.bootstrap'])
+  app = angular.module("Starcar", ["ngResource", 'ui.bootstrap','platanus.rut', 'purplefox.numeric'])
 
   app.directive 'format', [
     '$filter'
@@ -213,6 +213,80 @@ $(document).on 'turbolinks:load ready page:load', ->
 
 
   app.controller 'ReservationCtrl', ($scope, $uibModal,$document, $log, carSrv) ->
+    rc = this
+    @currentBranch = null
+    @currentCar = null
+    @currentCarID = null
+    @enableCar = true
+    @cars = []
+    @rut = ""
+    @clients = []
+    @enableCar = false
+    $scope.currentClient = null
+    $scope.currentClientID = 0
+    $scope.paid_amount = 0
+
+
+
+    @getCars = () ->
+      rc.enableCar = true
+      carSrv.getCars(@currentBranch).then(
+        (response) ->
+          rc.cars = response.data
+          rc.enableCar = false
+      )
+      return
+
+    @getClient = () ->
+      carSrv.getClient(@rut).then(
+        (response) ->
+          rc.clients = response.data
+          if rc.clients.length > 0
+            $scope.currentClient = response.data[0]
+            $scope.currentClientID = $scope.currentClient.id
+          else
+            $scope.currentClient = null
+            rc.open('lg')
+      )
+      return
+
+    @open = (size, parentSelector) ->
+      parentElem = if parentSelector then angular.element($document[0].querySelector('.modal-demo ' + parentSelector)) else undefined
+      modalInstance = $uibModal.open(
+        animation: rc.animationsEnabled
+        ariaLabelledBy: 'modal-title'
+        ariaDescribedBy: 'modal-body'
+        templateUrl: '/clients/new?partial'
+        controller: 'ModalInstanceCtrl'
+        controllerAs: '$ctrl'
+        size: size
+        appendTo: parentElem
+        resolve: {
+          newClient: () ->
+            $scope.newClient
+        }
+      )
+
+      modalInstance.result.then ((data) ->
+        $scope.currentClient = data
+        $scope.currentClientID = $scope.currentClient.id
+        return
+      ), ->
+        $log.info 'Modal dismissed at: ' + new Date
+        return
+      return
+
+
+    @toggleAnimation = ->
+      @animationsEnabled = !@animationsEnabled
+      return
+    return
+
+
+    return
+
+
+  app.controller 'QuoteCtrl', ($scope, $uibModal,$document, $log, carSrv) ->
     rc = this
     @currentBranch = null
     @currentCar = null

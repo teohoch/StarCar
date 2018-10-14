@@ -1,0 +1,7 @@
+<p id="notice"><%= notice %></p>
+
+<h1> <%= Quote.model_name.human(count: 2) %> </h1>
+
+<%= @quotes.show_all %>
+
+<%= action_button(nil, button_class: 'btn btn-warning', text: 'Generar Cotizacion', path: new_quote_path) %>

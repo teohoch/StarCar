@@ -148,6 +148,9 @@ es:
       reservation:
         one: "Reserva"
         other: "Reservas"
+      quote:
+        one: "Cotizacion"
+        other: "Cotizaciones"
     attributes:
       car:
         model: "Modelo"
@@ -199,6 +202,8 @@ es:
         employee: Vendedor
       transfer_payment:
         deposit: N° de Deposito
+      quote:
+        quote_price: Precio Cotizacion
 
 
     errors:
@@ -347,6 +352,10 @@ es:
   send_to_repairs: "Enviar a taller"
   create_sale: "Generar Venta"
   create_reservation: "Generar Reserva"
+  create_quote: "Generar Cotizacion"
   reservation:
     show:
       table_title: "Reservas"
+  quote:
+    show:
+      table_title: "Cotizaciones"

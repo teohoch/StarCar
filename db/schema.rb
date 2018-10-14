@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180905220903) do
+ActiveRecord::Schema.define(version: 20181005035302) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -94,7 +94,6 @@ ActiveRecord::Schema.define(version: 20180905220903) do
   create_table "cash_payments", force: :cascade do |t|
     t.bigint "amount"
     t.bigint "sale_id"
-    t.integer "deposit_number"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["sale_id"], name: "index_cash_payments_on_sale_id"
@@ -175,6 +174,20 @@ ActiveRecord::Schema.define(version: 20180905220903) do
 
   create_table "fuels", force: :cascade do |t|
     t.string "name"
+  end
+
+  create_table "quotes", force: :cascade do |t|
+    t.bigint "car_id"
+    t.bigint "client_id"
+    t.bigint "employee_id"
+    t.bigint "branch_id"
+    t.bigint "quote_price"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["branch_id"], name: "index_quotes_on_branch_id"
+    t.index ["car_id"], name: "index_quotes_on_car_id"
+    t.index ["client_id"], name: "index_quotes_on_client_id"
+    t.index ["employee_id"], name: "index_quotes_on_employee_id"
   end
 
   create_table "repairs", force: :cascade do |t|
@@ -278,6 +291,10 @@ ActiveRecord::Schema.define(version: 20180905220903) do
   add_foreign_key "check_payments", "sales"
   add_foreign_key "financier_payments", "financiers"
   add_foreign_key "financier_payments", "sales"
+  add_foreign_key "quotes", "branches"
+  add_foreign_key "quotes", "cars"
+  add_foreign_key "quotes", "clients"
+  add_foreign_key "quotes", "employees"
   add_foreign_key "repairs", "cars"
   add_foreign_key "repairs", "employees"
   add_foreign_key "reservations", "branches"

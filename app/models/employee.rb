@@ -10,6 +10,7 @@ class Employee < ApplicationRecord
   after_create :assign_default_role
   has_many :branches
   has_many :repairs
+  has_many :quotes
 
   def assign_default_role
     add_role(:employee) if roles.blank?

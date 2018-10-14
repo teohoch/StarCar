@@ -3,4 +3,5 @@ class Branch < ApplicationRecord
 
   has_many :cars
   has_many :reservations
+  has_many :quotes
 end

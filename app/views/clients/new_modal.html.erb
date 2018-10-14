@@ -10,7 +10,7 @@
       <%= f.input :email, input_html: {'ng-model'=>"newClient.email"} %>
       <%= f.input :name , input_html: {'ng-model'=>"newClient.name"}%>
       <%= f.input :surname, input_html: {'ng-model'=>"newClient.surname"} %>
-      <%= f.input :rut, input_html: {'ng-model'=>"newClient.rut"} %>
+      <%= f.input :rut, input_html: {:'ng-rut'=> '', 'ng-model'=>"newClient.rut"} %>
       <%= f.input :address, input_html: {'ng-model'=>"newClient.address"} %>
       <%= f.input :phone, input_html: {'ng-model'=>"newClient.phone"} %>
     </div>

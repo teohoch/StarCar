@@ -3,7 +3,12 @@ class ClientsController < InheritedResources::Base
   before_action :authenticate_employee!
   def index
     clients = Client.all
-    clients = clients.where(rut: params[:rut]) if params.key?(:rut)
+    if params.key?(:rut)
+      temp = params[:rut].split(//)
+      validator = temp.pop
+      numbers = temp.join
+      clients = clients.where(rut: ([numbers, validator].join('-')))
+    end
     @clients = clients.decorate
   end
 
