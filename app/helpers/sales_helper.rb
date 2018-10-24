@@ -1,10 +1,10 @@
 module SalesHelper
-  PAYMENT_METHODS = %w[cash card check financier vehicle transfer].freeze
-  def add_payment_method(name, f, element_id, hidden = false)
+
+  def add_payment_method(name, f, element_id, hidden: false, page: 'sc', payment_methods: %w[cash card check financier vehicle transfer])
     field_list = []
     ids = []
 
-    PAYMENT_METHODS.each do |method|
+    payment_methods.each do |method|
       temp = generate_fields(f, method + '_payments', 'payments/' + method + '_form')
       ids.push temp[0]
       field_list.push temp[1]
@@ -18,7 +18,7 @@ module SalesHelper
         },
                  style: "display: #{hidden ? 'none' : 'visible'}; margin-left: 0px",
                  id: element_id,
-                 'ng-click' => 'sc.add_payment_method($event)'
+                 'ng-click' => "#{page}.add_payment_method($event)"
 
     )
   end

@@ -1,5 +1,5 @@
 class VehiclePayment < ApplicationRecord
-  belongs_to :sale
+  belongs_to :vehicle_payable, polymorphic: true, optional: true
   belongs_to :car, optional: true
   accepts_nested_attributes_for :car
   attr_writer :brand_id, :model, :year, :license_plate, :color, :milage, :fuel_id, :transmission_id
@@ -44,7 +44,8 @@ class VehiclePayment < ApplicationRecord
       car = Car.create!(brand_id: @brand_id, model: @model, year: @year, license_plate: @license_plate, color: @color,
                         milage: @milage, fuel_id: @fuel_id, transmission_id: @transmission_id, branch_id: @branch_id,
                         buy_price: amount, car_provider: provider)
-      VehiclePayment.create!(amount: amount, car: car, sale: sale)
+      self.car = car
+      super
     end
 
     true

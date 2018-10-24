@@ -12,7 +12,8 @@
     <div class="row">
       <div class="col-sm">
         <%= f.input :rut , input_html: {
-            'ng-model'=>"rc.rut"
+            'ng-model'=>"rc.rut",
+            'ng-rut'=> ''
         }%>
       </div>
       <div class="col-sm align-self-end form-group">
@@ -101,6 +102,37 @@
         </div>
       </div>
     </div>
+
+
+    <br>
+
+    <h2>Formas de Pago</h2>
+
+
+    <div class="row">
+      <div class="col-sm">
+        <%= f.input :payment_selector, as: :select,
+                    collection:
+                        [[0, 'Efectivo'],
+                         [1, 'Tarjeta'],
+                         [2, 'Cheque'],
+                         [3, 'Financiera'],
+                         [4, 'Auto en parte de Pago'],
+                         [5, 'Transferencia Electronica']],
+                    label_method: :second, value_method: :first,
+                    input_html: {
+                        'ng-model'=>"payment_selector"
+                    }
+        %>
+      </div>
+
+      <div class="col-sm align-self-end form-group">
+        <%= add_payment_method('Agregar Metodo de Pago', f, 'button_add_payment_method', page:'rc') %>
+
+      </div>
+    </div>
+
+
 
     <div ng-show="rc.currentCar!=null" class="form-actions row">
       <div ng-show="rc.currentCar!=null" class="col-sm">

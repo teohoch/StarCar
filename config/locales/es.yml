@@ -300,12 +300,16 @@ es:
       CMP: 'CMP'
     card_types:
       c0: 'Debito'
-      c1: 'Credit'
+      c1: 'Credito'
 
   number:
       currency:
         format:
           precision: 0
+          unit: '$'
+          delimiter: '.'
+          separator: ','
+          format: '%u%n'
 
   table_text:
         sProcessing:      "Procesando..."

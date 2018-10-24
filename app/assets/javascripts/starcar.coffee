@@ -250,6 +250,32 @@ $(document).on 'turbolinks:load ready page:load', ->
       )
       return
 
+
+
+    @add_payment_method = (event) ->
+      event.preventDefault()
+      if $scope.payment_selector
+        id = JSON.parse(event.currentTarget.dataset.ids)[parseInt($scope.payment_selector)]
+        html = JSON.parse(event.currentTarget.dataset.fields)[parseInt($scope.payment_selector)]
+
+        time = new Date().getTime()
+        regexp = new RegExp(id, 'g')
+        data_field = html.replace(regexp, time)
+
+        template = document.createElement('template')
+        template.innerHTML = data_field.trim()
+        event.currentTarget.parentNode.parentNode.before(template.content.firstChild)
+      return
+
+    @remove_payment_method = (event) ->
+      event.preventDefault()
+      event.currentTarget.prev('input[type=hidden]').val('1')
+
+      event.currentTarget.closest('.container').hide()
+
+      return
+
+
     @open = (size, parentSelector) ->
       parentElem = if parentSelector then angular.element($document[0].querySelector('.modal-demo ' + parentSelector)) else undefined
       modalInstance = $uibModal.open(
@@ -287,7 +313,7 @@ $(document).on 'turbolinks:load ready page:load', ->
 
 
   app.controller 'QuoteCtrl', ($scope, $uibModal,$document, $log, carSrv) ->
-    rc = this
+    qc = this
     @currentBranch = null
     @currentCar = null
     @currentCarID = null
@@ -303,31 +329,31 @@ $(document).on 'turbolinks:load ready page:load', ->
 
 
     @getCars = () ->
-      rc.enableCar = true
+      qc.enableCar = true
       carSrv.getCars(@currentBranch).then(
         (response) ->
-          rc.cars = response.data
-          rc.enableCar = false
+          qc.cars = response.data
+          qc.enableCar = false
       )
       return
 
     @getClient = () ->
       carSrv.getClient(@rut).then(
         (response) ->
-          rc.clients = response.data
-          if rc.clients.length > 0
+          qc.clients = response.data
+          if qc.clients.length > 0
             $scope.currentClient = response.data[0]
             $scope.currentClientID = $scope.currentClient.id
           else
             $scope.currentClient = null
-            rc.open('lg')
+            qc.open('lg')
       )
       return
 
     @open = (size, parentSelector) ->
       parentElem = if parentSelector then angular.element($document[0].querySelector('.modal-demo ' + parentSelector)) else undefined
       modalInstance = $uibModal.open(
-        animation: rc.animationsEnabled
+        animation: qc.animationsEnabled
         ariaLabelledBy: 'modal-title'
         ariaDescribedBy: 'modal-body'
         templateUrl: '/clients/new?partial'

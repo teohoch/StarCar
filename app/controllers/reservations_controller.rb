@@ -74,6 +74,25 @@ class ReservationsController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def reservation_params
-    params.require(:reservation).permit(:rut, :branch_id, :car_id, :paid_amount, :client_id)
+    params.require(:reservation).permit(:rut, :branch_id, :car_id, :paid_amount, :client_id,
+                                        transfer_payments_attributes: %i[
+                                   amount deposit_number _destroy
+                                 ],
+                                        cash_payments_attributes: %i[
+                                   amount deposit_number _destroy
+                                 ],
+                                        check_payments_attributes: %i[
+                                   amount code number date bank _destroy
+                                 ],
+                                        card_payments_attributes: %i[
+                                   amount card_number card_type bank _destroy
+                                 ],
+                                        financier_payments_attributes: %i[
+                                   amount financier_id transfer_discount down_payment _destroy
+                                 ],
+                                        vehicle_payments_attributes: %i[
+                                   amount _destroy model brand_id license_plate year
+                                   color buy_price transmission_id fuel_id milage branch_id
+                                 ])
   end
 end

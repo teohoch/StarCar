@@ -51,14 +51,14 @@ ActiveRecord::Schema.define(version: 20181005035302) do
 
   create_table "card_payments", force: :cascade do |t|
     t.bigint "amount"
-    t.bigint "sale_id"
+    t.integer "card_payable_id"
+    t.string "card_payable_type"
     t.bigint "card_number"
     t.integer "card_type"
     t.integer "status"
     t.string "bank"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["sale_id"], name: "index_card_payments_on_sale_id"
   end
 
   create_table "cars", force: :cascade do |t|
@@ -93,15 +93,16 @@ ActiveRecord::Schema.define(version: 20181005035302) do
 
   create_table "cash_payments", force: :cascade do |t|
     t.bigint "amount"
-    t.bigint "sale_id"
+    t.integer "cash_payable_id"
+    t.string "cash_payable_type"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["sale_id"], name: "index_cash_payments_on_sale_id"
   end
 
   create_table "check_payments", force: :cascade do |t|
     t.bigint "amount"
-    t.bigint "sale_id"
+    t.integer "check_payable_id"
+    t.string "check_payable_type"
     t.integer "status"
     t.bigint "code"
     t.integer "number"
@@ -109,7 +110,6 @@ ActiveRecord::Schema.define(version: 20181005035302) do
     t.string "bank"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["sale_id"], name: "index_check_payments_on_sale_id"
   end
 
   create_table "clients", force: :cascade do |t|
@@ -156,14 +156,14 @@ ActiveRecord::Schema.define(version: 20181005035302) do
 
   create_table "financier_payments", force: :cascade do |t|
     t.bigint "amount"
-    t.bigint "sale_id"
+    t.integer "financier_payable_id"
+    t.string "financier_payable_type"
     t.integer "status"
     t.bigint "financier_id"
     t.bigint "down_payment"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["financier_id"], name: "index_financier_payments_on_financier_id"
-    t.index ["sale_id"], name: "index_financier_payments_on_sale_id"
   end
 
   create_table "financiers", force: :cascade do |t|
@@ -257,11 +257,11 @@ ActiveRecord::Schema.define(version: 20181005035302) do
   create_table "transfer_payments", force: :cascade do |t|
     t.bigint "amount"
     t.bigint "deposit"
-    t.bigint "sale_id"
+    t.integer "transfer_payable_id"
+    t.string "transfer_payable_type"
     t.integer "status"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["sale_id"], name: "index_transfer_payments_on_sale_id"
   end
 
   create_table "transmissions", force: :cascade do |t|
@@ -270,27 +270,23 @@ ActiveRecord::Schema.define(version: 20181005035302) do
 
   create_table "vehicle_payments", force: :cascade do |t|
     t.bigint "amount"
-    t.bigint "sale_id"
+    t.integer "vehicle_payable_id"
+    t.string "vehicle_payable_type"
     t.integer "status"
     t.bigint "car_id"
     t.boolean "mock"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["car_id"], name: "index_vehicle_payments_on_car_id"
-    t.index ["sale_id"], name: "index_vehicle_payments_on_sale_id"
   end
 
   add_foreign_key "branches", "employees", column: "manager_id"
-  add_foreign_key "card_payments", "sales"
   add_foreign_key "cars", "branches"
   add_foreign_key "cars", "brands"
   add_foreign_key "cars", "car_providers"
   add_foreign_key "cars", "fuels"
   add_foreign_key "cars", "transmissions"
-  add_foreign_key "cash_payments", "sales"
-  add_foreign_key "check_payments", "sales"
   add_foreign_key "financier_payments", "financiers"
-  add_foreign_key "financier_payments", "sales"
   add_foreign_key "quotes", "branches"
   add_foreign_key "quotes", "cars"
   add_foreign_key "quotes", "clients"
@@ -305,7 +301,5 @@ ActiveRecord::Schema.define(version: 20181005035302) do
   add_foreign_key "sales", "cars"
   add_foreign_key "sales", "clients"
   add_foreign_key "sales", "employees"
-  add_foreign_key "transfer_payments", "sales"
   add_foreign_key "vehicle_payments", "cars"
-  add_foreign_key "vehicle_payments", "sales"
 end

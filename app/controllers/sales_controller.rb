@@ -9,10 +9,17 @@ class SalesController < InheritedResources::Base
     respond_to do |format|
       format.html
       format.pdf do
-        pdf = PurchaseOrderPdf.new(@sale, view_context)
-        send_data pdf.render, filename: "order_#{@purchase_order}.pdf",
-                              type: 'application/pdf',
-                              disposition: 'inline'
+        if params.has_key? :responsability
+          pdf = ResponsabilityPdf.new(@sale, view_context)
+          send_data pdf.render, filename: "carta_responsabilidad_#{@sale.folio}.pdf",
+                    type: 'application/pdf',
+                    disposition: 'inline'
+        else
+          pdf = SalePdf.new(@sale, view_context)
+          send_data pdf.render, filename: "venta_#{@sale.folio}.pdf",
+                    type: 'application/pdf',
+                    disposition: 'inline'
+        end
       end
     end
   end
@@ -20,7 +27,6 @@ class SalesController < InheritedResources::Base
   def create
     @sale = Sale.new(sale_params)
     @sale.employee = current_employee
-    @sale.client = Client.find_by_rut(sale_params[:rut])
 
     respond_to do |format|
       if @sale.calculate_save
@@ -43,7 +49,7 @@ class SalesController < InheritedResources::Base
   private
 
   def sale_params
-    params.require(:sale).permit(:employee_id, :car_id, :client_id, :branch_id, :rut, :list_discount,
+    params.require(:sale).permit(:employee_id, :car_id, :client_id, :branch_id, :list_discount,
                                  :price, :appraisal, :transfer_cost, :pva, :transfer_discount, :comment,
                                  transfer_payments_attributes: %i[
                                    amount deposit_number _destroy
@@ -55,7 +61,7 @@ class SalesController < InheritedResources::Base
                                    amount code number date bank _destroy
                                  ],
                                  card_payments_attributes: %i[
-                                   amount card_number type bank _destroy
+                                   amount card_number card_type bank _destroy
                                  ],
                                  financier_payments_attributes: %i[
                                    amount financier_id transfer_discount down_payment _destroy

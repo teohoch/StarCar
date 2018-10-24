@@ -1,4 +1,14 @@
-<p id="notice"><%= notice %></p>
+<%= @reservation.decorate.pretty_show %>
 
-<%= link_to 'Edit', edit_reservation_path(@reservation) %> |
-<%= link_to 'Back', reservations_path %>
+<h2>Formas de Pago</h2>
+<div class="container">
+
+  <%= @reservation.decorate.show_payments %>
+
+  <div class="row justify-content-between">
+    <div class="col-sm">
+      <%= link_to (t 'back'), reservations_path, class: 'btn btn-danger' %>
+    </div>
+  </div>
+
+</div>

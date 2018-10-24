@@ -3,12 +3,12 @@ class Sale < ApplicationRecord
   belongs_to :employee
   belongs_to :car
   belongs_to :client
-  has_many :cash_payments
-  has_many :card_payments
-  has_many :check_payments
-  has_many :financier_payments
-  has_many :vehicle_payments
-  has_many :transfer_payments
+  has_many :cash_payments, as: :cash_payable
+  has_many :card_payments, as: :card_payable
+  has_many :check_payments, as: :check_payable
+  has_many :financier_payments, as: :financier_payable
+  has_many :vehicle_payments, as: :vehicle_payable
+  has_many :transfer_payments, as: :transfer_payable
 
   accepts_nested_attributes_for  :cash_payments, allow_destroy: true
   accepts_nested_attributes_for  :card_payments, allow_destroy: true
@@ -19,6 +19,7 @@ class Sale < ApplicationRecord
 
   validates :pva, :appraisal, presence: true
   attr_accessor :rut
+
 
   TRANSFER_COST = 101_330
 

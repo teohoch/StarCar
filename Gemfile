@@ -60,6 +60,7 @@ gem 'haml'
 gem 'draper'
 gem 'angularjs-rails'
 gem 'prawn-rails'
+gem 'prawn-table'
 gem 'carrierwave'
 
 gem 'aasm'

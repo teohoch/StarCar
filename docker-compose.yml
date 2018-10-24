@@ -16,10 +16,12 @@ services:
 
   postgres:
     image: postgres
-    restart: unless-stopped|
+    restart: unless-stopped
     environment:
       POSTGRES_PASSWORD: "mysuperpassword"
       POSTGRES_USER: "StarCar"
+    ports:
+      - 5432:5432
     volumes:
       - pg_data:/var/lib/postgresql/data
     networks:

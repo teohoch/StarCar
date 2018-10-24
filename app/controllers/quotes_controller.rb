@@ -27,8 +27,9 @@ class QuotesController < InheritedResources::Base
     @quote.employee = current_employee
     begin
       ActiveRecord::Base.transaction do
-        @quote.reserve!
+        @quote.save!
         respond_to do |format|
+          @quote = @quote.decorate
           format.html { redirect_to @quote, notice: 'Reserva realizada con exito.' }
           format.json { render :show, status: :created, location: @quote }
         end

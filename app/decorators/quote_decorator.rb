@@ -1,5 +1,6 @@
 class QuoteDecorator < ApplicationDecorator
   delegate_all
+  decorates_association :car
 
   # Define presentation-specific methods here. Helpers are accessed through
   # `helpers` (aka `h`). You can override attributes, for example:

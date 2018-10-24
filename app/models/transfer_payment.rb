@@ -1,3 +1,3 @@
 class TransferPayment < ApplicationRecord
-  belongs_to :sale
+  belongs_to :transfer_payable, polymorphic: true, optional: true
 end
