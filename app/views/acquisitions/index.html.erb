@@ -1,0 +1,7 @@
+<h1> <%= Acquisition.model_name.human(count: 2) %> </h1>
+
+<%= @acquisitions.decorate.show_all %>
+
+
+<%= action_button(nil, button_class: 'btn btn-warning', text: 'Nueva Adquisición', path: new_acquisition_path) %>
+

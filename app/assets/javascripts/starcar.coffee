@@ -385,5 +385,28 @@ $(document).on 'turbolinks:load ready page:load', ->
 
     return
 
+  app.controller 'AcquisitionCtrl', ($scope, $uibModal,$document, $log, carSrv) ->
+    ac = this
+    $scope.paid_amount = 0
+
+    @add_payment_method = (event) ->
+      event.preventDefault()
+      if $scope.payment_selector
+        id = JSON.parse(event.currentTarget.dataset.ids)[parseInt($scope.payment_selector)]
+        html = JSON.parse(event.currentTarget.dataset.fields)[parseInt($scope.payment_selector)]
+
+        time = new Date().getTime()
+        regexp = new RegExp(id, 'g')
+        data_field = html.replace(regexp, time)
+
+        template = document.createElement('template')
+        template.innerHTML = data_field.trim()
+        event.currentTarget.parentNode.parentNode.before(template.content.firstChild)
+      return
+
+    return
+
+
+
 
 

@@ -1,0 +1,15 @@
+
+<%= @acquisition.decorate.pretty_show %>
+
+<%= @acquisition.car.decorate.pretty_show('Vehiculo') %>
+
+<%= @acquisition.decorate.show_payments %>
+
+<div class="row">
+  <div class="col-md-1">
+    <%= action_button(@car, text: t('sell'), path: new_sale_path(car_id: @acquisition.car.id)) %>
+  </div>
+  <div class="col-md-1">
+    <%= link_to (t 'back'), acquisitions_path, class: 'btn btn-danger' %>
+  </div>
+</div>

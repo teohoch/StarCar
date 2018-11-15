@@ -151,6 +151,9 @@ es:
       quote:
         one: "Cotizacion"
         other: "Cotizaciones"
+      acquisition:
+        one: "Adquisición"
+        other: "Adquisiciónes"
     attributes:
       car:
         model: "Modelo"
@@ -221,9 +224,7 @@ es:
     address: "Dirección"
     phone: "Teléfono"
     created_at: "Fecha de creación"
-    brand: "Marca"
     status: "Estado"
-    branch: 'Local'
     car: 'Vehiculo'
     price: 'Precio'
     employee: 'Vendedor'
@@ -268,6 +269,10 @@ es:
     sale: 'Venta'
     id: 'ID'
     updated_at: 'Actualizado por ultima vez'
+    car_provider: 'Proveedor'
+    amount_paid: 'Monto Pagado'
+    color: 'Color'
+    car_label: 'Vehiculo'
 
   logout: "Cerrar Sesion"
   sign_as: "Sesion iniciada como"
@@ -363,3 +368,6 @@ es:
   quote:
     show:
       table_title: "Cotizaciones"
+  acquisition:
+    show:
+      table_title: "Adquisiciónes"

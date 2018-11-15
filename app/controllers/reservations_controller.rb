@@ -9,7 +9,17 @@ class ReservationsController < ApplicationController
 
   # GET /reservations/1
   # GET /reservations/1.json
-  def show; end
+  def show
+    respond_to do |format|
+      format.html
+      format.pdf do
+        pdf = ReservationPdf.new(@reservation, view_context)
+        send_data pdf.render, filename: "Reserva_#{@reservation.id}.pdf",
+                              type: 'application/pdf',
+                              disposition: 'inline'
+      end
+    end
+  end
 
   # GET /reservations/new
   def new
@@ -31,9 +41,8 @@ class ReservationsController < ApplicationController
           format.html { redirect_to @reservation, notice: 'Reserva realizada con exito.' }
           format.json { render :show, status: :created, location: @reservation }
         end
-
       end
-    rescue => e
+    rescue StandardError => e
       respond_to do |format|
         format.html { render :new }
         format.json { render json: @reservation.errors, status: :unprocessable_entity }
@@ -76,23 +85,23 @@ class ReservationsController < ApplicationController
   def reservation_params
     params.require(:reservation).permit(:rut, :branch_id, :car_id, :paid_amount, :client_id,
                                         transfer_payments_attributes: %i[
-                                   amount deposit_number _destroy
-                                 ],
+                                          amount deposit _destroy
+                                        ],
                                         cash_payments_attributes: %i[
-                                   amount deposit_number _destroy
-                                 ],
+                                          amount deposit_number _destroy
+                                        ],
                                         check_payments_attributes: %i[
-                                   amount code number date bank _destroy
-                                 ],
+                                          amount code number date bank _destroy
+                                        ],
                                         card_payments_attributes: %i[
-                                   amount card_number card_type bank _destroy
-                                 ],
+                                          amount card_number card_type bank _destroy
+                                        ],
                                         financier_payments_attributes: %i[
-                                   amount financier_id transfer_discount down_payment _destroy
-                                 ],
+                                          amount financier_id transfer_discount down_payment _destroy
+                                        ],
                                         vehicle_payments_attributes: %i[
-                                   amount _destroy model brand_id license_plate year
-                                   color buy_price transmission_id fuel_id milage branch_id
-                                 ])
+                                          amount _destroy model brand_id license_plate year
+                                          color buy_price transmission_id fuel_id milage branch_id
+                                        ])
   end
 end

@@ -1,7 +1,8 @@
 class VehiclePayment < ApplicationRecord
   belongs_to :vehicle_payable, polymorphic: true, optional: true
-  belongs_to :car, optional: true
+  has_one :car, as: :procedence
   accepts_nested_attributes_for :car
+
   attr_writer :brand_id, :model, :year, :license_plate, :color, :milage, :fuel_id, :transmission_id
   attr_accessor :branch_id
 
@@ -40,12 +41,11 @@ class VehiclePayment < ApplicationRecord
   def save (*)
 
     ActiveRecord::Base.transaction do
-      provider = CarProvider.find_by_name('Clientes')
-      car = Car.create!(brand_id: @brand_id, model: @model, year: @year, license_plate: @license_plate, color: @color,
-                        milage: @milage, fuel_id: @fuel_id, transmission_id: @transmission_id, branch_id: @branch_id,
-                        buy_price: amount, car_provider: provider)
-      self.car = car
       super
+      provider = CarProvider.find_by_name('Clientes')
+      Car.create!(brand_id: @brand_id, model: @model, year: @year, license_plate: @license_plate, color: @color,
+                        milage: @milage, fuel_id: @fuel_id, transmission_id: @transmission_id, branch_id: @branch_id,
+                        buy_price: amount, car_provider: provider, procedence: self)
     end
 
     true

@@ -7,6 +7,9 @@
 
   <div class="row justify-content-between">
     <div class="col-sm">
+      <%= button_to 'Generar Documento', reservation_path(@reservation, format: "pdf"), class: "btn", :method => :get   %>
+    </div>
+    <div class="col-sm">
       <%= link_to (t 'back'), reservations_path, class: 'btn btn-danger' %>
     </div>
   </div>

@@ -1,4 +1,5 @@
 ActiveAdmin.register Car do
+  actions :all, except: [:create, :new]
   permit_params :brand_id, :model, :license_plate, :year, :color, :milage, :maintenances, :fuel_id,
                 :transmission_id, :reservation_price, :state, :list_price, :buy_price, :technical_review_expiration,
                 :book, :publication, :cc, :permit, :soap, :property, :branch_id, :car_provider_id,
@@ -129,6 +130,11 @@ ActiveAdmin.register Car do
   action_item :publish, only: :show, if: proc { resource.may_publish?  } do
     link_to 'Poner a la Venta', publish_admin_car_path(car)
   end
+
+  action_item :new, only: :index do
+    link_to 'Adquirir Vehiculo', new_acquisition_path
+  end
+
 
   controller do
     def repair

@@ -1,0 +1,92 @@
+<h1>Nueva Adquisición</h1>
+
+<div ng-controller="AcquisitionCtrl as ac">
+  <%= simple_form_for(@acquisition) do |f| %>
+    <%= f.error_notification %>
+    <div class="form-inputs">
+
+
+      <h2> Vehiculo </h2>
+
+      <%= f.simple_fields_for :car do |c| %>
+        <div class="container">
+          <%= c.association :brand %>
+          <%= c.input :model %>
+          <%= c.input :license_plate %>
+          <%= c.input :year %>
+          <%= c.input :color %>
+          <%= c.input :milage %>
+          <%= c.association :fuel %>
+
+          <%= c.association :transmission %>
+          <%= c.association :car_provider %>
+          <%= c.input :technical_review_expiration, as: :date %>
+          <%= c.input :permit, as: :date %>
+          <%= c.input :cc %>
+          <%= c.input :soap %>
+          <%= c.input :property %>
+          <%= c.association :branch %>
+        </div>
+
+
+
+      <% end %>
+
+
+      <div class="form-inputs">
+        <div class="row">
+          <div class="col-sm">
+            <%= f.input :amount_paid , input_html: {
+                'ng-model'=>"ac.paid_amount"
+            }%>
+          </div>
+        </div>
+      </div>
+
+
+      <br>
+
+      <h2>Formas de Pago</h2>
+
+
+      <div class="row">
+        <div class="col-sm">
+          <%= f.input :payment_selector, as: :select,
+                      collection:
+                          [[0, 'Efectivo'],
+                           [1, 'Tarjeta'],
+                           [2, 'Cheque'],
+                           [3, 'Financiera'],
+                           [5, 'Transferencia Electronica']],
+                      label_method: :second, value_method: :first,
+                      input_html: {
+                          'ng-model'=>"payment_selector"
+                      }
+          %>
+        </div>
+
+        <div class="col-sm align-self-end form-group">
+          <%= add_payment_method('Agregar Metodo de Pago', f, 'button_add_payment_method', page:'ac') %>
+
+        </div>
+      </div>
+
+
+
+      <div class="form-actions row">
+        <div class="col-sm">
+          <%= f.button :submit, t('create_reservation'), class: 'btn btn-danger' %>
+        </div>
+        <div class="col-sm">
+          <%= link_to 'Atras', reservations_path, class: 'btn btn-primary' %>
+        </div>
+
+      </div>
+    </div>
+
+  <% end %>
+
+</div>
+
+
+

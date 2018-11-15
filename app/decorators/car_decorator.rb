@@ -3,7 +3,7 @@ class CarDecorator < ApplicationDecorator
   decorates_finders
 
   def attributes
-    %w(brand model_safe license_plate year color milage).map { |key| [key, send(key)] }
+    %w(brand model_safe license_plate year color milage branch).map { |key| [key, send(key)] }
   end
 
   def pretty_show(title=h.t('car.show.table_title'), extra_values=[])
@@ -24,6 +24,10 @@ class CarDecorator < ApplicationDecorator
 
   def year
     super.nil? ? '' : super
+  end
+
+  def branch
+    super.nil? ? '' : super.title
   end
 
 end

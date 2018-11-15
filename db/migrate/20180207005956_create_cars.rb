@@ -20,6 +20,9 @@ class CreateCars < ActiveRecord::Migration[5.1]
       t.date :permit
       t.integer :soap
       t.string :property
+      t.integer :procedence_id
+      t.string :procedence_type
+
 
 
 

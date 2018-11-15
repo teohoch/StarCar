@@ -10,10 +10,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20181005035302) do
+ActiveRecord::Schema.define(version: 20181025003753) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "acquisitions", force: :cascade do |t|
+    t.bigint "employee_id"
+    t.bigint "amount_paid"
+    t.bigint "car_provider_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["car_provider_id"], name: "index_acquisitions_on_car_provider_id"
+    t.index ["employee_id"], name: "index_acquisitions_on_employee_id"
+  end
 
   create_table "active_admin_comments", force: :cascade do |t|
     t.string "namespace"
@@ -81,6 +91,8 @@ ActiveRecord::Schema.define(version: 20181005035302) do
     t.date "permit"
     t.integer "soap"
     t.string "property"
+    t.integer "procedence_id"
+    t.string "procedence_type"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["branch_id"], name: "index_cars_on_branch_id"
@@ -280,6 +292,8 @@ ActiveRecord::Schema.define(version: 20181005035302) do
     t.index ["car_id"], name: "index_vehicle_payments_on_car_id"
   end
 
+  add_foreign_key "acquisitions", "car_providers"
+  add_foreign_key "acquisitions", "employees"
   add_foreign_key "branches", "employees", column: "manager_id"
   add_foreign_key "cars", "branches"
   add_foreign_key "cars", "brands"

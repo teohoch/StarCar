@@ -4,6 +4,9 @@ class Car < ApplicationRecord
   belongs_to :fuel, optional: true
   belongs_to :transmission, optional: true
   belongs_to :car_provider
+  belongs_to :procedence, polymorphic: true, optional: true
+
+
   has_many :repairs
   has_many :sales
   has_many :vehicle_payments
@@ -37,6 +40,10 @@ class Car < ApplicationRecord
 
   def permit=(data)
     super("01-#{data}")
+  end
+
+  def label
+    "#{brand} #{model_safe} Patente: #{license_plate}"
   end
 
 

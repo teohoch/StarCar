@@ -31,3 +31,6 @@
 
 en:
   hello: "Hello world"
+  acquisition:
+    show:
+      table_title: "Acquisitions"
