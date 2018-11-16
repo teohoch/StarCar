@@ -102,7 +102,7 @@ class SalePdf < Prawn::Document
   end
 
   def cash_payments
-    payments = @order.card_payments.map { |p| cash_payment(p) }
+    payments = @order.cash_payments.map { |p| cash_payment(p) }
     _pretty_payments(payments, 'Pagos con Efectivo')
   end
 
