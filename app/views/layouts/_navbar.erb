@@ -21,33 +21,45 @@
               </span>
             </li>
           <% end %>
-          <li class="nav-item">
+          <% if can? :read, Car %>
+            <li class="nav-item">
               <span class="navbar-text" style="padding-right: 12px">
                 <%= link_to t('car.show.table_title'), cars_path %>
               </span>
-          </li>
-          <li class="nav-item">
+            </li>
+          <% end %>
+
+          <% if can? :read, Sale %>
+            <li class="nav-item">
               <span class="navbar-text" style="padding-right: 12px">
                 <%= link_to t('sale.show.table_title'), sales_path %>
               </span>
-          </li>
-          <li class="nav-item">
+            </li>
+          <% end %>
+
+          <% if can? :read, Reservation %>
+            <li class="nav-item">
               <span class="navbar-text" style="padding-right: 12px">
                 <%= link_to t('reservation.show.table_title'), reservations_path %>
               </span>
-          </li>
+            </li>
+          <% end %>
 
-          <li class="nav-item">
+          <% if can? :read, Quote %>
+            <li class="nav-item">
               <span class="navbar-text" style="padding-right: 12px">
                 <%= link_to t('quote.show.table_title'), quotes_path %>
               </span>
-          </li>
+            </li>
+          <% end %>
 
-          <li class="nav-item">
+          <% if can? :read, Acquisition %>
+            <li class="nav-item">
               <span class="navbar-text" style="padding-right: 12px">
                 <%= link_to t('acquisition.show.table_title'), acquisitions_path %>
               </span>
-          </li>
+            </li>
+          <% end %>
         <% end %>
       </ul>
       <% if employee_signed_in? %>

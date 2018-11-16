@@ -14,4 +14,8 @@ class ApplicationController < ActionController::Base
     flash[type] << text
   end
 
+  def current_ability
+    @current_ability ||= Ability.new(current_employee)
+  end
+
 end

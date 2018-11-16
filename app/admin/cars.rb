@@ -36,6 +36,8 @@ ActiveAdmin.register Car do
     column :car_provider
     column :status
     column :branch
+    column :external
+
     actions
   end
 
@@ -60,6 +62,7 @@ ActiveAdmin.register Car do
       row :technical_review_expiration
       row :status
       row :branch
+      row :external
     end
     text_node '&nbsp;'.html_safe
     h3 'Reparaciones'
@@ -80,6 +83,7 @@ ActiveAdmin.register Car do
   filter :brand
   filter :model
   filter :year
+  filter :external
 
   form do |f|
     f.inputs do
@@ -107,6 +111,7 @@ ActiveAdmin.register Car do
       f.input :soap
       f.input :property
       f.input :branch
+      f.input :external
     end
     f.actions
   end

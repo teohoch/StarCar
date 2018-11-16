@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20181025003753) do
+ActiveRecord::Schema.define(version: 20181115210620) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -95,6 +95,7 @@ ActiveRecord::Schema.define(version: 20181025003753) do
     t.string "procedence_type"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "external", default: false
     t.index ["branch_id"], name: "index_cars_on_branch_id"
     t.index ["brand_id"], name: "index_cars_on_brand_id"
     t.index ["car_provider_id"], name: "index_cars_on_car_provider_id"

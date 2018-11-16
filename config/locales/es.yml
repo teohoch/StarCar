@@ -273,6 +273,7 @@ es:
     amount_paid: 'Monto Pagado'
     color: 'Color'
     car_label: 'Vehiculo'
+    external: 'Externo'
 
   logout: "Cerrar Sesion"
   sign_as: "Sesion iniciada como"
@@ -288,6 +289,7 @@ es:
       administrator: "Administrador"
       employee: "Empleado"
       secretary: "Secretario"
+      external: "Externo"
     car_states:
       not_available: "No disponible"
       available: "Disponible"
@@ -371,3 +373,4 @@ es:
   acquisition:
     show:
       table_title: "Adquisiciónes"
+  create_adquisition: "Generar Adquisición"

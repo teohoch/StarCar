@@ -29,6 +29,8 @@ class Car < ApplicationRecord
   scope :in_repairs, -> {where(state: 2)}
   scope :available, -> {where(state: 1)}
   scope :not_available, -> {where(state: 0)}
+  scope :external, -> {where(external: true)}
+  scope :general, -> {where(external: false)}
 
   def status
     I18n.t("support.car_states.#{state}")

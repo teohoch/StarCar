@@ -26,6 +26,7 @@
           <%= c.input :soap %>
           <%= c.input :property %>
           <%= c.association :branch %>
+          <%= c.input :external %>
         </div>
 
 
@@ -75,7 +76,7 @@
 
       <div class="form-actions row">
         <div class="col-sm">
-          <%= f.button :submit, t('create_reservation'), class: 'btn btn-danger' %>
+          <%= f.button :submit, t('create_adquisition'), class: 'btn btn-danger' %>
         </div>
         <div class="col-sm">
           <%= link_to 'Atras', reservations_path, class: 'btn btn-primary' %>

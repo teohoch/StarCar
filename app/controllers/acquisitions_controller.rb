@@ -1,4 +1,5 @@
 class AcquisitionsController < InheritedResources::Base
+  load_and_authorize_resource
 
   def new
     @acquisition = Acquisition.new
@@ -34,6 +35,7 @@ class AcquisitionsController < InheritedResources::Base
                                         car_attributes: %i[
                                           brand_id model license_plate year color milage fuel_id transmission_id
                                           car_provider_id technical_review_expiration permit cc soap property branch_id
+                                          external
                                         ],
                                         transfer_payments_attributes: %i[
                                           amount deposit_number _destroy

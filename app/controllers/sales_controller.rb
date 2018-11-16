@@ -1,5 +1,6 @@
 class SalesController < InheritedResources::Base
   before_action :authenticate_employee!
+  load_and_authorize_resource
   def index
     @sales = Sale.all.decorate
   end

@@ -1,5 +1,6 @@
 class ReservationsController < ApplicationController
   before_action :set_reservation, only: %i[show edit update destroy]
+  load_and_authorize_resource
 
   # GET /reservations
   # GET /reservations.json

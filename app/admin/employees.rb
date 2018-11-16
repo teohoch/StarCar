@@ -1,6 +1,6 @@
 ActiveAdmin.register Employee do
   permit_params :email, :password, :password_confirmation, :name, :surname,
-                :rut, :address, :phone, { avatar: [] }, :role_ids
+                :rut, :address, :phone, { avatar: [] }, role_ids: []
 
   index do
     selectable_column
@@ -56,7 +56,9 @@ ActiveAdmin.register Employee do
 
   controller do
     def permitted_params
-      params.permit employee: %i[username email password password_confirmation name surname rut address phone avatar role_ids[]]
+      params.permit(employee: [:username, :email, :password, :password_confirmation, :name, :surname, :rut,
+                                       :address, :phone, :avatar, role_ids: []])
+
     end
   end
 end

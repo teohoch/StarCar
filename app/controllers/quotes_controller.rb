@@ -1,6 +1,7 @@
 class QuotesController < InheritedResources::Base
 
   before_action :set_quote, only: %i[show edit update destroy]
+  load_and_authorize_resource
 
   # GET /quotes
   # GET /quotes.json
