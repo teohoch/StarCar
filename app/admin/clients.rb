@@ -1,5 +1,7 @@
 ActiveAdmin.register Client do
+  menu priority: 2
   permit_params :email, :name, :surname, :rut, :address, :phone
+  decorate_with ClientDecorator
 
   index do
     selectable_column

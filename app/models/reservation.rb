@@ -35,18 +35,51 @@ class Reservation < ApplicationRecord
 
   aasm column: :status, enum: true, with_lock: true, whiny_persistence: true do
     state :instantiated, initial: true
-    state :created
-    state :finalized
-    state :cancelled
+    state :created, before_enter: :block_car
+    state :finalized, before_enter: :sell_car
+    state :cancelled, before_enter: :sell_car
 
     event :reserve do
-      transitions from: :instantiated, to: :created, guard: :block_car
+      transitions from: :instantiated, to: :created
     end
+
+    event :sell do
+      transitions from: :created, to: :finalized
+    end
+
+    event :cancel do
+      transitions from: :created, to: :cancelled
+    end
+
+    event :reinstate do
+      transitions from: [:finalized, :cancelled], to: :created, guard: :car_status_allows_reservation?
+    end
+
   end
 
   def block_car
     self.save!
     self.car.reserve!
+  end
+
+  def sell_car
+    self.car.publish!
+  end
+
+  def car_status_allows_reservation?
+    car.available?
+  end
+
+  def branch
+    Branch.unscoped { super }
+  end
+
+  def client
+    Client.unscoped { super }
+  end
+
+  def employee
+    Employee.unscoped { super }
   end
 
 end

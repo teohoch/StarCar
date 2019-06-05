@@ -1,5 +1,5 @@
 class PopulateFuels < ActiveRecord::Migration[5.1]
-  FUELS = %w[gas petrol electric].freeze
+  FUELS = %w[gas petrol electric hybrid liquid_gas ].freeze
   def up
     FUELS.each do |fuels_name|
       Fuel.create! name: fuels_name

@@ -1,4 +1,6 @@
 ActiveAdmin.register Employee do
+  menu priority: 2
+  decorate_with EmployeeDecorator
   permit_params :email, :password, :password_confirmation, :name, :surname,
                 :rut, :address, :phone, { avatar: [] }, role_ids: []
 
@@ -42,7 +44,7 @@ ActiveAdmin.register Employee do
       f.input :email
       f.input :name
       f.input :surname
-      f.input :rut
+      f.input :rut, :hint => 'Ingresar en formato 1.234.567-k'
       f.input :address
       f.input :phone
       f.input :roles, collection: Role.global, as: :check_boxes,

@@ -6,6 +6,8 @@
       <th><%= CheckPayment.human_attribute_name(:amount) %> </th>
       <th><%= CheckPayment.human_attribute_name(:code) %> </th>
       <th><%= CheckPayment.human_attribute_name(:bank) %> </th>
+      <th><%= CheckPayment.human_attribute_name(:due_date) %> </th>
+      <th><%= CheckPayment.human_attribute_name(:date) %> </th>
 
     </thead>
     <tbody>
@@ -14,6 +16,8 @@
         <td>$<%= r.amount %></td>
         <td align="center"><%= r.code %></td>
         <td align="center"><%= r.bank %></td>
+        <td align="center"><%= r.due_date.nil? ? 'N/A' : I18n.l(r.due_date) %></td>
+        <td align="center"><%= r.date.nil? ? 'N/A' : I18n.l(r.date) %></td>
       </tr>
     <% end %>
     </tbody>

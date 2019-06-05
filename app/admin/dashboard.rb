@@ -4,9 +4,14 @@ ActiveAdmin.register_page "Dashboard" do
 
   content title: proc{ I18n.t("active_admin.dashboard") } do
     div class: "blank_slate_container", id: "dashboard_default_message" do
-      span class: "blank_slate" do
-        span I18n.t("active_admin.dashboard_welcome.welcome")
-        small I18n.t("active_admin.dashboard_welcome.call_to_action")
+      div class: "row" do
+        div class: "col" do
+          image_tag current_employee.avatar, html_options = {style: 'max-height:40px; border-radius: 25px;'}
+        end
+        div class: "col" do
+          span "Bienvenido a la plataforma de ventas de CAEF, #{current_employee.name} #{current_employee.surname}"
+        end
+
       end
     end
 

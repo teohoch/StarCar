@@ -58,6 +58,10 @@ class SaleDecorator < ApplicationDecorator
     object.car.decorate.label
   end
 
+  def car_object
+    object.car
+  end
+
   def client
     "#{object.client.name} #{object.client.surname}"
   end
@@ -70,9 +74,21 @@ class SaleDecorator < ApplicationDecorator
     super.nil? ? '$0' : h.number_to_currency(super)
   end
 
-  # def folio
-  #   "%s%03d%03d" % [(object.created_at.year-2000), object.employee_id, object.id]
-  # end
+  def appraisal
+    super.nil? ? '$0' : h.number_to_currency(super)
+  end
+
+  def earnings
+    super.nil? ? '$0' : h.number_to_currency(super)
+  end
+
+  def list_discount
+    super.nil? ? '$0' : h.number_to_currency(super)
+  end
+
+  def pva
+    super.nil? ? '$0' : h.number_to_currency(super)
+  end
 
   def transfer_cost
     super.nil? ? '$0' : h.number_to_currency(super)
@@ -86,6 +102,12 @@ class SaleDecorator < ApplicationDecorator
     super.nil? ? '$0' : h.number_to_currency(super)
   end
 
+  def buy_price
+    super.nil? ? '$0' : h.number_to_currency(super)
+  end
+
+
+
   def total_transfer
     temp = model.transfer_cost + model.tax
     h.number_to_currency(temp != 0 ? temp : 0)
@@ -97,12 +119,13 @@ class SaleDecorator < ApplicationDecorator
   end
 
   def list_price
-    object.car.nil? ? '$0' : object.car.list_price
+    object.car.nil? ? '$0' : h.number_to_currency(object.car.list_price)
   end
 
-  def payment_selector
-    nil
+  def car_license
+    object.car.nil? ? nil : object.car.license_plate
   end
+
 
 
 

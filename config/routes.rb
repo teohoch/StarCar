@@ -4,7 +4,13 @@ Rails.application.routes.draw do
   resources :sales
   resources :clients
   resources :cars
-  resources :reservations
+  resources :reservations do
+    member do
+      get 'cancel'
+      get 'sell'
+      get 'reinstate'
+    end
+  end
   get 'home/index'
   root to: 'home#index'
 

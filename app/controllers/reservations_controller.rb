@@ -1,5 +1,5 @@
 class ReservationsController < ApplicationController
-  before_action :set_reservation, only: %i[show edit update destroy]
+  before_action :set_reservation, only: %i[show edit update destroy sell cancel reinstate]
   load_and_authorize_resource
 
   # GET /reservations
@@ -75,6 +75,54 @@ class ReservationsController < ApplicationController
     end
   end
 
+  def cancel
+    ActiveRecord::Base.transaction do
+      @reservation.cancel!
+      respond_to do |format|
+        format.html { redirect_to @reservation, notice: 'Reserva cancelada con exito.' }
+        format.json { render :show, status: :ok, location: @reservation }
+      end
+    end
+  rescue StandardError => e
+    respond_to do |format|
+      flash_message :error, 'Error al cancelar la reserva'
+      format.html { redirect_to @reservation }
+      format.json { render json: @reservation.errors, status: :unprocessable_entity }
+    end
+  end
+
+  def reinstate
+    ActiveRecord::Base.transaction do
+      @reservation.reinstate!
+      respond_to do |format|
+        format.html { redirect_to @reservation, notice: 'Reserva reactivada con exito.' }
+        format.json { render :show, status: :ok, location: @reservation }
+      end
+    end
+  rescue StandardError => e
+    respond_to do |format|
+      flash_message :error, 'Error al reactivar la reserva'
+      format.html { redirect_to @reservation }
+      format.json { render json: @reservation.errors, status: :unprocessable_entity }
+    end
+  end
+
+  def sell
+    ActiveRecord::Base.transaction do
+      @reservation.cancel!
+      respond_to do |format|
+        format.html { redirect_to (new_sale_path(car_id: @reservation.car.id, rut: @reservation.client.rut)), notice: 'Reserva habilitada para la compra.' }
+        format.json { render :show, status: :ok, location: @reservation }
+      end
+    end
+  rescue StandardError => e
+    respond_to do |format|
+      flash_message :error, 'Error al habilitar la reserva para la venta.'
+      format.html { redirect_to @reservation }
+      format.json { render json: @reservation.errors, status: :unprocessable_entity }
+    end
+  end
+
   private
 
   # Use callbacks to share common setup or constraints between actions.
@@ -89,10 +137,10 @@ class ReservationsController < ApplicationController
                                           amount deposit _destroy
                                         ],
                                         cash_payments_attributes: %i[
-                                          amount deposit_number _destroy
+                                          amount deposit_number deposit _destroy
                                         ],
                                         check_payments_attributes: %i[
-                                          amount code number date bank _destroy
+                                          amount code number due_date date bank _destroy
                                         ],
                                         card_payments_attributes: %i[
                                           amount card_number card_type bank _destroy

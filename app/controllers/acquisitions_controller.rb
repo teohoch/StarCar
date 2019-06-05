@@ -38,13 +38,13 @@ class AcquisitionsController < InheritedResources::Base
                                           external
                                         ],
                                         transfer_payments_attributes: %i[
-                                          amount deposit_number _destroy
+                                          amount deposit_number deposit _destroy
                                         ],
                                         cash_payments_attributes: %i[
                                           amount deposit_number _destroy
                                         ],
                                         check_payments_attributes: %i[
-                                          amount code number date bank _destroy
+                                          amount code number due_date date bank _destroy
                                         ],
                                         card_payments_attributes: %i[
                                           amount card_number card_type bank _destroy

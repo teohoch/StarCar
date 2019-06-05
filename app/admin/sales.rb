@@ -1,17 +1,5 @@
 ActiveAdmin.register Sale do
-  # See permitted parameters documentation:
-  # https://github.com/activeadmin/activeadmin/blob/master/docs/2-resource-customization.md#setting-up-strong-parameters
-  #
-  # permit_params :list, :of, :attributes, :on, :model
-  #
-  # or
-  #
-  # permit_params do
-  #   permitted = [:permitted, :attributes]
-  #   permitted << :other if params[:action] == 'create' && current_user.admin?
-  #   permitted
-  # end
-  #
+  menu label: "Ver Ventas"
   decorate_with SaleDecorator
   actions :index, :show
 
@@ -21,9 +9,53 @@ ActiveAdmin.register Sale do
     column :folio
     column :branch
     column :employee
-    column :car
+    column :car do |sale|
+      link_to(sale.car, admin_car_path(sale.car_object) )
+    end
     column :client
     column :final_price
+    column :earnings
     actions
+  end
+
+
+  show do
+    attributes_table do
+      row :branch
+      row :employee
+      row :car do |sale|
+        link_to(sale.car, admin_car_path(sale.car_object) )
+      end
+      row :client
+      row :appraisal
+      row :tax
+      row :transfer_cost
+      row :transfer_discount
+      row :list_discount
+      row :pva
+      row :list_price
+      row :buy_price
+      row :final_price
+      row :earnings
+      row :comment
+      row :created_at
+      row :updated_at
+
+
+    end
+
+    text_node '&nbsp;'.html_safe
+    h3 'Reparaciones'
+
+    table_for sale.repairs do
+      column :created_at do |repairs|
+        l repairs.created_at, format: :short
+      end
+      column :workshop
+      column :reason
+      column :quote do |repair|
+        number_to_currency(repair.quote)
+      end
+    end
   end
 end

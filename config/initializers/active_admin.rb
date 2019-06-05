@@ -1,3 +1,10 @@
+ActiveAdmin::Views::Footer.class_eval do
+  def build(namespace)
+    super id: "footer"
+    para "Copyright © CAEF #{Time.current.year}"
+  end
+end
+
 ActiveAdmin.setup do |config|
   # == Site Title
   #
@@ -226,7 +233,7 @@ ActiveAdmin.setup do |config|
   #
   config.namespace :admin do |admin|
     admin.build_menu :default do |menu|
-      menu.add label: 'Generar Ventas', url: '/sales', html_options: { target: :blank }
+      menu.add label: 'Generar Ventas', url: '/sales', html_options: { target: :blank }, priority: 6
     end
   end
 
@@ -297,3 +304,5 @@ ActiveAdmin.setup do |config|
 
 
 end
+
+

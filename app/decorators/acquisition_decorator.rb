@@ -34,7 +34,7 @@ class AcquisitionDecorator < ApplicationDecorator
 
   def show_check_payments
     if model.check_payments.count >0
-      h.render partial: 'payments/check_show', locals: {check_payments: model.check_payments}
+      h.render partial: 'payments/adquisition_check_show', locals: {check_payments: model.check_payments}
     end
   end
 

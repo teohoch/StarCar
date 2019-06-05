@@ -9,7 +9,11 @@
   <div class="row justify-content-between">
     <% v_p.each_with_index do |vehicle, id| %>
       <div class="col-xs">
-        <%= vehicle.car.decorate.pretty_show("Vehiculo ##{id+1}", [['amount',"$#{vehicle.amount}"]]) %>
+        <%= vehicle.car.decorate.pretty_show("Vehiculo ##{id+1}",
+                                             [['amount',"$#{vehicle.amount}"],
+                                              ['financier_prepaid',"#{vehicle.financier.blank? ? 'N/A' : vehicle.financier.name}"],
+                                              ['prepaid_amount',"#{vehicle.prepaid.blank? ? 'N/A' : ('$'+vehicle.prepaid.to_s)}"]]) %>
+
       </div>
     <% end %>
 

@@ -11,7 +11,17 @@ class QuotesController < InheritedResources::Base
 
   # GET /quotes/1
   # GET /quotes/1.json
-  def show; end
+  def show
+    respond_to do |format|
+      format.html
+      format.pdf do
+        pdf = QuotePdf.new(@quote, view_context)
+        send_data pdf.render, filename: "Cotizacion_#{@quote.id}.pdf",
+                  type: 'application/pdf',
+                  disposition: 'inline'
+      end
+    end
+  end
 
   # GET /quotes/new
   def new

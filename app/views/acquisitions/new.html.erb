@@ -49,6 +49,42 @@
 
       <h2>Formas de Pago</h2>
 
+      <%= f.simple_fields_for :cash_payments do |k| %>
+        <div class="row form-inputs">
+          <%= render 'payments/cash_form', f: k %>
+        </div>
+      <% end %>
+
+      <%= f.simple_fields_for :card_payments do |k| %>
+        <div class="row form-inputs">
+          <%= render 'payments/card_form', f: k %>
+        </div>
+      <% end %>
+
+      <%= f.simple_fields_for :check_payments do |k| %>
+        <div class="row form-inputs">
+          <%= render 'payments/check_form', f: k %>
+        </div>
+      <% end %>
+
+      <%= f.simple_fields_for :financier_payments do |k| %>
+        <div class="row form-inputs">
+          <%= render 'payments/financier_form', f: k %>
+        </div>
+      <% end %>
+
+      <%= f.simple_fields_for :vehicle_payments do |k| %>
+        <div class="row form-inputs">
+          <%= render 'payments/vehicle_form', f: k %>
+        </div>
+      <% end %>
+
+      <%= f.simple_fields_for :transfer_payments do |k| %>
+        <div class="row form-inputs">
+          <%= render 'payments/transfer_form', f: k %>
+        </div>
+      <% end %>
+
 
       <div class="row">
         <div class="col-sm">
@@ -67,7 +103,7 @@
         </div>
 
         <div class="col-sm align-self-end form-group">
-          <%= add_payment_method('Agregar Metodo de Pago', f, 'button_add_payment_method', page:'ac') %>
+          <%= add_payment_method('Agregar Metodo de Pago', f, 'button_add_payment_method', page:'ac', payment_methods: ["cash", "card", ["check", "adquisition_check"], "financier", "vehicle", "transfer"]) %>
 
         </div>
       </div>

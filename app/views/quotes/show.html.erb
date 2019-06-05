@@ -1,5 +1,11 @@
 <%= @quote.decorate.pretty_show %>
 
+<div class="row justify-content-between">
+  <div class="col-sm">
+    <%= button_to 'Generar Documento', quote_path(@quote, format: "pdf"), class: "btn btn-info", :method => :get   %>
+  </div>
+  <div class="col-sm">
+    <%= link_to (t 'back'), quotes_path, class: 'btn btn-danger' %>
+  </div>
+</div>
 
-<%= link_to 'Edit', edit_quote_path(@quote) %> |
-<%= link_to 'Back', quotes_path %>

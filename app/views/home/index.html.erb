@@ -1,2 +1,19 @@
-<h1>Home#Index</h1>
-<p>Find me in app/views/home/Index.html.erb</p>
+<% if current_employee %>
+  <div class="row">
+    <div class="col-1">
+      <%= image_tag current_employee.avatar, html_options = {style: 'max-width:100%; border-radius: 25px;'} %>
+    </div>
+
+    <div class="col">
+      <%= "Bienvenido a la plataforma de ventas de CAEF, #{current_employee.name} #{current_employee.surname}" %>
+    </div>
+  </div>
+<% else %>
+  <div class="row">
+
+    <div class="col">
+      <%= "Bienvenido a la plataforma de ventas de CAEF, por favor inicie sesion." %>
+    </div>
+  </div>
+
+<% end %>

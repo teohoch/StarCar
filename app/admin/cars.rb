@@ -1,4 +1,7 @@
 ActiveAdmin.register Car do
+  decorate_with CarDecorator
+  menu priority: 7
+
   actions :all, except: [:create, :new]
   permit_params :brand_id, :model, :license_plate, :year, :color, :milage, :maintenances, :fuel_id,
                 :transmission_id, :reservation_price, :state, :list_price, :buy_price, :technical_review_expiration,
@@ -19,11 +22,7 @@ ActiveAdmin.register Car do
     column :model
     column :license_plate
     column :year
-    column :color do |car|
-      link_to(car.color, '#',
-              html_options = { class: 'btn',
-                               style: "background-color: #{car.color}; color: #{car.color};" })
-    end
+    column :color
     column :milage do |car|
       "#{number_with_precision(car.milage, precision: 1, delimiter: ',')} KM"
     end
@@ -60,7 +59,13 @@ ActiveAdmin.register Car do
       row :soap
       row :permit
       row :technical_review_expiration
-      row :status
+      row :status do |car|
+        if car.state_before_type_cast == 3
+          link_to(car.status, admin_sale_path(car.sales.first) )
+        else
+          car.status
+        end
+      end
       row :branch
       row :external
     end
@@ -77,6 +82,24 @@ ActiveAdmin.register Car do
         number_to_currency(repair.quote)
       end
     end
+
+    text_node '&nbsp;'.html_safe
+    h3 'Cheques Asociados'
+
+    table_for car.associated_checks, i18n: CheckPayment do
+      column :created_at do |check|
+        l check.created_at, format: :short
+      end
+      column :amount do |check|
+        number_to_currency(check.amount)
+      end
+      column :bank
+      column :check_payable_type do |check|
+        link_to check.check_payable.class.model_name.human, check.check_payable
+      end
+    end
+
+
   end
 
   filter :license_plate

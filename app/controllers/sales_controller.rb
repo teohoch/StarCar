@@ -2,7 +2,7 @@ class SalesController < InheritedResources::Base
   before_action :authenticate_employee!
   load_and_authorize_resource
   def index
-    @sales = Sale.all.decorate
+    @sales = (current_employee.has_role? :administrator) ? Sale.all.decorate : Sale.where(employee: current_employee).decorate
   end
 
   def show
@@ -35,8 +35,11 @@ class SalesController < InheritedResources::Base
         format.html { redirect_to @sale, notice: 'Venta Realizada con exito' }
         format.json { render :show, status: :created, location: @sale }
       else
-        @sale = @sale.decorate
-        flash_message(:error, @sale.errors.to_s)
+        #flash_message(:error, @sale.errors.messages.to_s)
+        @client_rut = @sale.client.nil? ? nil : @sale.client.rut
+        @car_id = @sale.car.nil? ? nil : @sale.car.id
+        @branch_id = @sale.car.nil? ? nil : @sale.car.branch.id
+
         format.html { render :new }
         format.json { render json: @sale.errors, status: :unprocessable_entity }
       end
@@ -44,7 +47,16 @@ class SalesController < InheritedResources::Base
   end
 
   def new
-    @sale = Sale.new.decorate
+    @sale = Sale.new
+
+    if params.has_key?(:car_id) && Car.where(id: params[:car_id]).exists?
+      car = Car.find(params[:car_id])
+      @car_id = car.id
+      @branch_id = car.branch.id
+    end
+    if params.has_key?(:rut) && Client.where(rut: params[:rut]).exists?
+      @client_rut = params[:rut]
+    end
   end
 
   private
@@ -53,13 +65,13 @@ class SalesController < InheritedResources::Base
     params.require(:sale).permit(:employee_id, :car_id, :client_id, :branch_id, :list_discount,
                                  :price, :appraisal, :transfer_cost, :pva, :transfer_discount, :comment,
                                  transfer_payments_attributes: %i[
-                                   amount deposit_number _destroy
+                                   amount deposit _destroy
                                  ],
                                  cash_payments_attributes: %i[
                                    amount deposit_number _destroy
                                  ],
                                  check_payments_attributes: %i[
-                                   amount code number date bank _destroy
+                                   amount code number date due_date bank _destroy
                                  ],
                                  card_payments_attributes: %i[
                                    amount card_number card_type bank _destroy
@@ -69,7 +81,7 @@ class SalesController < InheritedResources::Base
                                  ],
                                  vehicle_payments_attributes: %i[
                                    amount _destroy model brand_id license_plate year
-                                   color buy_price transmission_id fuel_id milage branch_id
+                                   color buy_price transmission_id fuel_id milage branch_id financier_id prepaid
                                  ])
   end
 end

@@ -1,9 +1,7 @@
 <div class="container">
   <h3>Vehiculo en parte de Pago</h3>
   <div class="row form-inputs">
-
     <div class="col-sm">
-      <%= f.input :amount, input_html: { min: 0 } %>
     </div>
 
     <div class="col-sm">
@@ -25,7 +23,7 @@
           <%= f.input :model %>
         </div>
         <div class="col-sm">
-          <%= f.input :year %>
+          <%= f.input :year, as: :integer, input_html: { min: 1900, max: 2100 } %>
         </div>
       </div>
 
@@ -37,7 +35,7 @@
           <%= f.input :color %>
         </div>
         <div class="col-sm">
-          <%= f.input :milage %>
+          <%= f.input :milage, as: :integer, input_html: { min: 0 } %>
         </div>
       </div>
 
@@ -50,9 +48,29 @@
         </div>
         <div class="col-sm">
           <%= f.input :branch_id, as: :select, collection: Branch.all %>
-
         </div>
       </div>
+
+    <div class="row form-inputs">
+      <div class="col-sm">
+        <%= f.input :financier_id, as: :select, collection: Financier.all %>
+      </div>
+      <div class="col-sm">
+        <%= f.input :prepaid, as: :integer, input_html: { min: 0 } %>
+      </div>
+
+    </div>
+    <div class="row form-inputs">
+
+      <div class="col-sm">
+        <%= f.input :amount, input_html: { min: 0 } %>
+      </div>
+
+    </div>
+
+
+
+
   </div>
 </div>
 

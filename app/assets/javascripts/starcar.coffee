@@ -27,8 +27,6 @@ $(document).on 'turbolinks:load ready page:load', ->
     event.preventDefault()
 
 
-
-
   app.service 'carSrv', ($http) ->
     @getCars = (id) ->
       $http.get('/cars.json', params: { branch_id: id},{
@@ -64,7 +62,7 @@ $(document).on 'turbolinks:load ready page:load', ->
     @currentCarID = null
     @enableCar = true
     @cars = []
-    @rut = ""
+    @rut = null
     @clients = []
     @sale = {
       transfer_cost:      101330,
@@ -80,9 +78,7 @@ $(document).on 'turbolinks:load ready page:load', ->
     $scope.currentClientID = 0
     $scope.payments = ''
 
-
-
-    @getCars = () ->
+    @getBranchCars = () ->
       sc.enableCar = true
       carSrv.getCars(@currentBranch).then(
         (response) ->
@@ -91,17 +87,32 @@ $(document).on 'turbolinks:load ready page:load', ->
       )
       return
 
-    @getClient = () ->
-      carSrv.getClient(@rut).then(
+    @getBranchCarsAndSet = () ->
+      sc.enableCar = true
+      carSrv.getCars(@currentBranch).then(
         (response) ->
-          sc.clients = response.data
-          if sc.clients.length > 0
-            $scope.currentClient = response.data[0]
-            $scope.currentClientID = $scope.currentClient.id
-          else
-            $scope.currentClient = null
-            sc.open('lg')
+          sc.cars = response.data
+          sc.enableCar = false
+          for car in sc.cars
+            if car.id == sc.currentCarID
+              sc.currentCar = car
+              break
+
       )
+      return
+
+    @getClient = () ->
+      if @rut!=null
+        carSrv.getClient(@rut).then(
+          (response) ->
+            sc.clients = response.data
+            if sc.clients.length > 0
+              $scope.currentClient = response.data[0]
+              $scope.currentClientID = $scope.currentClient.id
+            else
+              $scope.currentClient = null
+              sc.open('lg')
+        )
       return
 
     @updateFields = () ->
@@ -139,8 +150,24 @@ $(document).on 'turbolinks:load ready page:load', ->
       alert('Hola')
       return
 
+
+    @rut = $(".modal-demo").data("rut")
+
+    if @rut.length != 0
+      @getClient()
+
+    @currentBranch = $(".modal-demo").data("branch").toString()
+
+    if @currentBranch != ""
+      sc.currentCarID = $(".modal-demo").data("car")
+      @getBranchCarsAndSet()
+
+
+
+
     $ctrl = this
     @animationsEnabled = false
+    $scope.newClient = {}
 
     @open = (size, parentSelector) ->
       parentElem = if parentSelector then angular.element($document[0].querySelector('.modal-demo ' + parentSelector)) else undefined
@@ -156,6 +183,9 @@ $(document).on 'turbolinks:load ready page:load', ->
         resolve: {
           newClient: () ->
             $scope.newClient
+          ,
+          rut: () ->
+            sc.rut
         }
       )
 
@@ -175,35 +205,30 @@ $(document).on 'turbolinks:load ready page:load', ->
     return
 
 
-
-
-
-
-  app.controller 'ModalInstanceCtrl', ($uibModalInstance, $scope,$http, newClient) ->
+  app.controller 'ModalInstanceCtrl', ($uibModalInstance, $scope,$http, newClient, rut) ->
     $ctrl = this
     $scope.newClient = newClient
+    $scope.newClient.rut = rut
 
 
     $ctrl.ok = ->
-      $http.post('/clients.json',
-        'client':{
-          'email' : $scope.newClient.email,
-          'name' : $scope.newClient.name,
-          'surname' : $scope.newClient.surname,
-          'rut' : $scope.newClient.rut,
-          'address' : $scope.newClient.address,
-          'phone' : $scope.newClient.phone
-        }
-        ,
-        headers: 'Content-Type': 'application/x-www-form-urlencoded').then ((data) ->
-          $scope.data = data.data
-          $uibModalInstance.close $scope.data
-          return
-        ), () ->
-          window.location.replace("/clients/new");
-
-
-
+      if $scope.newClient.rut != null
+        $http.post('/clients.json',
+          'client':{
+            'email' : $scope.newClient.email,
+            'name' : $scope.newClient.name,
+            'surname' : $scope.newClient.surname,
+            'rut' : $scope.newClient.rut,
+            'address' : $scope.newClient.address,
+            'phone' : $scope.newClient.phone
+          }
+          ,
+          headers: 'Content-Type': 'application/x-www-form-urlencoded').then ((data) ->
+            $scope.data = data.data
+            $uibModalInstance.close $scope.data
+            return
+          ), () ->
+            window.location.replace("/clients/new");
       return
 
     $ctrl.cancel = ->
@@ -238,19 +263,18 @@ $(document).on 'turbolinks:load ready page:load', ->
       return
 
     @getClient = () ->
-      carSrv.getClient(@rut).then(
-        (response) ->
-          rc.clients = response.data
-          if rc.clients.length > 0
-            $scope.currentClient = response.data[0]
-            $scope.currentClientID = $scope.currentClient.id
-          else
-            $scope.currentClient = null
-            rc.open('lg')
-      )
+      if @rut!=null
+        carSrv.getClient(@rut).then(
+          (response) ->
+            rc.clients = response.data
+            if rc.clients.length > 0
+              $scope.currentClient = response.data[0]
+              $scope.currentClientID = $scope.currentClient.id
+            else
+              $scope.currentClient = null
+              rc.open('lg')
+        )
       return
-
-
 
     @add_payment_method = (event) ->
       event.preventDefault()
@@ -270,11 +294,10 @@ $(document).on 'turbolinks:load ready page:load', ->
     @remove_payment_method = (event) ->
       event.preventDefault()
       event.currentTarget.prev('input[type=hidden]').val('1')
-
       event.currentTarget.closest('.container').hide()
-
       return
 
+    $scope.newClient = {}
 
     @open = (size, parentSelector) ->
       parentElem = if parentSelector then angular.element($document[0].querySelector('.modal-demo ' + parentSelector)) else undefined
@@ -290,6 +313,9 @@ $(document).on 'turbolinks:load ready page:load', ->
         resolve: {
           newClient: () ->
             $scope.newClient
+          ,
+          rut: () ->
+            rc.rut
         }
       )
 
@@ -306,10 +332,10 @@ $(document).on 'turbolinks:load ready page:load', ->
     @toggleAnimation = ->
       @animationsEnabled = !@animationsEnabled
       return
+
     return
 
 
-    return
 
 
   app.controller 'QuoteCtrl', ($scope, $uibModal,$document, $log, carSrv) ->
@@ -325,7 +351,7 @@ $(document).on 'turbolinks:load ready page:load', ->
     $scope.currentClient = null
     $scope.currentClientID = 0
     $scope.paid_amount = 0
-
+    $scope.newClient = {}
 
 
     @getCars = () ->
@@ -338,17 +364,20 @@ $(document).on 'turbolinks:load ready page:load', ->
       return
 
     @getClient = () ->
-      carSrv.getClient(@rut).then(
-        (response) ->
-          qc.clients = response.data
-          if qc.clients.length > 0
-            $scope.currentClient = response.data[0]
-            $scope.currentClientID = $scope.currentClient.id
-          else
-            $scope.currentClient = null
-            qc.open('lg')
-      )
+      if @rut!=null
+        carSrv.getClient(@rut).then(
+          (response) ->
+            qc.clients = response.data
+            if qc.clients.length > 0
+              $scope.currentClient = response.data[0]
+              $scope.currentClientID = $scope.currentClient.id
+            else
+              $scope.currentClient = null
+              qc.open('lg')
+        )
       return
+
+
 
     @open = (size, parentSelector) ->
       parentElem = if parentSelector then angular.element($document[0].querySelector('.modal-demo ' + parentSelector)) else undefined
@@ -364,6 +393,9 @@ $(document).on 'turbolinks:load ready page:load', ->
         resolve: {
           newClient: () ->
             $scope.newClient
+          ,
+          rut: () ->
+            qc.rut
         }
       )
 
@@ -380,10 +412,9 @@ $(document).on 'turbolinks:load ready page:load', ->
     @toggleAnimation = ->
       @animationsEnabled = !@animationsEnabled
       return
-    return
-
 
     return
+
 
   app.controller 'AcquisitionCtrl', ($scope, $uibModal,$document, $log, carSrv) ->
     ac = this

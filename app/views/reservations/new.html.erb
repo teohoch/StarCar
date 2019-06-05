@@ -18,9 +18,12 @@
       </div>
       <div class="col-sm align-self-end form-group">
         <a class="btn btn-info" ng-click="rc.getClient()" href="">Buscar Cliente</a>
-
       </div>
-
+    </div>
+    <div class="row" ng-show="rc.rut==null">
+      <div class="col-sm">
+        <p style="color: red;">RUT invalido</p>
+      </div>
     </div>
 
     <div class="content" ng-show="currentClient!=null">
@@ -107,6 +110,42 @@
     <br>
 
     <h2>Formas de Pago</h2>
+
+    <%= f.simple_fields_for :cash_payments do |k| %>
+      <div class="row form-inputs">
+        <%= render 'payments/cash_form', f: k %>
+      </div>
+    <% end %>
+
+    <%= f.simple_fields_for :card_payments do |k| %>
+      <div class="row form-inputs">
+        <%= render 'payments/card_form', f: k %>
+      </div>
+    <% end %>
+
+    <%= f.simple_fields_for :check_payments do |k| %>
+      <div class="row form-inputs">
+        <%= render 'payments/check_form', f: k %>
+      </div>
+    <% end %>
+
+    <%= f.simple_fields_for :financier_payments do |k| %>
+      <div class="row form-inputs">
+        <%= render 'payments/financier_form', f: k %>
+      </div>
+    <% end %>
+
+    <%= f.simple_fields_for :vehicle_payments do |k| %>
+      <div class="row form-inputs">
+        <%= render 'payments/vehicle_form', f: k %>
+      </div>
+    <% end %>
+
+    <%= f.simple_fields_for :transfer_payments do |k| %>
+      <div class="row form-inputs">
+        <%= render 'payments/transfer_form', f: k %>
+      </div>
+    <% end %>
 
 
     <div class="row">

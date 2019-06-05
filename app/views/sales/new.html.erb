@@ -1,14 +1,14 @@
 <h1>Nueva venta</h1>
 
-<div ng-controller="SalesCtrl as sc" class="modal-demo">
+<div ng-controller="SalesCtrl as sc" class="modal-demo"
+     data-rut = "<%= @client_rut.nil? ? "" : @client_rut.gsub('-', '') %>"
+     data-car = "<%= @car_id %>"
+     data-branch = "<%= @branch_id %>">
   <%= simple_form_for(@sale) do |f| %>
     <%= f.error_notification %>
+    <%= f.error_notification message: f.object.errors[:base].to_sentence unless f.object.errors[:base].empty? %>
 
     <div class="form-inputs">
-
-      <%= f.association :client, as: :hidden, input_html: {
-          'ng-model'=>"currentClientID",
-          'value'=>'{{currentClientID}}'}%>
 
       <div class="row">
         <div class="col-sm">
@@ -16,12 +16,19 @@
               'ng-model'=>"sc.rut",
               'ng-rut'=> ''
           }%>
+          <%= f.association :client, as: :hidden, input_html: {
+              'ng-model'=>"currentClientID",
+              'value'=>'{{currentClientID}}'}%>
         </div>
         <div class="col-sm align-self-end form-group">
-          <a class="btn btn-info" ng-click="sc.getClient()" href="">Buscar Cliente</a>
-
+          <a class="btn btn-info" ng-click="sc.getClient()" href="" >Buscar Cliente</a>
         </div>
 
+      </div>
+      <div class="row" ng-show="sc.rut==null">
+        <div class="col-sm">
+          <p style="color: red;">RUT invalido</p>
+        </div>
       </div>
 
       <div class="content" ng-show="currentClient!=null">
@@ -59,17 +66,14 @@
       <h2> Vehiculo </h2>
 
       <%= f.association :branch, input_html: {
-          'ng-change'=>"sc.getCars()",
+          'ng-change'=>"sc.getBranchCars()",
           'ng-model'=>"sc.currentBranch"} %>
-
       <%= f.association :car, input_html: {
           'ng-options'=> 'car.label for car in sc.cars track by car.id',
           'ng-disabled'=> 'sc.enableCar',
           'ng-model'=>"sc.currentCar",
           'ng-change'=>'sc.updateFields()'
       }%>
-
-
 
       <div class="content" ng-show="sc.currentCar!=null">
         <table class="display table table-condensed table-responsive">
@@ -119,9 +123,7 @@
 
         <h4><%= Sale.human_attribute_name('tax') %>: {{sc.sale.tax | currency }}</h4>
 
-
         <hr>
-
 
         <%= f.input :transfer_cost, as: :string, input_html: {
             'ng-model'=>"sc.sale.transfer_cost",
@@ -146,6 +148,41 @@
 
       <h2>Formas de Pago</h2>
 
+      <%= f.simple_fields_for :cash_payments do |k| %>
+        <div class="row form-inputs">
+          <%= render 'payments/cash_form', f: k %>
+        </div>
+      <% end %>
+
+      <%= f.simple_fields_for :card_payments do |k| %>
+        <div class="row form-inputs">
+          <%= render 'payments/card_form', f: k %>
+        </div>
+      <% end %>
+
+      <%= f.simple_fields_for :check_payments do |k| %>
+        <div class="row form-inputs">
+          <%= render 'payments/check_form', f: k %>
+        </div>
+      <% end %>
+
+      <%= f.simple_fields_for :financier_payments do |k| %>
+        <div class="row form-inputs">
+          <%= render 'payments/financier_form', f: k %>
+        </div>
+      <% end %>
+
+      <%= f.simple_fields_for :vehicle_payments do |k| %>
+        <div class="row form-inputs">
+          <%= render 'payments/vehicle_form', f: k %>
+        </div>
+      <% end %>
+
+      <%= f.simple_fields_for :transfer_payments do |k| %>
+        <div class="row form-inputs">
+          <%= render 'payments/transfer_form', f: k %>
+        </div>
+      <% end %>
 
       <div class="row">
         <div class="col-sm">
@@ -166,19 +203,16 @@
 
         <div class="col-sm align-self-end form-group">
           <%= add_payment_method('Agregar Metodo de Pago', f, 'button_add_payment_method') %>
-
         </div>
       </div>
 
-      <%= f.input :comment , input_html: {
-          'ng-model'=>"sc.sale.comment"
-      }%>
+      <%= f.input :comment %>
 
     </div>
 
     <div class="form-actions row">
       <div class="col-sm">
-        <%= f.button :submit, t('create_sale'), class: 'btn btn-danger' %>
+        <%= f.button :submit, t('create_sale'), class: 'btn btn-danger', "ng-disabled"=> "sc.currentCar==null"%>
       </div>
       <div class="col-sm">
         <%= link_to 'Atras', sales_path, class: 'btn btn-primary' %>

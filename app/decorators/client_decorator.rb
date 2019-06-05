@@ -9,5 +9,12 @@ class ClientDecorator < Draper::Decorator
   #       object.created_at.strftime("%a %m/%d/%y")
   #     end
   #   end
+  #
+  def rut
+    temp = super.split('-')
+    validator = temp.pop
+    numbers = temp.join
+    [number_with_delimiter(numbers), validator].join('-')
+  end
 
 end

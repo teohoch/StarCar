@@ -6,15 +6,13 @@ class CarsController < InheritedResources::Base
   end
 
   def index
-    cars = Car.all.available
-    cars = if current_employee.has_role? :administrator
-             cars
-           elsif current_employee.has_role? :external
+    cars = Car.all
+    cars = if current_employee.has_role? :external
              cars.external
            else
-             cars.general
+             cars
            end
-    cars = cars.where(branch_id: params[:branch_id]) if params.key?(:branch_id)
+    cars = cars.where(branch_id: params[:branch_id]).available if params.key?(:branch_id)
     @cars = cars.decorate
   end
 

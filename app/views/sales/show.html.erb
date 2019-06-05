@@ -11,7 +11,7 @@
       <%= link_to (t 'back'), sales_path, class: 'btn btn-danger' %>
     </div>
     <div class="col-sm">
-      <%= button_to 'Generar Documento', sale_path(@sale, format: "pdf"), class: "btn", :method => :get   %>
+      <%= button_to 'Generar Documento', sale_path(@sale, format: "pdf"), class: "btn btn-primary", :method => :get   %>
     </div>
     <div class="col-sm">
       <%= link_to 'Carta de Responsabilidad', sale_path(@sale,responsability: '', format: "pdf"), class: "btn btn-info", :method => :get   %>

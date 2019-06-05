@@ -7,8 +7,23 @@
 
   <div class="row justify-content-between">
     <div class="col-sm">
-      <%= button_to 'Generar Documento', reservation_path(@reservation, format: "pdf"), class: "btn", :method => :get   %>
+      <%= button_to 'Generar Documento', reservation_path(@reservation, format: "pdf"), class: "btn btn-info", :method => :get   %>
     </div>
+    <% if @reservation.may_sell? %>
+      <div class="col-sm">
+        <%= button_to 'Vender', sell_reservation_path(@reservation), class: "btn btn-success", :method => :get   %>
+      </div>
+    <% end %>
+    <% if @reservation.may_cancel? %>
+      <div class="col-sm">
+        <%= button_to 'Cancelar', cancel_reservation_path(@reservation), class: "btn btn-warning", :method => :get   %>
+      </div>
+    <% end %>
+    <% if @reservation.may_reinstate? %>
+      <div class="col-sm">
+        <%= button_to 'Re Validar', reinstate_reservation_path(@reservation), class: "btn btn-primary", :method => :get   %>
+      </div>
+    <% end %>
     <div class="col-sm">
       <%= link_to (t 'back'), reservations_path, class: 'btn btn-danger' %>
     </div>

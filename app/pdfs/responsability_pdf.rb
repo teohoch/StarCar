@@ -1,6 +1,7 @@
 class ResponsabilityPdf < Prawn::Document
   def initialize(order, view)
-    super()
+    @size_of_font = 11
+    super(:page_size => "LEGAL", :font_size => @size_of_font)
     font 'Times-Roman'
     @order = order
     @view = view
@@ -14,7 +15,7 @@ class ResponsabilityPdf < Prawn::Document
   def top
     image_location = Rails.root.join('app', 'assets', 'images', 'logoweb04invert.png').to_s
     image image_location, position: :left, vposition: :top, height: 50
-    text_box 'Carta de Responsabilidad', at: [0, 685], size: 20, align: :center
+    text_box 'Carta de Responsabilidad', at: [0, 880], size: 20, align: :center
     move_down 10
   end
 
@@ -22,8 +23,8 @@ class ResponsabilityPdf < Prawn::Document
     move_down 25
     string = "En #{@order.branch.title} a #{@order.created_at} entre don " \
              "#{@order.employee.name.upcase} #{@order.employee.surname.upcase} administrativo, en representación de " \
-             "'SOCIEDAD COMERCIAL CAEF LIMITADA', RUT. #{@order.employee.rut} con domicilio en " \
-             "#{@order.employee.address}, en adelante EL VENDEDOR y " \
+             "'SOCIEDAD COMERCIAL CAEF LIMITADA', RUT 76.192.322-6  con domicilio en " \
+             "#{@order.branch.location}, en adelante EL VENDEDOR y " \
              "don #{@order.client.name.upcase} #{@order.client.surname.upcase} cédula de identidad número " \
              "#{@order.client.rut} domiciliado en #{@order.client.address.upcase} en adelante EL COMPRADOR," \
              ' ambos mayores de edad, y exponen:'
@@ -67,10 +68,10 @@ celebrado entre éstas."
     stroke_horizontal_line 20, 200
     stroke_horizontal_line 360, 520
     move_down 5
-    text_box("#{@order.employee.name} #{@order.employee.surname}", at: [20, cursor], width: 180, align: :center)
+    text_box("Sociedad Comercial CAEF ltda.", at: [20, cursor], width: 180, align: :center)
     text_box("#{@order.client.name} #{@order.client.surname}", at: [350, cursor], width: 180, align: :center)
     move_down 10
-    text_box(@order.employee.rut.to_s, at: [20, cursor], width: 180, align: :center)
+    text_box("76.192.322-6", at: [20, cursor], width: 180, align: :center)
     text_box(@order.client.rut.to_s, at: [350, cursor], width: 180, align: :center)
 
   end

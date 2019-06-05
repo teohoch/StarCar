@@ -28,5 +28,9 @@ module StarCar
     # Don't generate system test files.
     config.generators.system_tests = nil
     config.i18n.default_locale = :es
+    config.i18n.fallbacks = true
+
+    config.time_zone = 'America/Santiago'
+    config.active_record.default_timezone = :local
   end
 end

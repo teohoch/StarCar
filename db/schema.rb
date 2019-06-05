@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20181115210620) do
+ActiveRecord::Schema.define(version: 20190110085028) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -46,21 +46,27 @@ ActiveRecord::Schema.define(version: 20181115210620) do
     t.bigint "manager_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.datetime "deleted_at"
+    t.index ["deleted_at"], name: "index_branches_on_deleted_at"
     t.index ["manager_id"], name: "index_branches_on_manager_id"
   end
 
   create_table "brands", force: :cascade do |t|
     t.string "name"
+    t.datetime "deleted_at"
+    t.index ["deleted_at"], name: "index_brands_on_deleted_at"
   end
 
   create_table "car_providers", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.datetime "deleted_at"
+    t.index ["deleted_at"], name: "index_car_providers_on_deleted_at"
   end
 
   create_table "card_payments", force: :cascade do |t|
-    t.bigint "amount"
+    t.bigint "amount", default: 0, null: false
     t.integer "card_payable_id"
     t.string "card_payable_type"
     t.bigint "card_number"
@@ -96,16 +102,18 @@ ActiveRecord::Schema.define(version: 20181115210620) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "external", default: false
+    t.datetime "deleted_at"
     t.index ["branch_id"], name: "index_cars_on_branch_id"
     t.index ["brand_id"], name: "index_cars_on_brand_id"
     t.index ["car_provider_id"], name: "index_cars_on_car_provider_id"
+    t.index ["deleted_at"], name: "index_cars_on_deleted_at"
     t.index ["fuel_id"], name: "index_cars_on_fuel_id"
     t.index ["license_plate"], name: "index_cars_on_license_plate", unique: true
     t.index ["transmission_id"], name: "index_cars_on_transmission_id"
   end
 
   create_table "cash_payments", force: :cascade do |t|
-    t.bigint "amount"
+    t.bigint "amount", default: 0, null: false
     t.integer "cash_payable_id"
     t.string "cash_payable_type"
     t.datetime "created_at", null: false
@@ -113,16 +121,17 @@ ActiveRecord::Schema.define(version: 20181115210620) do
   end
 
   create_table "check_payments", force: :cascade do |t|
-    t.bigint "amount"
+    t.bigint "amount", default: 0, null: false
     t.integer "check_payable_id"
     t.string "check_payable_type"
-    t.integer "status"
+    t.integer "status", default: 0
     t.bigint "code"
     t.integer "number"
     t.date "date"
     t.string "bank"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.date "due_date"
   end
 
   create_table "clients", force: :cascade do |t|
@@ -134,6 +143,8 @@ ActiveRecord::Schema.define(version: 20181115210620) do
     t.string "phone"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.datetime "deleted_at"
+    t.index ["deleted_at"], name: "index_clients_on_deleted_at"
   end
 
   create_table "employees", force: :cascade do |t|
@@ -155,6 +166,8 @@ ActiveRecord::Schema.define(version: 20181115210620) do
     t.string "address", null: false
     t.integer "phone", null: false
     t.string "avatar"
+    t.datetime "deleted_at"
+    t.index ["deleted_at"], name: "index_employees_on_deleted_at"
     t.index ["email"], name: "index_employees_on_email", unique: true
     t.index ["reset_password_token"], name: "index_employees_on_reset_password_token", unique: true
   end
@@ -168,12 +181,12 @@ ActiveRecord::Schema.define(version: 20181115210620) do
   end
 
   create_table "financier_payments", force: :cascade do |t|
-    t.bigint "amount"
+    t.bigint "amount", default: 0, null: false
     t.integer "financier_payable_id"
     t.string "financier_payable_type"
-    t.integer "status"
+    t.integer "status", default: 0
     t.bigint "financier_id"
-    t.bigint "down_payment"
+    t.bigint "down_payment", default: 0, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["financier_id"], name: "index_financier_payments_on_financier_id"
@@ -183,6 +196,8 @@ ActiveRecord::Schema.define(version: 20181115210620) do
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.datetime "deleted_at"
+    t.index ["deleted_at"], name: "index_financiers_on_deleted_at"
   end
 
   create_table "fuels", force: :cascade do |t|
@@ -268,8 +283,8 @@ ActiveRecord::Schema.define(version: 20181115210620) do
   end
 
   create_table "transfer_payments", force: :cascade do |t|
-    t.bigint "amount"
-    t.bigint "deposit"
+    t.bigint "amount", default: 0, null: false
+    t.bigint "deposit", default: 0, null: false
     t.integer "transfer_payable_id"
     t.string "transfer_payable_type"
     t.integer "status"
@@ -282,7 +297,7 @@ ActiveRecord::Schema.define(version: 20181115210620) do
   end
 
   create_table "vehicle_payments", force: :cascade do |t|
-    t.bigint "amount"
+    t.bigint "amount", default: 0, null: false
     t.integer "vehicle_payable_id"
     t.string "vehicle_payable_type"
     t.integer "status"
@@ -290,7 +305,10 @@ ActiveRecord::Schema.define(version: 20181115210620) do
     t.boolean "mock"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "financier_id"
+    t.bigint "prepaid"
     t.index ["car_id"], name: "index_vehicle_payments_on_car_id"
+    t.index ["financier_id"], name: "index_vehicle_payments_on_financier_id"
   end
 
   add_foreign_key "acquisitions", "car_providers"
@@ -317,4 +335,5 @@ ActiveRecord::Schema.define(version: 20181115210620) do
   add_foreign_key "sales", "clients"
   add_foreign_key "sales", "employees"
   add_foreign_key "vehicle_payments", "cars"
+  add_foreign_key "vehicle_payments", "financiers"
 end

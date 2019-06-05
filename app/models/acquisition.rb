@@ -21,4 +21,8 @@ class Acquisition < ApplicationRecord
 
   accepts_nested_attributes_for  :car
 
+  def car
+    Car.unscoped { super }
+  end
+
 end

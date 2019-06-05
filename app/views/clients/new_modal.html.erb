@@ -11,6 +11,11 @@
       <%= f.input :name , input_html: {'ng-model'=>"newClient.name"}%>
       <%= f.input :surname, input_html: {'ng-model'=>"newClient.surname"} %>
       <%= f.input :rut, input_html: {:'ng-rut'=> '', 'ng-model'=>"newClient.rut"} %>
+      <div class="row" ng-show="newClient.rut==null">
+        <div class="col-sm">
+          <p style="color: red;">RUT invalido</p>
+        </div>
+      </div>
       <%= f.input :address, input_html: {'ng-model'=>"newClient.address"} %>
       <%= f.input :phone, input_html: {'ng-model'=>"newClient.phone"} %>
     </div>

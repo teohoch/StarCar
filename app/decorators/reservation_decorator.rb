@@ -3,7 +3,11 @@ class ReservationDecorator < ApplicationDecorator
   decorates_finders
 
   def attributes
-    %w(branch employee car client paid_amount).map { |key| [key, send(key)] }
+    %w(branch employee car client paid_amount status).map { |key| [key, send(key)] }
+  end
+
+  def status
+    I18n.t("support.reservation_status.#{object.status}")
   end
 
   def pretty_show

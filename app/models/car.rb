@@ -11,9 +11,14 @@ class Car < ApplicationRecord
   has_many :sales
   has_many :vehicle_payments
   has_many :quotes
+  has_one  :reservation
   accepts_nested_attributes_for :repairs
 
   validates :license_plate, :buy_price, :model, presence: true
+  validate :license_plate_formated
+
+  acts_as_paranoid
+
 
   include AASM
   enum state: {
@@ -48,6 +53,16 @@ class Car < ApplicationRecord
     "#{brand} #{model_safe} Patente: #{license_plate}"
   end
 
+  def branch
+    Branch.unscoped { super }
+  end
+
+
+
+  def license_plate_formated
+    re = /[a-zA-Z]{2}[\w]{2}.[0-9]{2}/m
+    errors.add(:license_plate, 'Debe ser formato AABB.88') unless re.match(license_plate)
+  end
 
   aasm column: :state, enum: true do
     state :not_available, initial: true
@@ -70,7 +85,7 @@ class Car < ApplicationRecord
 
 
     event :publish do
-      transitions from: :not_available, to: :available do
+      transitions from: [:not_available, :reserved], to: :available do
         guard do
          !list_price.nil? &&  !buy_price.nil?
         end

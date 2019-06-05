@@ -1,6 +1,6 @@
 class CarsDecorator < ApplicationCollectionDecorator
   def presentable_attributes
-    %w[brand model_safe license_plate year color milage]
+    %w[brand model_safe list_price license_plate year color milage status]
   end
 
   def pretty_show
