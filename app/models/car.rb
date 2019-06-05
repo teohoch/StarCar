@@ -11,6 +11,7 @@ class Car < ApplicationRecord
   has_many :sales
   has_many :vehicle_payments
   has_many :quotes
+  has_many :costs
   has_one  :reservation
   accepts_nested_attributes_for :repairs
 
@@ -50,13 +51,20 @@ class Car < ApplicationRecord
   end
 
   def label
-    "#{brand} #{model_safe} Patente: #{license_plate}"
+    "#{brand.name} #{model} Patente: #{license_plate}"
   end
 
   def branch
     Branch.unscoped { super }
   end
 
+  def sale
+    if self.sold?
+      self.sales.order("created_at DESC").first
+    else
+      nil
+    end
+  end
 
 
   def license_plate_formated

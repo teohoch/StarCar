@@ -40,7 +40,15 @@ ActiveAdmin.register Car do
     actions
   end
 
+  sidebar "Asociados", only: [:show, :edit] do
+    ul do
+      li link_to "Costos", admin_car_costs_path(resource)
+      li link_to "Reparaciones", admin_car_repairs_path(resource)
+    end
+  end
+
   show do
+
     attributes_table do
       row :brand
       row :model
@@ -71,7 +79,6 @@ ActiveAdmin.register Car do
     end
     text_node '&nbsp;'.html_safe
     h3 'Reparaciones'
-
     table_for car.repairs do
       column :created_at do |repairs|
         l repairs.created_at, format: :short
@@ -82,6 +89,19 @@ ActiveAdmin.register Car do
         number_to_currency(repair.quote)
       end
     end
+
+    text_node '&nbsp;'.html_safe
+    h3 'Costos'
+    table_for car.costs do
+      column :created_at do |cost|
+        l cost.created_at, format: :short
+      end
+      column :amount do |cost|
+        number_to_currency(cost.amount)
+      end
+
+    end
+
 
     text_node '&nbsp;'.html_safe
     h3 'Cheques Asociados'

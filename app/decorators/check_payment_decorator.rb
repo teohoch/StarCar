@@ -18,4 +18,8 @@ class CheckPaymentDecorator < ApplicationDecorator
     h.number_to_currency(object.amount)
   end
 
+  def car
+    object.check_payable.car
+  end
+
 end

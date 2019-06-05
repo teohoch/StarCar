@@ -84,11 +84,14 @@ class Sale < ApplicationRecord
 
   def earnings
     buy_price = car.buy_price
-    cost = 0
+    costs = 0
     car.repairs.each do |repair|
-      cost = cost + (repair.quote.nil? ? 0 : repair.quote)
+      costs = costs + (repair.quote.nil? ? 0 : repair.quote)
     end
-    final_price - cost - buy_price
+    car.costs.each do |cost|
+      costs = costs + (cost.amount.nil? ? 0 : cost.amount)
+    end
+    final_price - costs - buy_price
   end
 
   private

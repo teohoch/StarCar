@@ -6,6 +6,7 @@ class ReservationPdf < BasePdf
     car_data
     payment_methods
     ending
+    signatures
   end
 
   def ending
@@ -16,22 +17,8 @@ class ReservationPdf < BasePdf
     move_down 10
     text "Monto Pagado: #{@view.number_to_currency @order.paid_amount}", align: :center, size: @size_of_font + 5
 
-    move_down 50
-    stroke_horizontal_line 20, 200
-    stroke_horizontal_line 360, 520
-    move_down 5
-    text_box("#{@order.employee.name} #{@order.employee.surname}", at: [20, cursor], width: 180, align: :center)
-    text_box("#{@order.client.name} #{@order.client.surname}", at: [350, cursor], width: 180, align: :center)
-    move_down 15
-    text_box(@order.employee.rut.to_s, at: [20, cursor], width: 180, align: :center)
-    text_box(@order.client.rut.to_s, at: [350, cursor], width: 180, align: :center)
 
-    move_down 40
-    stroke_horizontal_line 200, 360
-    move_down 5
-    text_box("#{@order.branch.manager.name} #{@order.branch.manager.surname}", at: [190, cursor], width: 180, align: :center)
-    move_down 15
-    text_box(@order.branch.manager.rut.to_s, at: [190, cursor], width: 180, align: :center)
+
   end
 
 end

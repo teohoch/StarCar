@@ -1,8 +1,12 @@
 
 <%= @car.decorate.pretty_show %>
 
+<% if @car.sold? %>
+  <%= @car.sale.decorate.condensed_show(title: "Detalles Venta") %>
+<% end %>
+
 <div class="row">
-  <% if can? :create, Sale %>
+  <% if can? :create, Sale and @car.available? %>
     <div class="col-md-1">
       <%= action_button(@car, text: t('sell'), path: new_sale_path(car_id: @car.id)) %>
     </div>

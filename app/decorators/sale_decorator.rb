@@ -6,6 +6,10 @@ class SaleDecorator < ApplicationDecorator
     %w(folio employee car list_price list_discount appraisal pva tax transfer_discount total_transfer client final_price).map { |key| [key, send(key)] }
   end
 
+  def condensed_attributes
+    %w(folio employee final_price created_at).map { |key| [key, send(key)] }
+  end
+
   def pretty_show
     super(title: h.t('sale.show.table_title'))
   end
@@ -105,8 +109,6 @@ class SaleDecorator < ApplicationDecorator
   def buy_price
     super.nil? ? '$0' : h.number_to_currency(super)
   end
-
-
 
   def total_transfer
     temp = model.transfer_cost + model.tax

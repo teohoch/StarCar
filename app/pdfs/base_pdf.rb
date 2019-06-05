@@ -57,6 +57,22 @@ class BasePdf < Prawn::Document
     end
   end
 
+  def signatures
+    move_down 50
+    stroke_horizontal_line 20, 200
+    stroke_horizontal_line 360, 520
+    move_down 5
+    text_box("Vendedor", at: [20, cursor], width: 180, align: :center)
+    text_box("#{@order.client.name} #{@order.client.surname}", at: [350, cursor], width: 180, align: :center)
+    move_down 15
+    text_box(@order.client.rut.to_s, at: [350, cursor], width: 180, align: :center)
+
+    move_down 40
+    stroke_horizontal_line 200, 360
+    move_down 5
+    text_box("Jefe de Local", at: [190, cursor], width: 180, align: :center)
+  end
+
   def payment_methods
     move_down 10
     stroke_horizontal_line 0, 540
@@ -115,13 +131,14 @@ class BasePdf < Prawn::Document
   end
 
   def vehicle_payment(payment)
-    column_box([20, cursor], columns: 2, width: bounds.width, height: 45) do
+    column_box([20, cursor], columns: 2, width: bounds.width, height: 55) do
       text("Patente: #{payment.car.license_plate}")
       text("Marca: #{payment.car.brand.name}")
       text("Modelo: #{payment.car.model}")
       text("Color: #{payment.car.color}")
       text("Año: #{payment.car.year}")
       text("Valor: #{@view.number_to_currency payment.amount}")
+      text("Prepago: #{@view.number_to_currency (payment.prepaid.nil? ? 0 : payment.prepaid)}")
     end
   end
 

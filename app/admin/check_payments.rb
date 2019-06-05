@@ -9,7 +9,7 @@ ActiveAdmin.register CheckPayment do
   scope 'Recibidos', :in_favour
   scope 'A Pagar', :to_pay
 
-  index do
+  index  do
     column :concesionary do |payment|
       if payment.check_payable_type == Acquisition.name
         payment.check_payable.car_provider.name
@@ -19,7 +19,7 @@ ActiveAdmin.register CheckPayment do
     end
     column :state
     column :check_payable_type do |payment|
-      link_to(I18n.t("activerecord.models.#{payment.check_payable_type.downcase}.one"),
+      link_to(I18n.t("activerecord.models.#{payment.check_payable_type.downcase}.one") +" ("+ (payment.check_payable.car.label)+")",
               send("#{payment.check_payable_type.downcase}_path", payment.check_payable_id))
     end
     column :bank
@@ -32,7 +32,7 @@ ActiveAdmin.register CheckPayment do
       row :folio
       row :amount
       row :check_payable_type do |payment|
-        link_to(I18n.t("activerecord.models.#{payment.check_payable_type.downcase}.one"),
+        link_to(I18n.t("activerecord.models.#{payment.check_payable_type.downcase}.one") +" ("+ (payment.check_payable.car.label)+")",
                 send("#{payment.check_payable_type.downcase}_path", payment.check_payable_id))
       end
       row :state

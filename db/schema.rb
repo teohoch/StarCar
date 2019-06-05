@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190110085028) do
+ActiveRecord::Schema.define(version: 20190605051654) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -108,7 +108,7 @@ ActiveRecord::Schema.define(version: 20190110085028) do
     t.index ["car_provider_id"], name: "index_cars_on_car_provider_id"
     t.index ["deleted_at"], name: "index_cars_on_deleted_at"
     t.index ["fuel_id"], name: "index_cars_on_fuel_id"
-    t.index ["license_plate"], name: "index_cars_on_license_plate", unique: true
+    t.index ["license_plate"], name: "index_cars_on_license_plate"
     t.index ["transmission_id"], name: "index_cars_on_transmission_id"
   end
 
@@ -145,6 +145,15 @@ ActiveRecord::Schema.define(version: 20190110085028) do
     t.datetime "updated_at", null: false
     t.datetime "deleted_at"
     t.index ["deleted_at"], name: "index_clients_on_deleted_at"
+  end
+
+  create_table "costs", force: :cascade do |t|
+    t.bigint "car_id"
+    t.text "reason"
+    t.integer "amount"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["car_id"], name: "index_costs_on_car_id"
   end
 
   create_table "employees", force: :cascade do |t|
@@ -319,6 +328,7 @@ ActiveRecord::Schema.define(version: 20190110085028) do
   add_foreign_key "cars", "car_providers"
   add_foreign_key "cars", "fuels"
   add_foreign_key "cars", "transmissions"
+  add_foreign_key "costs", "cars"
   add_foreign_key "financier_payments", "financiers"
   add_foreign_key "quotes", "branches"
   add_foreign_key "quotes", "cars"

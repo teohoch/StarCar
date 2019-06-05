@@ -59,7 +59,6 @@ class SalePdf < BasePdf
     text_box("Vendedor", at: [20, cursor], width: 180, align: :center)
     text_box("#{@order.client.name} #{@order.client.surname}", at: [350, cursor], width: 180, align: :center)
     move_down 15
-    #text_box(@order.employee.rut.to_s, at: [20, cursor], width: 180, align: :center)
     text_box(@order.client.rut.to_s, at: [350, cursor], width: 180, align: :center)
 
     move_down 35

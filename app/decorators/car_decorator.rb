@@ -1,12 +1,14 @@
+# frozen_string_literal: true
+
 class CarDecorator < ApplicationDecorator
   delegate_all
   decorates_finders
 
   def attributes
-    %w(brand model_safe license_plate year color milage branch status).map { |key| [key, send(key)] }
+    %w[brand model_safe license_plate year color milage branch status].map { |key| [key, send(key)] }
   end
 
-  def pretty_show(title=h.t('car.show.table_title'), extra_values=[])
+  def pretty_show(title = h.t('car.show.table_title'), extra_values = [])
     super(title: title, extra_values: extra_values)
   end
 
@@ -39,7 +41,7 @@ class CarDecorator < ApplicationDecorator
   end
 
   def procedence_checks
-    object.procedence.check_payments
+    (object.procedence_type == VehiclePayment.model_name.to_s) ? [] : object.procedence.check_payments
   end
 
   def reservation_check
@@ -49,5 +51,4 @@ class CarDecorator < ApplicationDecorator
   def associated_checks
     procedence_checks + sale_checks + reservation_check
   end
-
 end
