@@ -25,4 +25,12 @@ class Acquisition < ApplicationRecord
     Car.unscoped { super }
   end
 
+  def car_provider
+    CarProvider.unscoped { super }
+  end
+
+  def employee
+    Employee.unscoped { super }
+  end
+
 end

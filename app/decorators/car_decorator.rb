@@ -36,6 +36,10 @@ class CarDecorator < ApplicationDecorator
     super.nil? ? '' : h.number_to_currency(super)
   end
 
+  def naked_list_price
+    object.list_price
+  end
+
   def sale_checks
     object.sold? ? object.sales.map(&:check_payments).flatten : []
   end

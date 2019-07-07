@@ -1,4 +1,4 @@
-FROM ruby:2.5
+FROM ruby:2.6
 
 RUN apt-get update -qq && curl -sL https://deb.nodesource.com/setup_8.x | bash - && \
     apt-get install -y build-essential libpq-dev libxml2-dev libxslt1-dev  libqtwebkit4 libqt4-dev xvfb nodejs mupdf mupdf-tools

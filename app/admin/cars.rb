@@ -19,7 +19,9 @@ ActiveAdmin.register Car do
   index do
     selectable_column
     column :brand
-    column :model
+    column :model do |car|
+      car.model_safe
+    end
     column :license_plate
     column :year
     column :color
@@ -51,7 +53,9 @@ ActiveAdmin.register Car do
 
     attributes_table do
       row :brand
-      row :model
+      row :model do |car|
+        car.model_safe
+      end
       row :license_plate
       row :year
       row :color

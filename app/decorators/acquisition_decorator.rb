@@ -10,6 +10,10 @@ class AcquisitionDecorator < ApplicationDecorator
     object.car.decorate.label
   end
 
+  def amount_paid
+    h.number_to_currency super
+  end
+
   def pretty_show(title=object.model_name.human, extra_values=[])
     super(title: title, extra_values: extra_values)
   end
