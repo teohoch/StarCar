@@ -1,6 +1,13 @@
+# frozen_string_literal: true
+
 class VehiclePayment < ApplicationRecord
-  belongs_to :vehicle_payable, polymorphic: true, optional: true
-  has_one :car, as: :procedence
+  acts_as_paranoid
+  belongs_to :vehicle_payable, -> { with_deleted }, polymorphic: true, optional: true
+
+  has_one :car, -> { with_deleted }, as: :procedence, dependent: :destroy
+
+  before_destroy :destroy_subresources
+
   belongs_to :financier, optional: true
   accepts_nested_attributes_for :car
 
@@ -18,15 +25,12 @@ class VehiclePayment < ApplicationRecord
   validates :model, presence: true
   validates :color, presence: true
 
-
-
-
   def amount
     super.nil? ? 0 : super
   end
 
   def safe_prepaid
-    self.prepaid.nil? ? 0 : self.prepaid
+    prepaid.nil? ? 0 : prepaid
   end
 
   def brand_id
@@ -97,14 +101,8 @@ class VehiclePayment < ApplicationRecord
     was_prepaid? ? amount - safe_prepaid : amount
   end
 
-  def car
-    Car.unscoped { super }
-  end
-
-
-
   def was_prepaid?
-    not (prepaid.blank? &&  financier.blank?)
+    !(prepaid.blank? && financier.blank?)
   end
 
   def year_is_integer
@@ -132,14 +130,13 @@ class VehiclePayment < ApplicationRecord
     errors.add(:license_plate, 'Debe ser formato AA-BB-88') unless re.match(@license_plate)
   end
 
-  def save (*)
-
+  def save(*)
     ActiveRecord::Base.transaction do
       super
       provider = CarProvider.find_by_name('Clientes')
       Car.create!(brand_id: @brand_id, model: @model, year: @year, license_plate: @license_plate, color: @color,
-                        milage: @milage, fuel_id: @fuel_id, transmission_id: @transmission_id, branch_id: @branch_id,
-                        buy_price: amount, car_provider: provider, procedence: self)
+                  milage: @milage, fuel_id: @fuel_id, transmission_id: @transmission_id, branch_id: @branch_id,
+                  buy_price: amount, car_provider: provider, procedence: self)
     end
 
     true
@@ -149,5 +146,14 @@ class VehiclePayment < ApplicationRecord
     errors.add(:base, e.message)
 
     false
+  end
+
+  private
+
+  def destroy_subresources
+    unless car.destroy
+      errors.add(:base, "El pago por vehiculo no se pudo invalidar puesto que no se puede eliminar el vehiculo.")
+      throw :abort
+    end
   end
 end

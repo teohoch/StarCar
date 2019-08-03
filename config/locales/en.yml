@@ -35,3 +35,4 @@ en:
     show:
       table_title: "Acquisitions"
   create_adquisition: "Generate Adquisition"
+  succesfully_destroyed: "Sale nullified successfully"

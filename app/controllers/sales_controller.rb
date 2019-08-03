@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class SalesController < InheritedResources::Base
   before_action :authenticate_employee!
   load_and_authorize_resource
@@ -10,16 +12,16 @@ class SalesController < InheritedResources::Base
     respond_to do |format|
       format.html
       format.pdf do
-        if params.has_key? :responsability
+        if params.key? :responsability
           pdf = ResponsabilityPdf.new(@sale, view_context)
           send_data pdf.render, filename: "carta_responsabilidad_#{@sale.folio}.pdf",
-                    type: 'application/pdf',
-                    disposition: 'inline'
+                                type: 'application/pdf',
+                                disposition: 'inline'
         else
           pdf = SalePdf.new(@sale, view_context)
           send_data pdf.render, filename: "venta_#{@sale.folio}.pdf",
-                    type: 'application/pdf',
-                    disposition: 'inline'
+                                type: 'application/pdf',
+                                disposition: 'inline'
         end
       end
     end
@@ -31,11 +33,10 @@ class SalesController < InheritedResources::Base
 
     respond_to do |format|
       if @sale.calculate_save
-        @sale.car.sell!
         format.html { redirect_to @sale, notice: 'Venta Realizada con exito' }
         format.json { render :show, status: :created, location: @sale }
       else
-        #flash_message(:error, @sale.errors.messages.to_s)
+        # flash_message(:error, @sale.errors.messages.to_s)
         @client_rut = @sale.client.nil? ? nil : @sale.client.rut
         @car_id = @sale.car.nil? ? nil : @sale.car.id
         @branch_id = @sale.car.nil? ? nil : @sale.car.branch.id
@@ -49,13 +50,30 @@ class SalesController < InheritedResources::Base
   def new
     @sale = Sale.new
 
-    if params.has_key?(:car_id) && Car.where(id: params[:car_id]).exists?
+    if params.key?(:car_id) && Car.where(id: params[:car_id]).exists?
       car = Car.find(params[:car_id])
       @car_id = car.id
       @branch_id = car.branch.id
     end
-    if params.has_key?(:rut) && Client.where(rut: params[:rut]).exists?
-      @client_rut = params[:rut]
+    @client_rut = params[:rut] if params.key?(:rut) && Client.where(rut: params[:rut]).exists?
+  end
+
+  def destroy
+    respond_to do |format|
+      new_sale = @sale.dup
+      new_sale.save!
+      if @sale.destroy
+        format.html { redirect_to sales_url, notice: "#{Sale.model_name.human} #{t('succesfully_destroyed')}" }
+        format.json { head :no_content }
+      else
+        @sale.errors.messages.each do |error|
+          flash_message(:error, error)
+        end
+        format.html do
+          render(:show, status: :bad_request)
+        end
+        format.json { head :bad_request }
+      end
     end
   end
 

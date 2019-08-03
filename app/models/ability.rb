@@ -33,9 +33,9 @@ class Ability
     if user.has_role? :administrator
       can :manage, :all
     elsif user.has_role? :employee
-      can :manage, Car
-      can :manage, Reservation
-      can :manage, Sale
+      can [:read, :create, :update], Car
+      can [:read, :create, :update], Reservation
+      can [:read, :create, :update], Sale
       can :manage, Quote
     elsif user.has_role? :external
       can :read, Car

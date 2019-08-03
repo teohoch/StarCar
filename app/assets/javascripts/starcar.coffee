@@ -65,7 +65,7 @@ $(document).on 'turbolinks:load ready page:load', ->
     @rut = null
     @clients = []
     @sale = {
-      transfer_cost:      101330,
+      transfer_cost:      107540,
       appraisal:          0,
       pva:                0,
       total_transfer:     0,

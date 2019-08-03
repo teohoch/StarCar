@@ -18,6 +18,8 @@ class Car < ApplicationRecord
   validates :license_plate, :buy_price, :model, presence: true
   validate :license_plate_formated
 
+  before_destroy :check_if_destroyable
+
   acts_as_paranoid
 
 
@@ -30,11 +32,6 @@ class Car < ApplicationRecord
       reserved: 4
   }
 
-  scope :reserved, -> {where(state: 4)}
-  scope :sold, -> {where(state: 3)}
-  scope :in_repairs, -> {where(state: 2)}
-  scope :available, -> {where(state: 1)}
-  scope :not_available, -> {where(state: 0)}
   scope :external, -> {where(external: true)}
   scope :general, -> {where(external: false)}
 
@@ -101,6 +98,16 @@ class Car < ApplicationRecord
     end
     event :sell do
       transitions from: :available, to: :sold
+    end
+  end
+
+  private
+
+  def check_if_destroyable
+    unless available? || not_available?
+      logger.info "\t\tVehicle ID: #{id} cannot be deleted because it's in use"
+      errors.add(:base,"El vehiculo no puede ser borrado puesto que su estado es #{status}")
+      throw :abort, "El vehiculo no puede ser borrado"
     end
   end
 

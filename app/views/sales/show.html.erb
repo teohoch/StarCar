@@ -8,7 +8,7 @@
 
   <div class="row justify-content-between">
     <div class="col-sm">
-      <%= link_to (t 'back'), sales_path, class: 'btn btn-danger' %>
+      <%= link_to (t 'back'), sales_path, class: 'btn btn-warning' %>
     </div>
     <div class="col-sm">
       <%= button_to 'Generar Documento', sale_path(@sale, format: "pdf"), class: "btn btn-primary", :method => :get   %>
@@ -16,6 +16,16 @@
     <div class="col-sm">
       <%= link_to 'Carta de Responsabilidad', sale_path(@sale,responsability: '', format: "pdf"), class: "btn btn-info", :method => :get   %>
     </div>
+    <% if can? :delete, @sale %>
+      <div class="col-sm">
+        <%= link_to 'Anular Venta',
+                    sale_path(@sale),
+                    method: :delete,
+                    class: "btn btn-danger",
+                    data: { confirm: '¿Esta seguro que desea anular esta venta?' } %>
+      </div>
+    <% end %>
+
   </div>
 
 </div>

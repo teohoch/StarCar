@@ -154,6 +154,9 @@ es:
       acquisition:
         one: "Adquisición"
         other: "Adquisiciónes"
+      vehicle_payment:
+        one: "Vehiculo en parte de Pago"
+        other: "Vehiculo en parte de Pago"
     attributes:
       car:
         model: "Modelo"
@@ -409,3 +412,4 @@ es:
     show:
       table_title: "Adquisiciónes"
   create_adquisition: "Generar Adquisición"
+  succesfully_destroyed: "Venta anulada con exito"

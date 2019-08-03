@@ -1,6 +1,9 @@
 class FinancierPayment < ApplicationRecord
+  acts_as_paranoid
   belongs_to :financier_payable, polymorphic: true, optional: true
   belongs_to :financier
+  before_destroy :check_if_destroyable
+
 
   scope :in_favour, -> { where(financier_payable_type: [Reservation.name, Sale.name]) }
 
@@ -17,6 +20,10 @@ class FinancierPayment < ApplicationRecord
     event :collect do
       transitions from: :pending, to: :paid
     end
+  end
+
+  def check_if_destroyable
+    pending?
   end
 
   def state

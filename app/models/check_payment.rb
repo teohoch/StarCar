@@ -1,5 +1,9 @@
+# frozen_string_literal: true
+
 class CheckPayment < ApplicationRecord
+  acts_as_paranoid
   belongs_to :check_payable, polymorphic: true, optional: true
+  before_destroy :check_if_destroyable
 
   scope :in_favour, -> { where(check_payable_type: [Reservation.name, Sale.name]) }
   scope :to_pay, -> { where(check_payable_type: Acquisition.name) }
@@ -21,12 +25,16 @@ class CheckPayment < ApplicationRecord
     state :acquitted
 
     event :collect do
-      transitions from: :pending, to: :paid, :guard => :collectable?
+      transitions from: :pending, to: :paid, guard: :collectable?
     end
 
     event :pay do
       transitions from: :pending, to: :acquitted
     end
+  end
+
+  def check_if_destroyable
+    pending?
   end
 
   def state
@@ -38,9 +46,7 @@ class CheckPayment < ApplicationRecord
   end
 
   def pay_adquisition
-    if may_pay? && (check_payable_type == Acquisition.name)
-      self.pay!
-    end
+    pay! if may_pay? && (check_payable_type == Acquisition.name)
   end
 
   def collectable?

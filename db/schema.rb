@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190605051654) do
+ActiveRecord::Schema.define(version: 20190708005236) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -75,6 +75,8 @@ ActiveRecord::Schema.define(version: 20190605051654) do
     t.string "bank"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.datetime "deleted_at"
+    t.index ["deleted_at"], name: "index_card_payments_on_deleted_at"
   end
 
   create_table "cars", force: :cascade do |t|
@@ -108,7 +110,7 @@ ActiveRecord::Schema.define(version: 20190605051654) do
     t.index ["car_provider_id"], name: "index_cars_on_car_provider_id"
     t.index ["deleted_at"], name: "index_cars_on_deleted_at"
     t.index ["fuel_id"], name: "index_cars_on_fuel_id"
-    t.index ["license_plate"], name: "index_cars_on_license_plate"
+    t.index ["license_plate"], name: "index_cars_on_license_plate", unique: true
     t.index ["transmission_id"], name: "index_cars_on_transmission_id"
   end
 
@@ -118,6 +120,9 @@ ActiveRecord::Schema.define(version: 20190605051654) do
     t.string "cash_payable_type"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "status"
+    t.datetime "deleted_at"
+    t.index ["deleted_at"], name: "index_cash_payments_on_deleted_at"
   end
 
   create_table "check_payments", force: :cascade do |t|
@@ -132,6 +137,8 @@ ActiveRecord::Schema.define(version: 20190605051654) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.date "due_date"
+    t.datetime "deleted_at"
+    t.index ["deleted_at"], name: "index_check_payments_on_deleted_at"
   end
 
   create_table "clients", force: :cascade do |t|
@@ -198,6 +205,8 @@ ActiveRecord::Schema.define(version: 20190605051654) do
     t.bigint "down_payment", default: 0, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.datetime "deleted_at"
+    t.index ["deleted_at"], name: "index_financier_payments_on_deleted_at"
     t.index ["financier_id"], name: "index_financier_payments_on_financier_id"
   end
 
@@ -285,9 +294,11 @@ ActiveRecord::Schema.define(version: 20190605051654) do
     t.integer "status", default: 0
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.datetime "deleted_at"
     t.index ["branch_id"], name: "index_sales_on_branch_id"
     t.index ["car_id"], name: "index_sales_on_car_id"
     t.index ["client_id"], name: "index_sales_on_client_id"
+    t.index ["deleted_at"], name: "index_sales_on_deleted_at"
     t.index ["employee_id"], name: "index_sales_on_employee_id"
   end
 
@@ -299,6 +310,8 @@ ActiveRecord::Schema.define(version: 20190605051654) do
     t.integer "status"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.datetime "deleted_at"
+    t.index ["deleted_at"], name: "index_transfer_payments_on_deleted_at"
   end
 
   create_table "transmissions", force: :cascade do |t|
@@ -316,7 +329,9 @@ ActiveRecord::Schema.define(version: 20190605051654) do
     t.datetime "updated_at", null: false
     t.bigint "financier_id"
     t.bigint "prepaid"
+    t.datetime "deleted_at"
     t.index ["car_id"], name: "index_vehicle_payments_on_car_id"
+    t.index ["deleted_at"], name: "index_vehicle_payments_on_deleted_at"
     t.index ["financier_id"], name: "index_vehicle_payments_on_financier_id"
   end
 
