@@ -36,6 +36,7 @@ ActiveAdmin.register FinancierPayment do
       row :down_payment do |payment|
         number_to_currency(payment.down_payment)
       end
+      row :participation
     end
   end
 

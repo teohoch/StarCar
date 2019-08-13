@@ -14,8 +14,8 @@ class SaleDecorator < ApplicationDecorator
     super(title: h.t('sale.show.table_title'))
   end
 
-  def show_payments
-    h.render partial: 'payments/payments', locals: { decorated: self}
+  def show_payments(admin: false)
+    h.render partial: 'payments/payments', locals: { decorated: self, admin: admin}
   end
 
   def show_cash_payments
@@ -36,9 +36,9 @@ class SaleDecorator < ApplicationDecorator
     end
   end
 
-  def show_financier_payments
+  def show_financier_payments(admin: false)
     if model.financier_payments.count >0
-      h.render partial: 'payments/financier_show', locals: { financier_payments: model.financier_payments }
+      h.render partial: 'payments/financier_show', locals: { financier_payments: model.financier_payments, admin: admin}
     end
   end
 

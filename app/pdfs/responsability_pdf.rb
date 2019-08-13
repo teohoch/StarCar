@@ -63,16 +63,14 @@ celebrado entre éstas."
   end
 
   def ending
-
     move_down 70
     stroke_horizontal_line 20, 200
     stroke_horizontal_line 360, 520
     move_down 5
-    text_box("Sociedad Comercial CAEF ltda.", at: [20, cursor], width: 180, align: :center)
-    text_box("#{@order.client.name} #{@order.client.surname}", at: [350, cursor], width: 180, align: :center)
+    text_box("Sociedad Comercial CAEF ltda.\n 76.192.322-6", at: [20, cursor], width: 180, align: :center)
+    text_box("#{@order.client.name} #{@order.client.surname} \n #{@order.client.rut.to_s}", at: [350, cursor], width: 180, align: :center)
     move_down 10
-    text_box("76.192.322-6", at: [20, cursor], width: 180, align: :center)
-    text_box(@order.client.rut.to_s, at: [350, cursor], width: 180, align: :center)
+
 
   end
 end

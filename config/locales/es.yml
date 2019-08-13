@@ -215,6 +215,7 @@ es:
         transfer_cost: "Costo de Transferencia"
       financier_payment:
         financier_payable_type: Asociado a
+        participation: Participación
       check_payment:
         check_payable_type: Asociado a
         date: 'Fecha de cobro'

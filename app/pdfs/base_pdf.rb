@@ -63,11 +63,9 @@ class BasePdf < Prawn::Document
     stroke_horizontal_line 360, 520
     move_down 5
     text_box("Vendedor", at: [20, cursor], width: 180, align: :center)
-    text_box("#{@order.client.name} #{@order.client.surname}", at: [350, cursor], width: 180, align: :center)
-    move_down 15
-    text_box(@order.client.rut.to_s, at: [350, cursor], width: 180, align: :center)
-
-    move_down 40
+    text_box("#{@order.client.name} #{@order.client.surname} \n #{@order.client.rut.to_s}",
+             at: [350, cursor], width: 180, align: :center)
+    move_down 70
     stroke_horizontal_line 200, 360
     move_down 5
     text_box("Jefe de Local", at: [190, cursor], width: 180, align: :center)

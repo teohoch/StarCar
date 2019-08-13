@@ -36,7 +36,7 @@ class SalesController < InheritedResources::Base
         format.html { redirect_to @sale, notice: 'Venta Realizada con exito' }
         format.json { render :show, status: :created, location: @sale }
       else
-        # flash_message(:error, @sale.errors.messages.to_s)
+        flash_message(:error, @sale.errors.messages.to_s)
         @client_rut = @sale.client.nil? ? nil : @sale.client.rut
         @car_id = @sale.car.nil? ? nil : @sale.car.id
         @branch_id = @sale.car.nil? ? nil : @sale.car.branch.id
@@ -59,11 +59,30 @@ class SalesController < InheritedResources::Base
   end
 
   def destroy
+    if params.key?(:recreate)
+      recreated_sale = @sale.deep_clone include: [
+        :cash_payments,
+        :card_payments,
+        :check_payments,
+        :financier_payments,
+        { vehicle_payments: :car },
+        :transfer_payments
+      ]
+    end
     respond_to do |format|
-      new_sale = @sale.dup
-      new_sale.save!
       if @sale.destroy
-        format.html { redirect_to sales_url, notice: "#{Sale.model_name.human} #{t('succesfully_destroyed')}" }
+        if params.key?(:recreate)
+          @sale = recreated_sale
+          @client_rut = @sale.client.nil? ? nil : @sale.client.rut
+          @car_id = @sale.car.nil? ? nil : @sale.car.id
+          @branch_id = @sale.car.nil? ? nil : @sale.car.branch.id
+          @sale.car.sale_recreation!
+          format.html { render :new, notice: "#{Sale.model_name.human} #{t('succesfully_destroyed')}" }
+        else
+          @sale.car.sale_nullification!
+          format.html { redirect_to sales_url, notice: "#{Sale.model_name.human} #{t('succesfully_destroyed')}" }
+        end
+
         format.json { head :no_content }
       else
         @sale.errors.messages.each do |error|

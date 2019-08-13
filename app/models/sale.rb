@@ -46,7 +46,8 @@ class Sale < ApplicationRecord
       save!
       true
     end
-  rescue StandardError
+  rescue => e
+    puts e
     false
   end
 

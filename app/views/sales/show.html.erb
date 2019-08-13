@@ -24,6 +24,13 @@
                     class: "btn btn-danger",
                     data: { confirm: '¿Esta seguro que desea anular esta venta?' } %>
       </div>
+      <div class="col-sm">
+        <%= link_to 'Anular y Recrear Venta',
+                    sale_path(@sale, recreate: true),
+                    method: :delete,
+                    class: "btn btn-danger",
+                    data: { confirm: '¿Esta seguro que desea anular esta venta?' } %>
+      </div>
     <% end %>
 
   </div>

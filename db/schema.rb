@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190708005236) do
+ActiveRecord::Schema.define(version: 20190810233726) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -110,7 +110,7 @@ ActiveRecord::Schema.define(version: 20190708005236) do
     t.index ["car_provider_id"], name: "index_cars_on_car_provider_id"
     t.index ["deleted_at"], name: "index_cars_on_deleted_at"
     t.index ["fuel_id"], name: "index_cars_on_fuel_id"
-    t.index ["license_plate"], name: "index_cars_on_license_plate", unique: true
+    t.index ["license_plate"], name: "index_cars_on_license_plate"
     t.index ["transmission_id"], name: "index_cars_on_transmission_id"
   end
 
@@ -206,6 +206,7 @@ ActiveRecord::Schema.define(version: 20190708005236) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.datetime "deleted_at"
+    t.string "participation"
     t.index ["deleted_at"], name: "index_financier_payments_on_deleted_at"
     t.index ["financier_id"], name: "index_financier_payments_on_financier_id"
   end
@@ -280,16 +281,16 @@ ActiveRecord::Schema.define(version: 20190708005236) do
     t.bigint "employee_id"
     t.bigint "car_id"
     t.bigint "client_id"
-    t.bigint "final_price"
-    t.bigint "appraisal"
-    t.bigint "tax"
-    t.bigint "transfer_cost"
-    t.bigint "transfer_discount"
-    t.bigint "list_discount"
-    t.bigint "earnings"
-    t.bigint "pva"
+    t.bigint "final_price", default: 0
+    t.bigint "appraisal", default: 0
+    t.bigint "tax", default: 0
+    t.bigint "transfer_cost", default: 0
+    t.bigint "transfer_discount", default: 0
+    t.bigint "list_discount", default: 0
+    t.bigint "earnings", default: 0
+    t.bigint "pva", default: 0
     t.bigint "list_price"
-    t.bigint "buy_price"
+    t.bigint "buy_price", default: 0
     t.text "comment"
     t.integer "status", default: 0
     t.datetime "created_at", null: false

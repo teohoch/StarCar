@@ -53,19 +53,7 @@ class SalePdf < BasePdf
     text "Precio Final Venta: #{@view.number_to_currency @order.final_price}", align: :center, size: @size_of_font + 4
 
     move_down 100/2
-    stroke_horizontal_line 20, 200
-    stroke_horizontal_line 360, 520
-    move_down 5
-    text_box("Vendedor", at: [20, cursor], width: 180, align: :center)
-    text_box("#{@order.client.name} #{@order.client.surname}", at: [350, cursor], width: 180, align: :center)
-    move_down 15
-    text_box(@order.client.rut.to_s, at: [350, cursor], width: 180, align: :center)
-
-    move_down 35
-    stroke_horizontal_line 200, 360
-    move_down 5
-    text_box("Jefe de Local", at: [190, cursor], width: 180, align: :center)
-    move_down 15
+    signatures
   end
 
 end

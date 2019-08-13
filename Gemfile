@@ -70,6 +70,7 @@ gem 'activeadmin-xls'
 gem 'rails-i18n'
 
 gem 'paranoia'
+gem 'deep_cloneable'
 
 
 group :development, :test do

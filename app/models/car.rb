@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Car < ApplicationRecord
   belongs_to :brand
   belongs_to :branch
@@ -5,7 +7,6 @@ class Car < ApplicationRecord
   belongs_to :transmission, optional: true
   belongs_to :car_provider
   belongs_to :procedence, polymorphic: true, optional: true
-
 
   has_many :repairs
   has_many :sales
@@ -22,18 +23,17 @@ class Car < ApplicationRecord
 
   acts_as_paranoid
 
-
   include AASM
   enum state: {
-      not_available: 0,
-      available: 1,
-      in_repairs: 2,
-      sold: 3,
-      reserved: 4
+    not_available: 0,
+    available: 1,
+    in_repairs: 2,
+    sold: 3,
+    reserved: 4
   }
 
-  scope :external, -> {where(external: true)}
-  scope :general, -> {where(external: false)}
+  scope :external, -> { where(external: true) }
+  scope :general, -> { where(external: false) }
 
   def status
     I18n.t("support.car_states.#{state}")
@@ -56,13 +56,8 @@ class Car < ApplicationRecord
   end
 
   def sale
-    if self.sold?
-      self.sales.order("created_at DESC").first
-    else
-      nil
-    end
+    sales.order('created_at DESC').first if sold?
   end
-
 
   def license_plate_formated
     re = /[a-zA-Z]{2}[\w]{2}.[0-9]{2}/m
@@ -77,7 +72,7 @@ class Car < ApplicationRecord
     state :reserved
 
     event :send_for_repairs do
-      transitions from: [:not_available, :available], to: :in_repairs
+      transitions from: %i[not_available available], to: :in_repairs
     end
 
     event :end_repairs do
@@ -88,16 +83,31 @@ class Car < ApplicationRecord
       transitions from: :available, to: :reserved
     end
 
-
     event :publish do
-      transitions from: [:not_available, :reserved], to: :available do
+      transitions from: %i[not_available reserved], to: :available do
         guard do
-         !list_price.nil? &&  !buy_price.nil?
+          !list_price.nil? && !buy_price.nil?
         end
       end
     end
     event :sell do
       transitions from: :available, to: :sold
+    end
+
+    event :sale_recreation do
+      transitions from: :sold, to: :available do
+        guard do
+          sales.count.zero?
+        end
+      end
+    end
+
+    event :sale_nullification do
+      transitions from: :sold, to: :not_available do
+        guard do
+          sales.count.zero?
+        end
+      end
     end
   end
 
@@ -106,9 +116,8 @@ class Car < ApplicationRecord
   def check_if_destroyable
     unless available? || not_available?
       logger.info "\t\tVehicle ID: #{id} cannot be deleted because it's in use"
-      errors.add(:base,"El vehiculo no puede ser borrado puesto que su estado es #{status}")
-      throw :abort, "El vehiculo no puede ser borrado"
+      errors.add(:base, "El vehiculo no puede ser borrado puesto que su estado es #{status}")
+      throw :abort, 'El vehiculo no puede ser borrado'
     end
   end
-
 end

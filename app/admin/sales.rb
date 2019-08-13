@@ -57,6 +57,6 @@ ActiveAdmin.register Sale do
         number_to_currency(repair.quote)
       end
     end
-    text_node sale.show_payments.html_safe
+    text_node sale.show_payments(admin: true).html_safe
   end
 end

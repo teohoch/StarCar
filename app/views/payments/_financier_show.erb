@@ -6,14 +6,20 @@
       <th><%= FinancierPayment.human_attribute_name(:amount) %> </th>
       <th><%= FinancierPayment.human_attribute_name(:financier) %> </th>
       <th><%= FinancierPayment.human_attribute_name(:down_payment) %> </th>
+    <% if admin %>
+        <th><%= FinancierPayment.human_attribute_name(:participation) %> </th>
+    <% end %>
 
     </thead>
     <tbody>
     <% financier_payments.each do |r| %>
       <tr>
         <td>$<%= r.amount %></td>
-        <td align="center"><%= r.financier.name %></td>
-        <td align="center"><%= r.down_payment %></td>
+        <td><%= r.financier.name %></td>
+        <td><%= r.down_payment %></td>
+        <% if admin %>
+          <td><%= r.participation %></td>
+        <% end %>
       </tr>
     <% end %>
     </tbody>

@@ -114,6 +114,8 @@ GEM
     crass (1.0.4)
     database_cleaner (1.7.0)
     debug_inspector (0.0.3)
+    deep_cloneable (2.4.0)
+      activerecord (>= 3.1.0, < 6)
     devise (4.6.1)
       bcrypt (~> 3.0)
       orm_adapter (~> 0.1)
@@ -382,6 +384,7 @@ DEPENDENCIES
   carrierwave
   coffee-rails (~> 4.2)
   database_cleaner
+  deep_cloneable
   devise
   devise-i18n
   draper
@@ -418,4 +421,4 @@ DEPENDENCIES
   webmock
 
 BUNDLED WITH
-   1.16.2
+   1.17.3
