@@ -1,10 +1,12 @@
 <div class="row">
+
   <%= decorated.decorate.show_cash_payments %>
 
   <%= decorated.decorate.show_check_payments %>
 
   <%= decorated.decorate.show_card_payments %>
 
+  <% defined? admin ? nil : admin=false%>
   <%= decorated.decorate.show_financier_payments(admin: admin) %>
 
 

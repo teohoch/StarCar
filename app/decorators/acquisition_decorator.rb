@@ -48,9 +48,9 @@ class AcquisitionDecorator < ApplicationDecorator
     end
   end
 
-  def show_financier_payments
+  def show_financier_payments(admin: false)
     if model.financier_payments.count >0
-      h.render partial: 'payments/financier_show', locals: { financier_payments: model.financier_payments }
+      h.render partial: 'payments/financier_show', locals: { financier_payments: model.financier_payments, admin: admin}
     end
   end
 
